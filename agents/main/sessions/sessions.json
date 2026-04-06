@@ -1,7 +1,7 @@
 {
   "agent:main:main": {
     "sessionId": "17d8e22f-772f-466d-9c3c-b6e6782e93e2",
-    "updatedAt": 1775494685280,
+    "updatedAt": 1775496485394,
     "systemSent": true,
     "abortedLastRun": false,
     "chatType": "direct",
@@ -234,7 +234,7 @@
     "contextTokens": 262144,
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1775494684469,
+      "generatedAt": 1775496484542,
       "sessionId": "17d8e22f-772f-466d-9c3c-b6e6782e93e2",
       "sessionKey": "agent:main:main",
       "provider": "kimi-coding",
@@ -254,9 +254,9 @@
         "sandboxed": false
       },
       "systemPrompt": {
-        "chars": 39856,
+        "chars": 39866,
         "projectContextChars": 20823,
-        "nonProjectContextChars": 19033
+        "nonProjectContextChars": 19043
       },
       "injectedWorkspaceFiles": [
         {
@@ -546,11 +546,11 @@
         ]
       }
     },
-    "inputTokens": 14697,
+    "inputTokens": 14701,
     "outputTokens": 1,
     "cacheRead": 0,
     "cacheWrite": 0,
-    "totalTokens": 14697,
+    "totalTokens": 14701,
     "totalTokensFresh": true
   },
   "agent:main:telegram:direct:8446374972": {
