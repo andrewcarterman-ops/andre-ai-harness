@@ -1,0 +1,189 @@
+// components/kanban/KanbanBoard.tsx - Main Kanban Board Component
+
+'use client';
+
+import { useEffect, useState } from 'react';
+import {
+  DndContext,
+  DragOverlay,
+  closestCorners,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragStartEvent,
+  DragOverEvent,
+  DragEndEvent,
+  defaultDropAnimationSideEffects,
+  DropAnimation,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { useTaskStore } from '@/stores/taskStore';
+import { Task, TaskStatus } from '@/types';
+import { KanbanColumn } from './KanbanColumn';
+import { TaskCard } from './TaskCard';
+import { CreateTaskDialog } from './CreateTaskDialog';
+import { Plus } from 'lucide-react';
+
+const COLUMNS: TaskStatus[] = ['backlog', 'in_progress', 'review', 'done'];
+
+const COLUMN_TITLES: Record<TaskStatus, string> = {
+  backlog: 'Backlog',
+  in_progress: 'In Progress',
+  review: 'Review',
+  done: 'Done',
+};
+
+export function KanbanBoard() {
+  const { tasks, columns, fetchTasks, moveTask } = useTaskStore();
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [initialStatus, setInitialStatus] = useState<TaskStatus>('backlog');
+
+  useEffect(() => {
+    fetchTasks();
+  }, [fetchTasks]);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: { distance: 5 },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  const handleDragStart = (event: DragStartEvent) => {
+    setActiveId(event.active.id as string);
+  };
+
+  const handleDragOver = (event: DragOverEvent) => {
+    const { active, over } = event;
+    
+    if (!over) return;
+
+    const activeId = active.id as string;
+    const overId = over.id as string;
+
+    // Find the column of the active task
+    const activeTask = tasks.find((t) => t.id === activeId);
+    if (!activeTask) return;
+
+    // Check if over a column
+    if (COLUMNS.includes(overId as TaskStatus)) {
+      if (activeTask.status !== overId) {
+        // Visual feedback only - actual move on drag end
+      }
+    }
+  };
+
+  const handleDragEnd = async (event: DragEndEvent) => {
+    const { active, over } = event;
+    setActiveId(null);
+
+    if (!over) return;
+
+    const taskId = active.id as string;
+    const overId = over.id as string;
+
+    // Find which column the task was dropped in
+    let targetColumn: TaskStatus | null = null;
+    
+    if (COLUMNS.includes(overId as TaskStatus)) {
+      targetColumn = overId as TaskStatus;
+    } else {
+      // Dropped on another task - find its column
+      for (const col of COLUMNS) {
+        if (columns[col].includes(overId)) {
+          targetColumn = col;
+          break;
+        }
+      }
+    }
+
+    if (targetColumn) {
+      const task = tasks.find((t) => t.id === taskId);
+      if (task && task.status !== targetColumn) {
+        try {
+          await moveTask(taskId, task.status, targetColumn);
+        } catch (error) {
+          console.error('Failed to move task:', error);
+        }
+      }
+    }
+  };
+
+  const dropAnimation: DropAnimation = {
+    sideEffects: defaultDropAnimationSideEffects({
+      styles: {
+        active: {
+          opacity: '0.5',
+        },
+      },
+    }),
+  };
+
+  const activeTask = activeId ? tasks.find((t) => t.id === activeId) : null;
+
+  const handleCreateClick = (status: TaskStatus) => {
+    setInitialStatus(status);
+    setIsCreateDialogOpen(true);
+  };
+
+  return (
+    <div className="h-full flex flex-col">
+      {/* Header */}
+      <div className="flex items-center justify-between p-4 border-b">
+        <h2 className="text-xl font-semibold">Task Board</h2>
+        <button
+          onClick={() => handleCreateClick('backlog')}
+          className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+        >
+          <Plus className="w-4 h-4" />
+          New Task
+        </button>
+      </div>
+
+      {/* Board */}
+      <div className="flex-1 overflow-x-auto">
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCorners}
+          onDragStart={handleDragStart}
+          onDragOver={handleDragOver}
+          onDragEnd={handleDragEnd}
+        >
+          <div className="flex gap-4 h-full p-4 min-w-max">
+            {COLUMNS.map((status) => (
+              <KanbanColumn
+                key={status}
+                status={status}
+                title={COLUMN_TITLES[status]}
+                taskIds={columns[status]}
+                tasks={tasks.filter((t) => t.status === status)}
+                onCreateClick={() => handleCreateClick(status)}
+              />
+            ))}
+          </div>
+
+          <DragOverlay dropAnimation={dropAnimation}>
+            {activeTask ? (
+              <TaskCard task={activeTask} isDragging />
+            ) : null}
+          </DragOverlay>
+        </DndContext>
+      </div>
+
+      {/* Create Task Dialog */}
+      <CreateTaskDialog
+        isOpen={isCreateDialogOpen}
+        onClose={() => setIsCreateDialogOpen(false)}
+        initialStatus={initialStatus}
+      />
+    </div>
+  );
+}

@@ -1,0 +1,150 @@
+# Context System
+# Format: YAML 1.2
+
+version: "1.0"
+last_updated: "2026-03-25T23:05:00+01:00"
+
+# Verfügbare Kontexte
+contexts:
+  - id: "dev"
+    name: "Development"
+    description: "Aktive Entwicklung, Coding, Feature-Implementation"
+    icon: "💻"
+    default: true
+    
+    behavior:
+      mode: "implementation"
+      priority: "working_solution"
+      explanation: "after"  # explain after code
+      
+    principles:
+      - "Write code first, explain after"
+      - "Prefer working solutions over perfect solutions"
+      - "Run tests after changes"
+      - "Keep commits atomic"
+      - "Get it working → Get it right → Get it clean"
+      
+    tools_priority:
+      - "write"
+      - "edit"
+      - "exec"
+      - "read"
+      
+    preferences:
+      verbose: false
+      auto_test: true
+      atomic_commits: true
+      
+    trigger_phrases:
+      - "implement"
+      - "code"
+      - "build"
+      - "develop"
+      - "fix bug"
+      - "add feature"
+      
+  - id: "research"
+    name: "Research"
+    description: "Recherche, Analyse, Exploration"
+    icon: "🔍"
+    default: false
+    
+    behavior:
+      mode: "exploration"
+      priority: "depth_over_speed"
+      explanation: "during"
+      
+    principles:
+      - "Understand before implementing"
+      - "Explore multiple approaches"
+      - "Document findings"
+      - "Question assumptions"
+      - "Research → Analyze → Synthesize → Conclude"
+      
+    tools_priority:
+      - "web_search"
+      - "web_fetch"
+      - "read"
+      - "exec"
+      
+    preferences:
+      verbose: true
+      citations: true
+      multiple_sources: true
+      
+    trigger_phrases:
+      - "research"
+      - "analyze"
+      - "explore"
+      - "investigate"
+      - "compare"
+      - "what is"
+      - "how does"
+      
+  - id: "review"
+    name: "Review"
+    description: "Code-Review, Qualitätsprüfung, Audit"
+    icon: "👁️"
+    default: false
+    
+    behavior:
+      mode: "evaluation"
+      priority: "quality_over_speed"
+      explanation: "structured"
+      
+    principles:
+      - "Be thorough, not fast"
+      - "Question every assumption"
+      - "Look for edge cases"
+      - "Verify claims"
+      - "Inspect → Question → Verify → Report"
+      
+    tools_priority:
+      - "read"
+      - "exec"
+      - "web_search"
+      
+    preferences:
+      verbose: true
+      checklist: true
+      security_focus: true
+      
+    trigger_phrases:
+      - "review"
+      - "audit"
+      - "check"
+      - "verify"
+      - "inspect"
+      - "quality"
+      
+# Kontext-Wechsel
+switching:
+  auto_detect: true
+  confirmation: false
+  log_switches: true
+  
+  # Bei diesen Phrasen automatisch wechseln
+  auto_switch:
+    - from: "dev"
+      to: "research"
+      trigger: ["research", "explore", "analyze"]
+      
+    - from: "research"
+      to: "dev"
+      trigger: ["implement", "code", "build"]
+      
+    - from: "any"
+      to: "review"
+      trigger: ["review", "audit", "verify"]
+      
+# Integration
+integrations:
+  registry:
+    current_context_file: "memory/current-context.md"
+    
+  hooks:
+    on_context_switch: "hooks/context-switch.md"
+    
+  self_improving:
+    track_context_patterns: true
+    context_patterns_file: "memory/self-improving/context-patterns.md"

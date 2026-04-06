@@ -1,0 +1,19 @@
+# Datei: ~/.openclaw/skills/implement-second-brain.md
+---
+id: "implement-second-brain"
+name: "implement-second-brain"
+triggers: ["implement second brain", "setup obsidian structure"]
+status: "active"
+---
+
+Implementiere Schritt-für-Schritt das Obsidian Second Brain:
+1. Lese die Datei "obsidian-second-brain-implementation.md"
+2. Führe Phase 1 aus (Ordnerstruktur) + Check
+3. Führe Phase 2 aus (Tag-System) + Check
+4. Führe Phase 3 aus (MOCs) + Check
+5. Führe Phase 4 aus (OpenClaw-Integration) + Check
+6. Führe Phase 5 aus (Validierung) + Check
+7. Berichte Erfolg oder Fehler pro Phase
+
+Wichtig: Nach jedem Schritt VALIDIEREN ob es funktioniert hat!
+Bei Fehler: STOPP und melde das Problem.

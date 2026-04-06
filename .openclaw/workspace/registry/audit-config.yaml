@@ -1,0 +1,181 @@
+# Audit Configuration - Phase 4 Minimal
+# Format: YAML 1.2
+
+version: "1.0"
+last_updated: "2026-03-25T22:52:00+01:00"
+
+# Audit-Einstellungen
+settings:
+  name: "Modular Agent Framework Audit"
+  description: "Systematische Prüfung der Framework-Integrität"
+  version: "1.0"
+  
+  # Ausführung
+  frequency: "on-demand"  # on-demand | daily | weekly
+  auto_run: false
+  fail_on_critical: true
+  
+  # Reporting
+  output_format: "markdown"
+  output_path: "memory/audit/"
+  retention_days: 90
+
+# Audit-Kategorien
+categories:
+  - id: "registry_integrity"
+    name: "Registry Integrität"
+    description: "Prüfung aller Registry-Dateien"
+    weight: 30
+    checks:
+      - id: "agents_yaml_exists"
+        name: "agents.yaml existiert"
+        type: "file_exists"
+        path: "registry/agents.yaml"
+        required: true
+        
+      - id: "skills_yaml_valid"
+        name: "skills.yaml ist valides YAML"
+        type: "yaml_valid"
+        path: "registry/skills.yaml"
+        required: true
+        
+      - id: "hooks_yaml_valid"
+        name: "hooks.yaml ist valides YAML"
+        type: "yaml_valid"
+        path: "registry/hooks.yaml"
+        required: true
+        
+      - id: "search_index_valid"
+        name: "search-index.json ist valides JSON"
+        type: "json_valid"
+        path: "registry/search-index.json"
+        required: true
+        
+      - id: "projects_yaml_valid"
+        name: "projects.yaml ist valides YAML"
+        type: "yaml_valid"
+        path: "registry/projects.yaml"
+        required: true
+        
+      - id: "install_manifest_valid"
+        name: "install-manifest.yaml ist valides YAML"
+        type: "yaml_valid"
+        path: "registry/install-manifest.yaml"
+        required: true
+
+  - id: "file_structure"
+    name: "Datei-Struktur"
+    description: "Prüfung der Verzeichnisstruktur"
+    weight: 25
+    checks:
+      - id: "registry_dir_exists"
+        name: "registry/ Verzeichnis existiert"
+        type: "dir_exists"
+        path: "registry/"
+        required: true
+        
+      - id: "hooks_dir_exists"
+        name: "hooks/ Verzeichnis existiert"
+        type: "dir_exists"
+        path: "hooks/"
+        required: true
+        
+      - id: "plans_dir_exists"
+        name: "plans/ Verzeichnis existiert"
+        type: "dir_exists"
+        path: "plans/"
+        required: true
+        
+      - id: "memory_sessions_dir_exists"
+        name: "memory/sessions/ Verzeichnis existiert"
+        type: "dir_exists"
+        path: "memory/sessions/"
+        required: true
+        
+      - id: "scripts_dir_exists"
+        name: "scripts/ Verzeichnis existiert"
+        type: "dir_exists"
+        path: "scripts/"
+        required: true
+
+  - id: "integration"
+    name: "Integration"
+    description: "Prüfung der Integration zwischen Komponenten"
+    weight: 25
+    checks:
+      - id: "agents_ref_skills"
+        name: "Agents referenzieren existierende Skills"
+        type: "reference_valid"
+        source: "registry/agents.yaml"
+        target: "registry/skills.yaml"
+        required: false
+        
+      - id: "skills_in_index"
+        name: "Alle Skills sind im Search-Index"
+        type: "consistency"
+        source: "registry/skills.yaml"
+        target: "registry/search-index.json"
+        required: false
+        
+      - id: "hooks_registered"
+        name: "Alle Hooks sind in hooks.yaml registriert"
+        type: "consistency"
+        source: "hooks/"
+        target: "registry/hooks.yaml"
+        required: false
+
+  - id: "security"
+    name: "Sicherheit"
+    description: "Sicherheitsrelevante Prüfungen"
+    weight: 20
+    checks:
+      - id: "no_secrets_in_yaml"
+        name: "Keine hartkodierten Secrets in YAML"
+        type: "security_scan"
+        path: "registry/"
+        pattern: "(password|secret|key|token)\s*:"
+        severity: "warning"
+        required: false
+        
+      - id: "review_config_exists"
+        name: "Review-Konfiguration existiert"
+        type: "file_exists"
+        path: "registry/review-config.yaml"
+        required: true
+
+# Bewertung
+scoring:
+  perfect: 100
+  acceptable: 80
+  warning: 60
+  critical: 40
+  
+# Maßnahmen bei Fehlern
+remediation:
+  auto_fix: false  # Keine automatischen Fixes
+  suggestions: true  # Vorschläge generieren
+  notify: true  # Benachrichtigen
+
+# Report-Template
+report_template:
+  header: |
+    # Audit Report
+    **Datum:** {timestamp}
+    **Audit-Version:** {audit_version}
+    **Gesamtergebnis:** {overall_result}
+    
+  section: |
+    ## {category_name}
+    **Gewichtung:** {weight}%
+    **Ergebnis:** {category_result}
+    
+    | Check | Status | Details |
+    |-------|--------|---------|
+    {check_rows}
+    
+  footer: |
+    ## Zusammenfassung
+    - **Gesamtpunktzahl:** {total_score}%
+    - **Bestandene Checks:** {passed}/{total}
+    - **Kritische Fehler:** {critical_errors}
+    - **Empfohlene Aktionen:** {recommendations}

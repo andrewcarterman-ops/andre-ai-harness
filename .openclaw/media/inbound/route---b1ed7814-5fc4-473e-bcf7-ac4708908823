@@ -1,0 +1,185 @@
+// app/api/tasks/[id]/route.ts - Individual Task API Routes
+
+import { NextRequest, NextResponse } from 'next/server';
+import { db } from '@/lib/db';
+import { tasks } from '@/lib/db/schema';
+import { eq } from 'drizzle-orm';
+
+// GET /api/tasks/[id] - Get a specific task
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const result = await db
+      .select()
+      .from(tasks)
+      .where(eq(tasks.id, params.id))
+      .limit(1);
+
+    if (result.length === 0) {
+      return NextResponse.json(
+        { error: 'Task not found' },
+        { status: 404 }
+      );
+    }
+
+    const task = result[0];
+    return NextResponse.json({
+      ...task,
+      tags: JSON.parse(task.tags as string),
+      subtasks: JSON.parse(task.subtasks as string),
+      metadata: JSON.parse(task.metadata as string),
+    });
+  } catch (error) {
+    console.error('Error fetching task:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch task' },
+      { status: 500 }
+    );
+  }
+}
+
+// PATCH /api/tasks/[id] - Update a task
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const body = await request.json();
+    const now = new Date();
+
+    const updates: any = {
+      updatedAt: now,
+    };
+
+    // Only update provided fields
+    if (body.title !== undefined) updates.title = body.title;
+    if (body.description !== undefined) updates.description = body.description;
+    if (body.status !== undefined) {
+      updates.status = body.status;
+      if (body.status === 'done') {
+        updates.completedAt = now;
+      }
+    }
+    if (body.priority !== undefined) updates.priority = body.priority;
+    if (body.assignee !== undefined) {
+      updates.assigneeId = body.assignee.id;
+      updates.assigneeType = body.assignee.type;
+      updates.assigneeName = body.assignee.name;
+      updates.assigneeAvatar = body.assignee.avatar;
+    }
+    if (body.projectId !== undefined) updates.projectId = body.projectId;
+    if (body.tags !== undefined) updates.tags = JSON.stringify(body.tags);
+    if (body.dueDate !== undefined) updates.dueDate = body.dueDate ? new Date(body.dueDate) : null;
+    if (body.scheduledAt !== undefined) updates.scheduledAt = body.scheduledAt ? new Date(body.scheduledAt) : null;
+    if (body.cronExpression !== undefined) updates.cronExpression = body.cronExpression;
+    if (body.estimatedHours !== undefined) updates.estimatedHours = body.estimatedHours;
+    if (body.actualHours !== undefined) updates.actualHours = body.actualHours;
+    if (body.parentTaskId !== undefined) updates.parentTaskId = body.parentTaskId;
+    if (body.subtasks !== undefined) updates.subtasks = JSON.stringify(body.subtasks);
+    if (body.metadata !== undefined) updates.metadata = JSON.stringify(body.metadata);
+
+    await db
+      .update(tasks)
+      .set(updates)
+      .where(eq(tasks.id, params.id));
+
+    // Fetch updated task
+    const result = await db
+      .select()
+      .from(tasks)
+      .where(eq(tasks.id, params.id))
+      .limit(1);
+
+    if (result.length === 0) {
+      return NextResponse.json(
+        { error: 'Task not found' },
+        { status: 404 }
+      );
+    }
+
+    const updated = result[0];
+
+    // Broadcast activity for status changes
+    if (body.status) {
+      const { broadcastToClients } = await import('../../realtime/route');
+      broadcastToClients({
+        type: 'activity',
+        payload: {
+          id: crypto.randomUUID(),
+          type: body.status === 'done' ? 'task_completed' : 'task_updated',
+          actor: body.assignee || { id: 'system', type: 'user', name: 'System' },
+          targetType: 'task',
+          targetId: params.id,
+          targetName: updated.title,
+          action: body.status === 'done' ? 'completed' : `moved to ${body.status}`,
+          timestamp: now.toISOString(),
+        },
+      });
+    }
+
+    return NextResponse.json({
+      ...updated,
+      tags: JSON.parse(updated.tags as string),
+      subtasks: JSON.parse(updated.subtasks as string),
+      metadata: JSON.parse(updated.metadata as string),
+    });
+  } catch (error) {
+    console.error('Error updating task:', error);
+    return NextResponse.json(
+      { error: 'Failed to update task' },
+      { status: 500 }
+    );
+  }
+}
+
+// DELETE /api/tasks/[id] - Delete a task
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    // Get task info before deleting for activity log
+    const taskResult = await db
+      .select()
+      .from(tasks)
+      .where(eq(tasks.id, params.id))
+      .limit(1);
+
+    if (taskResult.length === 0) {
+      return NextResponse.json(
+        { error: 'Task not found' },
+        { status: 404 }
+      );
+    }
+
+    const task = taskResult[0];
+
+    await db.delete(tasks).where(eq(tasks.id, params.id));
+
+    // Broadcast activity
+    const { broadcastToClients } = await import('../../realtime/route');
+    broadcastToClients({
+      type: 'activity',
+      payload: {
+        id: crypto.randomUUID(),
+        type: 'task_updated',
+        actor: { id: 'system', type: 'user', name: 'System' },
+        targetType: 'task',
+        targetId: params.id,
+        targetName: task.title,
+        action: 'deleted',
+        timestamp: new Date().toISOString(),
+      },
+    });
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Error deleting task:', error);
+    return NextResponse.json(
+      { error: 'Failed to delete task' },
+      { status: 500 }
+    );
+  }
+}

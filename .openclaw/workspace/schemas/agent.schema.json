@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://framework.local/schemas/agent.schema.json",
+  "title": "Agent",
+  "description": "Schema for agent definition files",
+  "type": "object",
+  "required": ["name", "description"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Agent name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Agent role and responsibilities"
+    },
+    "role": {
+      "type": "string",
+      "description": "Primary role"
+    },
+    "responsibilities": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "trigger_phrases": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "category": {
+      "type": "string",
+      "enum": ["architecture", "planning", "quality", "security", "language"]
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "version": { "type": "string" },
+        "author": { "type": "string" }
+      }
+    }
+  }
+}

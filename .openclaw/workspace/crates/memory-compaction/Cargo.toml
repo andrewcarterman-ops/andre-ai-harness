@@ -1,0 +1,36 @@
+[package]
+name = "memory-compaction"
+version = "0.1.0"
+edition = "2021"
+authors = ["Andrew (OpenClaw) <openclaw@ecc-framework.local>"]
+description = "Session compaction engine with ECC Second Brain integration"
+license = "MIT"
+
+[dependencies]
+# Async
+async-trait = "0.1"
+tokio = { version = "1.35", features = ["full"] }
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Date/Time
+chrono = { version = "0.4", features = ["serde"] }
+
+# Error Handling
+thiserror = "1.0"
+
+# Note: Session/Message types defined locally to avoid circular dependency
+
+[dev-dependencies]
+tokio-test = "0.4"
+tempfile = "3.8"
+
+[lib]
+name = "memory_compaction"
+path = "src/lib.rs"
+
+[[example]]
+name = "sync_demo"
+path = "examples/sync_demo.rs"

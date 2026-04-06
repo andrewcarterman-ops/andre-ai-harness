@@ -1,0 +1,138 @@
+{
+  "$schema": "./install-components.schema.json",
+  "version": "1.0",
+  "name": "Core Framework Components",
+  "description": "Essential components for the modular agent framework",
+  
+  "components": {
+    "registry": {
+      "name": "Registry System",
+      "description": "Core registry files (agents, skills, hooks)",
+      "required": true,
+      "files": [
+        "registry/agents.yaml",
+        "registry/skills.yaml",
+        "registry/hooks.yaml",
+        "registry/projects.yaml",
+        "registry/README.md"
+      ],
+      "dependencies": []
+    },
+    
+    "cognitive": {
+      "name": "Cognitive Layer",
+      "description": "Search, planning, and review capabilities",
+      "required": false,
+      "files": [
+        "registry/search-index.json",
+        "registry/review-config.yaml",
+        "plans/TEMPLATE.md",
+        "plans/example-phase3-prep.md"
+      ],
+      "dependencies": ["registry"]
+    },
+    
+    "persistence": {
+      "name": "Persistence Layer",
+      "description": "Session storage and project learning",
+      "required": false,
+      "files": [
+        "memory/sessions/README.md",
+        "memory/self-improving/projects/proj-modular-agent/patterns.md",
+        "memory/self-improving/projects/proj-modular-agent/preferences.md"
+      ],
+      "dependencies": ["registry"]
+    },
+    
+    "operations": {
+      "name": "Operations",
+      "description": "Install, audit, drift detection, backup",
+      "required": false,
+      "files": [
+        "registry/install-manifest.yaml",
+        "registry/audit-config.yaml",
+        "registry/drift-config.yaml",
+        "scripts/install-check.ps1",
+        "scripts/drift-check.ps1",
+        "scripts/cmd-backup.ps1"
+      ],
+      "dependencies": ["registry"]
+    },
+    
+    "agents": {
+      "name": "Specialized Agents",
+      "description": "Multi-agent definitions",
+      "required": false,
+      "files": [
+        "agents/architect.md",
+        "agents/planner.md",
+        "agents/code-reviewer.md",
+        "agents/security-reviewer.md",
+        "agents/python-reviewer.md"
+      ],
+      "dependencies": ["registry"]
+    },
+    
+    "contexts": {
+      "name": "Context System",
+      "description": "Behavioral contexts (dev, research, review)",
+      "required": false,
+      "files": [
+        "registry/contexts.yaml",
+        "contexts/dev.md",
+        "contexts/research.md",
+        "contexts/review.md"
+      ],
+      "dependencies": ["registry"]
+    },
+    
+    "mcp": {
+      "name": "MCP Integration",
+      "description": "Model Context Protocol configurations",
+      "required": false,
+      "files": [
+        "mcp-configs/mcp-servers.json",
+        "mcp-configs/README.md"
+      ],
+      "dependencies": []
+    },
+    
+    "github": {
+      "name": "GitHub Integration",
+      "description": "CI/CD workflows and templates",
+      "required": false,
+      "files": [
+        ".github/workflows/ci.yml",
+        ".github/workflows/health-check.yml",
+        ".github/workflows/release.yml",
+        ".github/ISSUE_TEMPLATE/bug_report.yml",
+        ".github/ISSUE_TEMPLATE/feature_request.yml",
+        ".github/pull_request_template.md"
+      ],
+      "dependencies": []
+    }
+  },
+  
+  "profiles": {
+    "minimal": {
+      "name": "Minimal",
+      "description": "Just the essentials",
+      "components": ["registry"]
+    },
+    "standard": {
+      "name": "Standard",
+      "description": "Recommended for most users",
+      "components": ["registry", "cognitive", "persistence", "operations", "contexts"]
+    },
+    "complete": {
+      "name": "Complete",
+      "description": "Everything included",
+      "components": ["registry", "cognitive", "persistence", "operations", "agents", "contexts", "mcp", "github"]
+    },
+    "development": {
+      "name": "Development",
+      "description": "For framework developers",
+      "components": ["registry", "cognitive", "persistence", "operations", "agents", "contexts", "github"]
+    }
+  }
+}

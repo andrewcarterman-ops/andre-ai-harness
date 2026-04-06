@@ -1,0 +1,49 @@
+[package]
+name = "ecc-runtime"
+version = "0.1.0"
+edition = "2021"
+authors = ["Andrew (OpenClaw) <openclaw@ecc-framework.local>"]
+description = "ECC Conversation Runtime with Fort Knox safety and Second Brain memory integration"
+license = "MIT"
+
+[dependencies]
+# Async
+async-trait = "0.1"
+tokio = { version = "1.35", features = ["full"] }
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Date/Time
+chrono = { version = "0.4", features = ["serde"] }
+
+# URL parsing (for SafetyGuard)
+url = "2.5"
+
+# HTTP client
+reqwest = { version = "0.11", features = ["json"] }
+
+# Error Handling
+thiserror = "1.0"
+
+# Workspace dependencies
+memory-compaction = { path = "../memory-compaction" }
+tool-registry = { path = "../tool-registry" }
+secure-api-client = { path = "../../skills/secure-api-client" }
+security-review = { path = "../../skills/security-review" }
+
+# Tracing
+tracing = "0.1"
+
+# SSE Streaming (internal)
+# Note: In real implementation, this would be a workspace dependency
+# streaming = { path = "../streaming-api-client" }
+
+[dev-dependencies]
+tokio-test = "0.4"
+tempfile = "3.8"
+
+[lib]
+name = "ecc_runtime"
+path = "src/lib.rs"

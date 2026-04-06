@@ -1,0 +1,1116 @@
+I want you to set up my Obsidian vault as a persistent second brain that automatically archives everything from Claude Code AND OpenClaw (if installed) into one searchable knowledge base. Every conversation, every agent action, every session -- automatically saved, structured, and linked. The vault must be BOTH writable (agents save to it) AND readable (agents search it before starting work). All notes must be connected via [[WikiLinks]] in a "See Also" section at the bottom of each file -- no inline content modification, ever.
+
+IMPORTANT: Before doing ANYTHING, audit what's already installed. Do NOT blindly re-execute steps. Follow this order:
+
+## PHASE 0: AUDIT FIRST
+
+Before asking me any questions, silently run these checks and build an inventory:
+
+```zsh
+# Find existing Obsidian vaults
+find ~/ -name ".obsidian" -maxdepth 5 -type d 2>/dev/null
+
+# Check Claude Code
+which claude 2>/dev/null && claude --version 2>/dev/null
+
+# Check OpenClaw
+which openclaw 2>/dev/null || ls ~/.openclaw/ 2>/dev/null
+# Also check for bot workspaces (OpenClaw may use per-bot directories)
+ls -d ~/clawd* ~/malcolm 2>/dev/null
+
+# Check Claude Vault
+ls ~/claude-vault/venv/bin/claude-vault 2>/dev/null
+launchctl list 2>/dev/null | grep claudevault
+
+# Check existing CLAUDE.md
+ls ~/.claude/CLAUDE.md 2>/dev/null
+grep "OBSIDIAN AUTO-ARCHIVE" ~/.claude/CLAUDE.md 2>/dev/null
+grep "Vault Read" ~/.claude/CLAUDE.md 2>/dev/null
+
+# Check git
+which git 2>/dev/null
+
+# Check Python, Homebrew, Node.js
+which python3 2>/dev/null
+which brew 2>/dev/null
+which node 2>/dev/null && node --version 2>/dev/null
+
+# Check existing vault structure and orphan files
+# (will check after user provides vault path)
+# NOTE: If git or other prerequisites are missing, some checks above will return "NOT INSTALLED."
+# That's OK — missing prerequisites will be installed in Step 1 before any other work begins.
+```
+
+After the user provides their vault path, also check:
+```zsh
+# Check if vault is a git repo
+git -C "[VAULT_PATH]" status 2>/dev/null
+
+# Check installed plugins
+ls "[VAULT_PATH]/.obsidian/plugins/" 2>/dev/null
+
+# Check for existing topic-like folders (may be named differently from a previous version)
+# Strategy: First check common names, then scan ALL top-level folders for notes with
+# topic-note/entity frontmatter tags. This catches custom folder names like "Things I Follow/".
+
+# Check common names first
+for dir in Topics Entities People Concepts References; do
+  if [ -d "[VAULT_PATH]/$dir" ]; then
+    echo "FOUND: $dir/ with $(ls "[VAULT_PATH]/$dir"/*.md 2>/dev/null | wc -l) notes"
+  fi
+done
+
+# Also scan ALL top-level folders for notes with topic/entity frontmatter tags
+# This catches custom-named folders the user may have created
+for dir in "[VAULT_PATH]"/*/; do
+  dirname=$(basename "$dir")
+  # Skip known non-topic folders
+  case "$dirname" in
+    Sessions|Conversations|Archive|Resources|Templates|OpenClaw|.obsidian|.smart-env|.git) continue ;;
+    Topics|Entities|People|Concepts|References) continue ;;  # Already checked above
+  esac
+  # Check if any .md files in this folder have topic-note or entity tags
+  if grep -ql 'topic-note\|entity\|type: person\|type: project\|type: tool\|type: concept\|type: organization' "$dir"/*.md 2>/dev/null; then
+    count=$(ls "$dir"/*.md 2>/dev/null | wc -l)
+    echo "FOUND (by tag scan): $dirname/ with $count notes containing topic/entity frontmatter"
+  fi
+done
+
+# Discover ALL top-level folders and categorize them
+# Known scan targets (will always be scanned for linking):
+#   Conversations/, Sessions/, Archive/, OpenClaw/
+# Known skip targets (never scanned):
+#   [TOPICS_FOLDER]/, Templates/, .obsidian/, .git/, .smart-env/
+# Anything else = unknown — present to user for opt-in
+echo "=== FOLDER DISCOVERY ==="
+for dir in "[VAULT_PATH]"/*/; do
+  dirname=$(basename "$dir")
+  case "$dirname" in
+    Sessions|Conversations|Archive|OpenClaw) echo "AUTO-SCAN: $dirname/ ($(find "$dir" -name '*.md' 2>/dev/null | wc -l | tr -d ' ') files)" ;;
+    Topics|Entities|People|Concepts|References|Templates|.obsidian|.smart-env|.git|Resources) echo "SKIP: $dirname/" ;;
+    *) count=$(find "$dir" -name '*.md' 2>/dev/null | wc -l | tr -d ' '); [ "$count" -gt 0 ] && echo "UNKNOWN: $dirname/ ($count .md files)" ;;
+  esac
+done
+
+# Count orphan files across ALL scannable folders (not just Conversations/)
+echo "=== ORPHAN COUNT ==="
+for dir in Conversations Sessions Archive OpenClaw; do
+  [ -d "[VAULT_PATH]/$dir" ] && grep -rL '## See Also' "[VAULT_PATH]/$dir/" --include="*.md" 2>/dev/null | wc -l | tr -d ' ' | xargs -I{} echo "$dir/: {} orphans"
+done
+```
+
+Then present me a summary using this EXACT table format (no freeform text — use the table):
+```
+## Phase 0 Results
+
+| Check | Status | Detail |
+|-------|--------|--------|
+| Obsidian vault(s) | FOUND / NONE | [paths] |
+| Claude Code | YES / NO | |
+| OpenClaw | YES / NO | [bot workspaces if found] |
+| Claude Vault | INSTALLED+RUNNING / INSTALLED / MISSING | |
+| CLAUDE.md auto-archive | EXISTS / MISSING | |
+| CLAUDE.md vault-read | EXISTS / MISSING | |
+| Git | INSTALLED / MISSING | |
+| Vault is git repo | YES / NO | |
+| Installed plugins | — | [list] |
+| Topic notes folder | EXISTS: [folder name] ([count] notes) / MISSING | |
+| Orphan files (no See Also) | — | [count per folder: Conversations: X, Sessions: X, Archive: X, OpenClaw: X] |
+| Folders to scan | AUTO | Conversations/, Sessions/, Archive/, OpenClaw/ |
+| Unknown folders found | — | [list any folders not recognized, with file counts — or "None"] |
+
+**Steps to skip:** [list step numbers]
+**Steps to execute:** [list step numbers]
+```
+
+⚠️ **MANDATORY: Use the AskUserQuestion tool for ALL user questions.** ⚠️
+
+Do NOT print questions as markdown text. Do NOT use plain text prompts. You MUST call the `AskUserQuestion` tool — this gives the user interactive selectors (arrow keys, blue UI at the bottom of the terminal) instead of ugly text walls. Every question below MUST go through AskUserQuestion with proper `question`, `header`, `options`, and `multiSelect: false` parameters.
+
+If AskUserQuestion is not available in your tool list, tell the user: "I don't have access to the AskUserQuestion tool — please check your Claude Code configuration." Then STOP and wait.
+
+Ask all 4 questions together in a single AskUserQuestion call:
+
+**Question 1: "Which Obsidian vault should I set up?"**
+- Header: "Vault path"
+- Options: List each detected vault path as an option. Put the most likely one first (based on CLAUDE.md references) with "(Recommended)" in the label. The user can pick "Other" to type a custom path.
+
+**Question 2: "Is this your primary machine or a secondary machine?"**
+- Header: "Machine"
+- Options:
+  - "Primary" — "This is my main machine (laptop). Full setup."
+  - "Secondary" — "This is a secondary machine (e.g., Mac Mini). Obsidian Sync should already be connected."
+
+**Question 3: "Do you want to import existing files into the vault?"**
+- Header: "Import"
+- Options:
+  - "Keep what I have (Recommended)" — "Don't import anything new. Just set up automation for new conversations going forward. Nothing will be deleted or modified."
+  - "Selective import" — "Bring in specific folders/files from outside the vault. They'll go into Archive/Imports/."
+  - "Full import" — "Scan ~/Documents for all markdown, text, and PDF files. Warning: may include personal documents."
+
+**Question 4: "What should I call your topic notes folder?"**
+- Header: "Folder name"
+- Topic notes are short hub pages for the people, projects, and tools that come up across your conversations. Think of them like index cards in a filing cabinet — one per topic, with pointers to everywhere it's mentioned.
+- **If Phase 0 found an existing folder** (e.g., `Entities/` with 17 notes):
+  - Options:
+    - "Keep [folder name]/ (Recommended)" — "Your existing folder with [count] topic notes stays as-is."
+    - "Rename to Topics/" — "Rename to the default name. Obsidian's alwaysUpdateLinks will fix WikiLinks."
+    - (User can pick "Other" to type a custom name)
+- **If no folder exists:**
+  - Options:
+    - "Topics/ (Recommended)" — "The default name. Works for most people."
+    - "Entities/" — "Alternative name some people prefer."
+    - (User can pick "Other" to type a custom name)
+
+Whatever the user picks becomes `[TOPICS_FOLDER]` and is used everywhere in Steps 5-11 where the prompt says `Topics/`. If the user chose to rename an existing folder, rename it now (`mv`) and update any references in CLAUDE.md and Auto Note Mover config.
+
+**Question 5 (ONLY if Phase 0 found unknown folders): "I found some folders I don't recognize. Want me to include them in linking?"**
+
+The prompt always scans these folders automatically: `Conversations/`, `Sessions/`, `Archive/`, `OpenClaw/`. But if Phase 0 discovered additional folders with markdown files, present them as a numbered list:
+
+```
+I'll automatically scan these folders for topic linking:
+  - Conversations/ (142 files)
+  - Sessions/ (38 files)
+  - Archive/ (12 files)
+  - OpenClaw/ (359 files)
+
+I also found these folders with markdown files:
+
+  1. BotNotes/ (23 files)
+  2. Projects/ (7 files)
+  3. Research/ (15 files)
+
+Enter the numbers you want me to include (e.g., "1, 3"), or "all", or "none":
+```
+
+Use AskUserQuestion with a text input option. Whatever the user picks gets added to `[SCAN_FOLDERS]` — the list of folders scanned in Steps 10E and 10G. If no unknown folders were found, skip this question entirely.
+
+**If Question 2 answer is "Secondary"**, ask a follow-up using AskUserQuestion:
+- "Is Obsidian Sync already connected to your primary vault on this machine?"
+- Options: "Yes, it's syncing" / "No, not yet" (if no: stop and tell them to set up Sync first)
+
+**After all questions are answered,** present the action plan using this EXACT format:
+
+```
+| Status | Items |
+|--------|-------|
+| DONE ✅ | [bullet list of what's already working] |
+| MISSING ❌ | [bullet list of what needs to be installed/configured] |
+| BROKEN ⚠️ | [bullet list of what exists but isn't working, or "None"] |
+
+PROPOSED ACTIONS (in order):
+1. [Step N: action]
+2. [Step N: action]
+...
+
+OK to proceed?
+```
+
+**Note:** If you use multiple Macs (e.g., a laptop and a Mac Mini), run this prompt on EACH machine. The vault content syncs via Obsidian Sync, but the background services (Claude Vault, OpenClaw sync, LaunchAgents) are machine-specific and must be installed locally on each machine. The prompt will detect what's already synced and only build what's missing.
+
+After I confirm, execute. Here's exactly what to do:
+
+---
+
+## STEP 1: Prerequisites Check
+
+Check if I have these installed: Python 3, Git, Homebrew, Node.js (v18+).
+- If anything is missing, install it. Don't explain what they are -- just install them.
+- Report what you found and what you installed.
+
+---
+
+## STEP 2: Git Safety Net
+
+This step protects the vault before any plugins modify files. It is MANDATORY.
+
+Check if the vault is already a git repository:
+```zsh
+git -C "[VAULT_PATH]" status 2>/dev/null
+```
+
+**If the vault IS already a git repo:**
+- Run `git -C "[VAULT_PATH]" add -A && git -C "[VAULT_PATH]" commit -m "Vault snapshot before Obsidian second brain setup"`
+- Report: "Vault committed. This is local only — nothing goes to the internet. If anything goes wrong, undo all changes with: `git -C [VAULT_PATH] restore .`"
+
+**If the vault is NOT a git repo, present the user with these options:**
+
+Tell the user:
+"Before I install plugins that modify your files, I need to set up a safety net. If anything goes wrong, you'll be able to undo all changes with one command. You have three options:"
+
+- **Option A: Initialize git in your vault (Recommended).** I'll run `git init` in your vault and commit everything. This is local only -- nothing goes to the internet. If any plugin damages a file, you run `git restore .` and everything reverts instantly. This is the safest option.
+- **Option B: Skip git, but understand the risk.** I'll proceed without a safety net. If a plugin modifies a file incorrectly, there is no automatic way to undo it. You would need to manually fix affected files or restore from a backup. Only choose this if you have your own backup system (Time Machine, Obsidian Sync history, etc.).
+- **Option C: Stop here.** Don't proceed until git is set up. I'll give you instructions to set it up yourself and you can re-run this prompt later.
+
+**If user chooses Option A:**
+```zsh
+cd "[VAULT_PATH]"
+git init
+echo ".smart-env/" >> .gitignore
+echo ".obsidian/workspace.json" >> .gitignore
+echo ".obsidian/workspace-mobile.json" >> .gitignore
+echo ".DS_Store" >> .gitignore
+# NOTE: We intentionally track .obsidian/plugins/ in git so plugin state can be restored if damaged.
+# This means git status will show diffs when plugins auto-update — that's expected.
+git add -A  # May take a moment for large vaults — this is normal
+git commit -m "Vault snapshot before Obsidian second brain setup"
+```
+Report:
+"Done. Your vault is now tracked by local git ([X] files committed). This is LOCAL ONLY — nothing is uploaded to GitHub or the internet.
+
+If something goes wrong at any point, here's how to undo it:
+- To undo ALL changes since this snapshot: `git -C [VAULT_PATH] restore .`
+- To see what changed: `git -C [VAULT_PATH] diff`
+- To see your commit history: `git -C [VAULT_PATH] log --oneline`
+
+You can also just tell Claude Code 'undo the vault changes' and it will know what to do.
+
+You don't need to know git. The only command that matters is the restore command above — it's your 'undo button.'"
+
+**If user chooses Option B:**
+Proceed but remind them: "No safety net. Proceeding at your own risk. I recommend having a backup."
+
+**If user chooses Option C:**
+Stop execution and provide git setup instructions.
+
+---
+
+## STEP 3: Create Vault Folder Structure
+
+Inside my Obsidian vault, create these folders (SKIP any that already exist):
+- Sessions/ (for auto-generated session logs from Claude Code and OpenClaw)
+- [TOPICS_FOLDER]/ (for topic notes -- people, projects, tools, concepts that recur across your conversations. Default: Topics/, but the user chose the name in Question 4)
+- Conversations/ (for Claude Vault raw conversation exports)
+- OpenClaw/ (for OpenClaw memory exports -- only if OpenClaw is detected)
+  - OpenClaw/Memory/ (bot MEMORY.md snapshots)
+  - OpenClaw/DailyNotes/ (bot daily memory notes, organized by bot name)
+  - OpenClaw/ActiveTasks/ (bot ACTIVE.md task tracking)
+- Archive/ (for continuation docs, resume prompts, past progress trackers)
+  - Archive/Imports/ (for user-selected historical files -- only if Option 2 or 3 chosen)
+- Resources/ (for research notes, guides, prompts, scripts, reference material)
+- Templates/ (for note templates)
+
+**On a secondary machine:** If these folders already exist via Obsidian Sync, skip creation. Only create folders that are missing.
+
+---
+
+## STEP 4: Import Historical Files (Based on User's Choice)
+
+- **If Option 1 (Keep what I have):** Skip this step entirely.
+- **If Option 2 (Selective import):** Copy all markdown (.md), text (.txt), and document files from the folders/paths the user specified into the Archive/Imports/ folder. Preserve original folder structure as subfolders inside Archive/Imports/. Do NOT copy node_modules, .git, binary files, images, or code source files -- only documentation and notes.
+- **If Option 3 (Full import):** Recursively scan ~/Documents for markdown (.md), text (.txt), PDF, and document files. Copy into Archive/Imports/ preserving folder structure. EXCLUDE: node_modules, .git, .DS_Store, binary files, images, videos, audio, code source files (.js, .ts, .py, .go, etc.), package-lock.json, and any folder with more than 10,000 files. Show the user a count of files found AND a sample of 10 representative file paths before proceeding. Ask for confirmation before copying.
+
+---
+
+## STEP 5: Set Up Claude Code Integration (SKIP if Claude Code not detected)
+
+### 5A: Install Claude Vault
+- Clone https://github.com/MarioPadilla/claude-vault.git to ~/claude-vault (SKIP if already exists and working)
+- Create a Python virtual environment inside it (SKIP if already exists)
+- IMPORTANT: Run `pip install --upgrade pip` FIRST — Apple Python 3.9 ships old pip that fails on editable installs
+- Install it with `pip install -e .`
+- Initialize it pointing to the vault's Conversations/ folder
+- Add ~/.claude/projects as a watch path (covers ALL current and future projects)
+- **If Option 1 (Keep what I have):** Do NOT run an initial sync. Skip straight to Step 5B. Only new conversations created after this point will be captured by the watch service.
+- **If Option 2 or 3:** Run an initial sync to export all existing conversations into the vault.
+
+### 5B: Set Up Background Auto-Sync (LaunchAgent)
+
+IMPORTANT — macOS TCC workaround: LaunchAgents may crash when accessing SQLite databases inside ~/Documents/ due to macOS Transparency, Consent, and Control sandbox restrictions. To prevent this:
+- Store the Claude Vault state database OUTSIDE the vault: `mkdir -p ~/claude-vault/vault-state/`
+- Configure Claude Vault to use ~/claude-vault/vault-state/ for its state DB
+- Symlink back to the vault if needed
+
+Create a macOS LaunchAgent at ~/Library/LaunchAgents/com.claudevault.watch.plist that:
+- Runs claude-vault watch mode from the vault's Conversations directory
+- Starts automatically at login (RunAtLoad: true)
+- Restarts if it crashes (KeepAlive: true)
+- Logs to ~/claude-vault/watch.log and ~/claude-vault/watch-error.log
+- Has the correct PATH including the Python venv and /opt/homebrew/bin
+Load the LaunchAgent, wait 3 seconds, then verify it's running with `launchctl list | grep claudevault`.
+
+### 5C: Add Auto-Archive Protocol to Global CLAUDE.md (WRITE SIDE)
+
+**SKIP if Phase 0 detected "CLAUDE.md auto-archive: EXISTS".** Only add this section if it's missing.
+
+Add a section at the TOP of ~/.claude/CLAUDE.md (create the file if it doesn't exist, PRESERVE existing content if it does) called "OBSIDIAN AUTO-ARCHIVE PROTOCOL (MANDATORY)" that instructs every Claude Code session to:
+
+At the END of every session, automatically create a session log at [VAULT_PATH]/Sessions/YYYY-MM-DD-<project>-<brief-topic>.md with this template:
+- YAML frontmatter: date, project, tags
+- Summary (2-3 sentences)
+- Key Decisions (bullet list)
+- Changes Made (bullet list)
+- Topics Referenced (using [[WikiLinks]] to people, projects, tools, concepts)
+- Open Items
+- Next Steps
+
+Also instruct Claude to:
+- When creating new session logs, add a `## See Also` footer at the bottom with [[WikiLinks]] to any relevant topic notes — NEVER modify content inline
+- Update existing topic notes by appending new session links to the Related Notes section
+- NEVER ask permission to save session logs -- just do it automatically
+- NEVER skip logging, even for short sessions
+- For long sessions (context above 50%), create interim logs
+
+**Topic evolution (at session END, alongside session log):**
+- At the end of each session, after writing the session log, check if any new names/projects/tools have appeared in 3+ recent session logs that don't have topic notes yet
+- If new topics are found, suggest them to the user: "By the way, '[Name]' has appeared in [N] recent sessions. Want me to create a topic note for it?"
+- If the user approves: create the lockfile at [VAULT_PATH]/.topic-linker.lock, create the topic note, do a full re-scan of all files to add the new topic to existing "See Also" footers, remove the lockfile
+- This is the ONLY time a full vault re-scan happens — when new topics are created
+- The re-scan is silent (no approval needed for footer updates — topic approval is the gate). Report the count afterward: "Created [N] topic notes and updated [M] file footers."
+
+Include a list of what counts as a topic note: People, Projects, Tools/Services, Concepts, Organizations. A topic note must represent a specific, named thing (proper noun) — not a generic concept like "debugging" or "testing".
+
+Use ABSOLUTE PATHS everywhere in the protocol, not relative paths. Use the vault path the user provided.
+
+### 5D: Add Vault-Read Protocol to Global CLAUDE.md (READ SIDE)
+
+**SKIP if Phase 0 detected "CLAUDE.md vault-read: EXISTS".** If it exists, CHECK that it includes the "VAULT FIRST" rule and MCP tool references below. If those are missing (older version), update the section in place.
+
+This is CRITICAL. Without this, the vault is write-only — an archive, not a brain. Testing has shown that soft language ("check the vault if you can") gets ignored — Claude Code will clone repos and do web searches instead. The language below is intentionally forceful because it's the only way to reliably change Claude's behavior.
+
+**Note:** The SessionStart hook (Step 10H) automatically loads recent context at every session start AND injects a reminder to search the vault first. This vault-read protocol in CLAUDE.md reinforces the hook with permanent instructions.
+
+Append a section called **"Vault Read — SEARCH BEFORE YOU WORK (MANDATORY)"** to ~/.claude/CLAUDE.md with this EXACT content (replace [VAULT_PATH] and [TOPICS_FOLDER] with actual values):
+
+```
+## Vault Read — SEARCH BEFORE YOU WORK (MANDATORY)
+
+**This applies to EVERY Claude Code session, regardless of project.**
+
+### ⚠️ CRITICAL RULE: VAULT FIRST, EVERYTHING ELSE SECOND
+
+**BEFORE you clone a repo, explore a codebase, run a web search, or do any research — SEARCH THE OBSIDIAN VAULT FIRST.** The answer is almost always already documented in a session log, topic note, or conversation export. Going external when the vault has the answer wastes time and tokens.
+
+**Use MCP tools to search (you have both installed):**
+- `mcp__obsidian__search_notes` — search by keyword across the entire vault
+- `mcp__obsidian__read_note` — read a specific note by path
+- `mcp__smart-connections__lookup` — semantic search (find notes by meaning, not just keywords)
+
+**Or use filesystem search:**
+```bash
+grep -rl "<keyword>" "[VAULT_PATH]/Sessions/" "[VAULT_PATH]/[TOPICS_FOLDER]/" "[VAULT_PATH]/Conversations/"
+```
+
+### When to Search the Vault
+
+**ALWAYS search the vault when:**
+- The user asks about ANY project, person, tool, or past decision — the vault has session logs documenting what was done, why, and what was decided
+- The user asks about colors, configs, architecture, or technical details of any project — past sessions captured these details
+- You're about to clone a repo or explore a codebase — check if session logs already describe the codebase
+- You're about to do web research — check if the answer is already in a conversation export
+- The user mentions a name, project, or tool that appears in the Known Topics list from the SessionStart hook
+
+**Search order:**
+1. Check [VAULT_PATH]/[TOPICS_FOLDER]/ for a matching topic note (quick overview)
+2. Check [VAULT_PATH]/Sessions/ for session logs (detailed context)
+3. Check [VAULT_PATH]/Conversations/ for raw conversation exports (full history)
+4. Use `mcp__smart-connections__lookup` for semantic search if keyword search misses
+5. **ONLY THEN** go external (clone repos, web search, etc.)
+
+### What NOT to Do
+
+- Do NOT skip the vault and go straight to cloning repos or web searches
+- Do NOT read every file in the vault on startup (too many tokens)
+- DO read topic notes and session logs freely — they exist to be shared
+- DO use the vault to build on previous work instead of starting from scratch
+```
+
+---
+
+## STEP 6: Set Up OpenClaw Integration (SKIP if OpenClaw not detected)
+
+IMPORTANT: OpenClaw uses per-bot workspaces with MEMORY.md files and SQLite for memory storage. It does NOT have a `memory-to-obsidian` skill. The correct approach is a sync script.
+
+### 6A: Discover Bot Workspaces
+Find all OpenClaw bot workspaces:
+```zsh
+ls -d ~/clawd* ~/malcolm 2>/dev/null
+```
+For each workspace found, check for:
+- MEMORY.md (persistent bot memory)
+- TOOLS.md (bot instructions file)
+- Any daily note files
+
+### 6B: Create Memory Sync Script
+Create a zsh script (NOT bash — macOS bash is v3 and missing modern features) at ~/claude-vault/sync-openclaw-memory.sh that:
+- Copies each bot's MEMORY.md to [VAULT_PATH]/OpenClaw/Memory/<botname>-MEMORY.md
+- Copies any daily note files to [VAULT_PATH]/OpenClaw/DailyNotes/<botname>/
+- Copies any ACTIVE.md files to [VAULT_PATH]/OpenClaw/ActiveTasks/<botname>-ACTIVE.md
+- Runs non-destructively (never deletes, only copies/updates)
+- Uses rsync or cp with timestamps to avoid unnecessary writes
+
+Do NOT symlink bot workspace directories into the vault — this can cause Obsidian to index unwanted files.
+
+### 6C: Set Up Background Sync (LaunchAgent)
+Create a macOS LaunchAgent at ~/Library/LaunchAgents/com.openclaw.memory-sync.plist that:
+- Runs the sync script every 5 minutes (StartInterval: 300)
+- Starts automatically at login (RunAtLoad: true)
+- Logs to ~/claude-vault/memory-sync.log
+Load the LaunchAgent, wait 3 seconds, then verify it's running with `launchctl list | grep memory-sync`.
+
+### 6D: Add Vault Write Rules to Bot TOOLS.md Files
+For each bot workspace found, APPEND (do NOT overwrite) to its TOOLS.md file:
+
+A section called "Obsidian Vault — Auto-Archive Rules (MANDATORY)" that:
+- Tells the bot the vault path
+- Instructs it to create session logs in [VAULT_PATH]/Sessions/YYYY-MM-DD-<botname>-<topic>.md
+- Instructs it to create/update topic notes in [VAULT_PATH]/[TOPICS_FOLDER]/ (people, projects, tools, concepts that appear in 3+ session logs)
+- Uses [[WikiLinks]] in "See Also" footer sections — NEVER inline
+- Uses ABSOLUTE PATHS
+- States: "NEVER ask permission to save — just do it"
+- States: "Your MEMORY.md is auto-synced to the vault every 5 min — but session logs and topic notes are YOUR responsibility to create"
+
+### 6E: Add Vault Read Rules to Bot TOOLS.md Files
+For each bot workspace found, APPEND to its TOOLS.md file:
+
+A section called "Obsidian Vault — Read Rules (MANDATORY)" that:
+- Tells the bot to search the vault before starting work on any topic
+- Lists how to search: `ls [VAULT_PATH]/Sessions/ | grep -i "<topic>"` and `grep -rl "<keyword>" [VAULT_PATH]/Sessions/ [VAULT_PATH]/[TOPICS_FOLDER]/`
+- States when to search: when asked about a person/project/tool, when starting a new task, when another bot is mentioned
+- States: "Do NOT read every file on startup (too many tokens)"
+- States: "Do NOT modify other bots' files in OpenClaw/Memory/ or OpenClaw/DailyNotes/"
+- States: "DO read topic notes and session logs freely — they exist to be shared"
+
+### 6F: Verify OpenClaw Integration
+- Confirm sync script runs without errors
+- Confirm LaunchAgent is loaded and running
+- Confirm TOOLS.md files were updated (not overwritten)
+- Show sample of what's in OpenClaw/Memory/
+
+---
+
+## STEP 7: Create Master Index and Starter Notes
+
+**On a secondary machine:** If Index.md and topic notes already exist via Obsidian Sync, skip this step entirely.
+
+Create an Index.md in the vault root (or update if it exists) with [[WikiLinks]] to sections for:
+- Projects
+- People
+- Tools
+- Concepts
+- Data Sources (list which AI systems are feeding into this vault -- e.g., "Claude Code via Claude Vault", "OpenClaw via memory sync")
+
+Do NOT create example topic notes here — topic notes are created in Step 10 based on actual content analysis, with user approval. Creating placeholder topic notes would add noise.
+
+---
+
+## STEP 8: Multi-Machine Awareness Check
+
+If the user said this is a SECONDARY machine:
+- Verify that the vault folder already has content from Obsidian Sync (check for Sessions/, [TOPICS_FOLDER]/, Conversations/ folders with files in them)
+- Do NOT overwrite or duplicate the CLAUDE.md auto-archive protocol if it already exists from the primary machine -- just verify it's there and the vault path is correct for THIS machine. If the vault path on this machine is different from the primary, update the paths in the protocol.
+- Do NOT recreate topic notes or the Master Index if they already exist -- Obsidian Sync handles that
+- DO still install Claude Vault and the LaunchAgent locally (these are machine-specific)
+- DO still set up OpenClaw integration locally if OpenClaw is detected (it's machine-specific)
+
+If the user said this is a PRIMARY machine:
+- Proceed with full setup as described above. This machine's vault is the source of truth until Obsidian Sync propagates to other machines.
+
+---
+
+## STEP 9: Install Auto Note Mover for Vault Organization
+
+As the vault grows, notes can pile up at the root without structure. The community-validated solution is **Auto Note Mover** — a plugin that auto-files notes into folders based on frontmatter tags or title patterns. It is deterministic (no LLM variability), lightweight, and well-documented.
+
+**IMPORTANT: Obsidian must be CLOSED before installing plugins OR modifying plugin configs programmatically.** If Obsidian is open, it may overwrite `community-plugins.json` or plugin `data.json` files with its in-memory state, undoing your changes. This applies to both fresh installs AND config updates to existing plugins. Tell the user: "Please close Obsidian before I install or configure plugins. I'll tell you when to reopen it."
+
+Install the plugin programmatically (do NOT ask the user to install it manually):
+
+```zsh
+VAULT_PATH="[VAULT_PATH]"
+PLUGINS_DIR="$VAULT_PATH/.obsidian/plugins"
+COMMUNITY_JSON="$VAULT_PATH/.obsidian/community-plugins.json"
+
+# Create destination folders for auto-filing (skip any that exist)
+mkdir -p "$VAULT_PATH/Archive" "$VAULT_PATH/Resources" "$VAULT_PATH/Templates"
+
+# Download Auto Note Mover from GitHub releases (pinned to tested version)
+# Tested with: v1.2.1 (March 2026). Change version tag if updating.
+AUTO_NOTE_MOVER_VERSION="1.2.1"
+mkdir -p "$PLUGINS_DIR/auto-note-mover"
+curl -sL "https://github.com/farux/obsidian-auto-note-mover/releases/download/$AUTO_NOTE_MOVER_VERSION/main.js" \
+  -o "$PLUGINS_DIR/auto-note-mover/main.js"
+curl -sL "https://github.com/farux/obsidian-auto-note-mover/releases/download/$AUTO_NOTE_MOVER_VERSION/manifest.json" \
+  -o "$PLUGINS_DIR/auto-note-mover/manifest.json"
+
+# Verify downloads succeeded (files should be >1KB, not empty or HTML error pages)
+for f in "$PLUGINS_DIR/auto-note-mover/main.js" "$PLUGINS_DIR/auto-note-mover/manifest.json"; do
+  if [ ! -s "$f" ] || head -1 "$f" | grep -q '<!DOCTYPE'; then
+    echo "ERROR: Failed to download $(basename $f). Check network or version tag."
+  fi
+done
+
+# Enable the plugin in Obsidian's community-plugins.json
+python3 -c "
+import json
+with open('$COMMUNITY_JSON') as f:
+    plugins = json.load(f)
+if 'auto-note-mover' not in plugins:
+    plugins.append('auto-note-mover')
+with open('$COMMUNITY_JSON', 'w') as f:
+    json.dump(plugins, f, indent=2)
+"
+```
+
+**If any download verification fails, STOP. Do not proceed to plugin configuration.** Tell the user which file failed and suggest checking their network connection or trying a different plugin version tag.
+
+Then write the Auto Note Mover config at `$PLUGINS_DIR/auto-note-mover/data.json` with these rules (use `[TOPICS_FOLDER]` from the user's Question 4 answer — default is Topics/):
+
+| Tag / Pattern | Destination | Purpose |
+|---|---|---|
+| Tag `#session-log` | Sessions/ | Session logs from Claude Code and bots |
+| Tag `#topic-note` | [TOPICS_FOLDER]/ | Topic notes (people, projects, tools, concepts) |
+| Title `^AI_Continuation_Document-.*` | Archive/ | Continuation docs from handoff prompts |
+| Title `^Resume_Prompt-.*` | Archive/ | Resume prompts from handoff prompts |
+| Tag `#prompt` | Resources/ | Prompts and mega-prompts |
+| Tag `#guide` | Resources/ | Integration guides and how-tos |
+| Tag `#research` | Resources/ | Research notes |
+
+Set `trigger_auto_manual` to `"Automatic"`. Exclude `Templates` and `.obsidian` folders.
+
+### 9B: Check Existing Templates
+
+If a `Templates/` folder exists with session log or topic note templates, check them against the formats in this prompt (Step 5C session log template, Step 10D topic note template). If the existing templates use different field names (e.g., `## What I Did` instead of `## Changes Made`, or `## Related Sessions` instead of `## Related Notes`), update them to match the prompt's format so future notes are consistent. Report what you changed.
+
+---
+
+## STEP 10: Create Topic Notes & Link Files
+
+This is CRITICAL. Without this, conversation exports and imported files appear as orphan nodes in Graph View with no connections to the rest of the vault. Claude Code will create **topic notes** (short notes about recurring people, projects, and tools) and add a **"See Also"** footer to every file with [[WikiLinks]] to relevant topics.
+
+**Why this approach instead of a plugin?** The Automatic Linker plugin modifies text inline — it replaces words inside your content with [[WikiLinks]]. This causes false positives (common words matching filenames) and can corrupt code blocks. The "See Also" footer approach NEVER modifies existing content. It only appends a clean links section at the bottom of each file.
+
+### 10A: Git Commit Before Linking
+
+IMPORTANT: Before adding links to files, commit the current vault state so changes can be reverted if needed.
+
+```zsh
+cd "[VAULT_PATH]"
+git add -A  # May take a moment for large vaults — this is normal
+git commit -m "Vault snapshot before topic linking"
+```
+
+If the vault is not a git repo (user chose Option B in Step 2), warn the user: "About to add 'See Also' link sections to vault files. Without git, changes cannot be easily reverted. Proceed?"
+
+### 10B: Scan Files and Identify Topics
+
+Scan ALL markdown files in `[SCAN_FOLDERS]` (default: Conversations/, Sessions/, Archive/, OpenClaw/, plus any user-added folders from Question 5) using this specific procedure:
+
+```
+SCAN PROCEDURE:
+1. Read the filenames in [TOPICS_FOLDER]/ — these are your existing topic dictionary
+2. For each .md file in [SCAN_FOLDERS]/ (recursively):
+   a. Read the file content
+   b. Extract from frontmatter: "project" value, "tags" values
+   c. Extract from content: capitalized multi-word phrases (e.g., "Claude Code",
+      "Olsen Brands Management"), single capitalized words that appear mid-sentence
+      (e.g., "using Supabase to..." — "Supabase" is capitalized mid-sentence),
+      and text matching patterns like "working on [Name]", "talked to [Name]",
+      "using [Name]"
+   d. SKIP these common false-positive words (capitalized but not topics):
+      However, Also, The, This, Note, Important, Warning, Example, Step,
+      Section, Update, See, Here, But, And, Or, If, When, Then, After,
+      Before, During, About, Into, From, With, That, What, Which, Where
+   e. Record each extracted name and which file it appeared in
+3. Count FILE occurrences (not word occurrences — "Supabase" appearing 50 times
+   in one file counts as 1)
+4. Filter by threshold:
+   - Vault has 10+ markdown files: topic must appear in 3+ files
+   - Vault has 4-9 markdown files: topic must appear in 2+ files
+   - Vault has 1-3 markdown files: create topic notes for any named person,
+     project, or tool mentioned (no threshold — too few files to count)
+5. Remove any that already have a topic note in [TOPICS_FOLDER]/
+6. Categorize remaining into: People, Projects, Tools/Services, Organizations,
+   Concepts
+7. Present to user for approval (Step 10C)
+```
+
+**Topic note creation criteria:**
+- **Always create topic notes for:** named people, named projects/products, paid services/tools, organizations
+- **Never create topic notes for:** common English words, generic concepts ("debugging", "testing", "the app"), single-use mentions that don't meet the threshold
+- **Topic names must be proper nouns or specific names** — "Supabase" yes, "database" no. "ShiftCheck" yes, "checklist" no.
+- **Borderline tool/service test:** Would the user want to look up "every conversation where I discussed [X]"? If yes → create a topic note. If [X] is just background infrastructure that appears in every project (like GitHub, React, TypeScript), it's not useful as a hub — exclude it. Good examples: "Stripe" (yes — billing discussions are worth tracking), "MightyCall" (yes — specific service decisions), "React" (no — appears everywhere, not informative), "GitHub" (no — too ubiquitous).
+
+### 10C: Present Topics for User Approval
+
+**Note to user:** "Obsidian is still closed — we'll open it once all linking is done."
+
+Before creating anything, present the topic list to the user in plain English, grouped by category. Use this EXACT format:
+
+```
+I scanned [N] files across your vault.
+
+EXISTING TOPIC NOTES ([count] already in [TOPICS_FOLDER]/):
+[list existing topic note names — so the user knows what's already covered]
+
+NEW TOPICS FOUND ([count] to add):
+
+PEOPLE: [list with file counts]
+PROJECTS: [list with file counts]
+TOOLS & SERVICES: [list with file counts]
+ORGANIZATIONS: [list with file counts]
+CONCEPTS: [list with file counts, if any meet the threshold]
+[Add additional categories if they make sense for this vault, e.g., BOTS]
+
+DELIBERATELY EXCLUDED (and why):
+- [Category]: [list] — [reason, e.g., "ubiquitous tech stack terms, not useful as topic hubs"]
+- [Category]: [list] — [reason]
+
+Each topic note is a short file with a description and links back to
+the conversations that mention it. They live in your [TOPICS_FOLDER]/ folder.
+
+Does this list look right? Add or remove any before I proceed.
+```
+
+Wait for user confirmation before proceeding.
+
+**If zero topics are found** (e.g., new vault with few files), tell the user:
+"No recurring topics found yet — your vault is new. Topic notes will be suggested automatically as conversations accumulate. For now, your vault structure is ready and the background linker is active. Skip to Step 10F."
+
+### 10D: Create Topic Notes
+
+Create ONLY the topics the user approved — nothing else. Do not add extras you found during scanning. For each approved topic, create a note in [TOPICS_FOLDER]/ with this format:
+
+```markdown
+---
+type: [person|project|tool|concept|organization]
+created: YYYY-MM-DD
+tags: [topic-note, <type>]
+---
+
+# <Topic Name>
+
+<Brief description — 1-2 sentences about who/what this is>
+
+## Related Notes
+<!-- This section is updated automatically as new sessions reference this topic -->
+```
+
+### 10E: Add "See Also" Footers to All Files
+
+For every markdown file in `[SCAN_FOLDERS]` — **scan recursively** (use `**/*.md` or `find -name "*.md"`). The default scan folders are `Conversations/`, `Sessions/`, `Archive/`, and `OpenClaw/`. If the user opted in additional folders in Question 5, include those too. Claude Vault creates a nested `conversations/` subdirectory inside `Conversations/`, so files may be at `Conversations/conversations/*.md`, not just `Conversations/*.md`. Do NOT assume files are only at the top level.
+
+For each file:
+1. Read the file content
+2. Check which topic names appear in the content (case-insensitive matching)
+3. If the file already has a `## See Also` section, update it (don't duplicate)
+4. If no topics match, add a comment marker (see footer logic below) so the file isn't re-processed
+5. Append to the bottom of the file:
+
+```markdown
+
+---
+## See Also
+- [[Topic Name 1]]
+- [[Topic Name 2]]
+- [[Topic Name 3]]
+```
+
+**CRITICAL RULES:**
+- NEVER modify any existing content in the file — only append to the end
+- NEVER add links inside code blocks, URLs, headings, or prose
+- Sort links alphabetically within the See Also section
+- NEVER remove existing links from a footer — only add missing ones (user may have added manual links)
+
+**FOOTER LOGIC (exact procedure):**
+
+To ADD a new footer (file has no `## See Also`):
+1. Check if the file already ends with a `---` horizontal rule. If yes, add `## See Also` after it (don't create a double rule). If no, append `\n\n---\n## See Also\n`.
+2. Add matching topic links as `- [[Topic Name]]`, sorted alphabetically.
+3. If no topics match, add `<!-- No matching topics found -->` as a placeholder so the file isn't re-processed.
+
+To UPDATE an existing footer (file already has `## See Also`):
+1. Find the line containing `## See Also`
+2. Read all lines from that point to EOF — these are the existing links
+3. Parse existing `[[WikiLinks]]` from those lines
+4. Determine what SHOULD be linked (scan file content against [TOPICS_FOLDER]/)
+5. Merge: keep all existing links + add any new ones that are missing
+6. Replace everything from `## See Also` to EOF with the updated section
+
+### 10F: Install MCP Server for Vault Search (Optional)
+
+Include MCP server installation in the action plan as a recommended item. Do NOT ask the user a separate question — the action plan confirmation in Phase 0 covers it. If the user removes it from the action plan, skip this sub-step.
+
+Install both of the following (they don't conflict):
+
+**Option A: Basic file search**
+```zsh
+npm install -g @mauricio.wolff/mcp-obsidian
+claude mcp add obsidian --scope user -- npx @mauricio.wolff/mcp-obsidian "[VAULT_PATH]"
+```
+
+**Option B: Semantic search (via Smart Connections)**
+Requires the Smart Connections plugin to be installed in Obsidian AND "Sync community plugins" enabled in Obsidian Sync settings on both machines (so the plugin and its embeddings propagate). The MCP server reads the `.smart-env/` embeddings data that the plugin generates.
+```zsh
+claude mcp add smart-connections --scope user -e OBSIDIAN_VAULT="[VAULT_PATH]" -- npx @yejianye/smart-connections-mcp
+```
+
+You can install both — they don't conflict. Verify with: `claude mcp list | grep -i "obsidian\|vault\|smart"`
+
+**Note:** MCP servers are Claude Code only. OpenClaw bots cannot use them — they use filesystem-based search commands defined in their TOOLS.md vault read rules instead.
+
+### 10G: Set Up Footer Linking LaunchAgent (Ongoing)
+
+New conversation files arrive from Claude Vault as plain markdown with no links. This LaunchAgent runs every 10 minutes and adds "See Also" footers to any new files, keeping the Graph View connected automatically.
+
+**IMPORTANT:** The script below includes the default scan folders (Conversations/, Sessions/, Archive/, OpenClaw/). If the user opted in additional folders in Question 5, add matching glob lines for each (e.g., `"$VAULT_PATH/BotNotes"/**/*.md "$VAULT_PATH/BotNotes"/*.md \`).
+
+Create a shell script at ~/claude-vault/link-new-files.sh:
+
+```zsh
+#!/bin/zsh
+setopt nullglob  # Prevent literal glob iteration on empty directories
+
+VAULT_PATH="[VAULT_PATH]"
+LOCKFILE="$VAULT_PATH/.topic-linker.lock"
+TOPICS_DIR="$VAULT_PATH/[TOPICS_FOLDER]"  # Replace [TOPICS_FOLDER] with user's chosen name from Question 4
+
+# Respect lockfile (Claude Code Tier 2 may be running a full re-scan)
+if [ -f "$LOCKFILE" ]; then exit 0; fi
+
+# Get list of topic names from filenames in [TOPICS_FOLDER]/
+TOPICS=()
+for f in "$TOPICS_DIR"/*.md; do
+  [ -f "$f" ] || continue
+  TOPICS+=("$(basename "$f" .md)")
+done
+
+# If no topics exist yet, nothing to link
+[ ${#TOPICS[@]} -eq 0 ] && exit 0
+
+# Scan all linked folders for files needing linking
+# Default: Conversations/, Sessions/, Archive/, OpenClaw/
+# Plus any user-added folders from Question 5 — replace [EXTRA_FOLDERS] with those paths
+for f in "$VAULT_PATH/Conversations"/**/*.md "$VAULT_PATH/Conversations"/*.md \
+         "$VAULT_PATH/Sessions"/**/*.md "$VAULT_PATH/Sessions"/*.md \
+         "$VAULT_PATH/OpenClaw"/**/*.md "$VAULT_PATH/OpenClaw"/*.md \
+         "$VAULT_PATH/Archive"/**/*.md "$VAULT_PATH/Archive"/*.md; do
+  [ -f "$f" ] || continue
+
+  # If file has a "See Also" with only a comment marker, re-process it
+  # (new topics may have been created since the marker was written)
+  if grep -q '## See Also' "$f"; then
+    if grep -q '<!-- No matching topics found -->' "$f"; then
+      # Remove old See Also section so it gets re-processed
+      sed -i '' '/## See Also/,$d' "$f"
+    else
+      # Has real links — skip
+      continue
+    fi
+  fi
+
+  # Scan file content for topic matches (case-insensitive, fixed-string)
+  MATCHES=()
+  CONTENT=$(cat "$f")
+  for topic in "${TOPICS[@]}"; do
+    # -F = fixed string (not regex — safe for "C++", "Node.js", ".NET")
+    # -i = case insensitive
+    echo "$CONTENT" | grep -qFi "$topic" && MATCHES+=("$topic")
+  done
+
+  # Add footer
+  if [ ${#MATCHES[@]} -gt 0 ]; then
+    # Sort matches alphabetically (zsh newline split to preserve multi-word topics)
+    SORTED=("${(@f)$(printf '%s\n' "${MATCHES[@]}" | sort)}")
+    printf '\n\n---\n## See Also\n' >> "$f"
+    for m in "${SORTED[@]}"; do
+      printf -- '- [[%s]]\n' "$m" >> "$f"
+    done
+  else
+    # Mark as processed so we don't re-scan every 10 minutes
+    printf '\n\n---\n## See Also\n<!-- No matching topics found -->\n' >> "$f"
+  fi
+done
+```
+
+Create a macOS LaunchAgent at ~/Library/LaunchAgents/com.obsidian.topic-linker.plist that:
+- Runs the link-new-files.sh script every 10 minutes (StartInterval: 600)
+- Starts automatically at login (RunAtLoad: true)
+- Logs to ~/claude-vault/topic-linker.log and ~/claude-vault/topic-linker-error.log
+Load the LaunchAgent, wait 3 seconds, then verify it's running with `launchctl list | grep topic-linker`.
+
+### 10H: Install Session Safety Hooks
+
+Claude Code supports hooks — shell scripts that fire automatically on session events. Install these hooks to make session logging more reliable and vault context loading automatic.
+
+**Create 3 hook scripts:**
+
+**Script 1: session-safety-net.sh** (fires on session end)
+When a session ends — whether by /clear, exit, or logout — this script writes a metadata stub if no full session log was saved. The stub is NOT a replacement for a session log — it's a breadcrumb so you can see a session happened.
+
+```zsh
+#!/bin/zsh
+# Reads JSON from stdin: { "session_id": "...", "cwd": "...", "source": "...", "duration_seconds": N }
+INPUT=$(cat)
+CWD=$(echo "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('cwd',''))")
+DURATION=$(echo "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('duration_seconds',0))")
+
+VAULT_PATH="[VAULT_PATH]"
+PROJECT=$(basename "$CWD")
+TODAY=$(date +%Y-%m-%d)
+SESSIONS_DIR="$VAULT_PATH/Sessions"
+
+# Always write a metadata stub — it complements Claude's narrative log
+# with machine-verifiable data (duration, files changed)
+STUB_FILE="$SESSIONS_DIR/${TODAY}-${PROJECT}-session-stub.md"
+
+# Get files changed during this session (if in a git repo)
+FILES_CHANGED=""
+if git -C "$CWD" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  FILES_CHANGED=$(git -C "$CWD" diff --name-only 2>/dev/null | head -20)
+fi
+
+DURATION_MIN=$((DURATION / 60))
+
+cat > "$STUB_FILE" << STUB
+---
+date: $TODAY
+project: $PROJECT
+tags: [session-stub, $PROJECT]
+type: session-stub
+duration_minutes: $DURATION_MIN
+---
+
+# Session Stub: $PROJECT ($TODAY)
+
+**This is an auto-generated metadata stub, not a full session log.**
+If Claude wrote a full session log, it will be a separate file in this folder.
+
+## Metadata
+- Duration: ${DURATION_MIN} minutes
+- Project directory: $CWD
+
+## Files Changed
+$FILES_CHANGED
+STUB
+```
+
+**Script 2: vault-context-loader.sh** (fires on session start)
+Automatically loads recent vault context into Claude's conversation AND injects a reminder to search the vault before going external. This works in tandem with the CLAUDE.md vault-read protocol — the hook provides the data, the protocol provides the behavior rule.
+
+```zsh
+#!/bin/zsh
+INPUT=$(cat)
+CWD=$(echo "$INPUT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('cwd',''))")
+
+VAULT_PATH="[VAULT_PATH]"
+PROJECT=$(basename "$CWD")
+SESSIONS_DIR="$VAULT_PATH/Sessions"
+TOPICS_DIR="$VAULT_PATH/[TOPICS_FOLDER]"  # Replace [TOPICS_FOLDER] with user's chosen name from Question 4
+
+# Get last session log for THIS project (most recent only)
+LAST_LOG=$(ls -t "$SESSIONS_DIR"/*.md 2>/dev/null | grep -i "\b${PROJECT}\b" | grep -v "session-stub" | head -1)
+LAST_LOG_SUMMARY=""
+LAST_LOG_NAME=""
+if [ -n "$LAST_LOG" ]; then
+  LAST_LOG_NAME=$(basename "$LAST_LOG" .md)
+  LAST_LOG_SUMMARY=$(sed -n '/^## Summary/,/^## /p' "$LAST_LOG" | head -5)
+fi
+
+# Get recent sessions for THIS project (last 5)
+RECENT_PROJECT=$(ls -t "$SESSIONS_DIR"/*.md 2>/dev/null | grep -i "\b${PROJECT}\b" | grep -v "session-stub" | head -5 | while read -r f; do basename "$f" .md; done)
+
+# Get recent sessions ACROSS ALL PROJECTS (last 10, excluding stubs)
+# This ensures Claude knows what's in the vault even when CWD doesn't match
+RECENT_ALL=$(ls -t "$SESSIONS_DIR"/*.md 2>/dev/null | grep -v "session-stub" | head -10 | while read -r f; do basename "$f" .md; done)
+
+# Get all topic names (use while read to handle apostrophes safely)
+TOPIC_NAMES=$(ls "$TOPICS_DIR"/*.md 2>/dev/null | while read -r f; do basename "$f" .md; done | tr '\n' ', ' | sed 's/,$//')
+
+# Output structured context + vault-first reminder
+cat << CONTEXT
+VAULT CONTEXT (auto-loaded):
+Last session: $LAST_LOG_NAME
+$LAST_LOG_SUMMARY
+Recent sessions (this project): $RECENT_PROJECT
+Recent sessions (all projects): $RECENT_ALL
+Known topics: $TOPIC_NAMES
+
+REMINDER: Your Obsidian vault has session logs, topic notes, and conversation exports for most projects. ALWAYS search the vault BEFORE cloning repos, exploring codebases, or doing web research. Use mcp__obsidian__search_notes or mcp__smart-connections__lookup to find answers fast.
+CONTEXT
+```
+
+**Script 3: post-compact-reminder.sh** (fires after context compaction)
+When the context window fills up and gets compressed, this reminds Claude to save an interim log.
+
+**IMPORTANT:** Replace [VAULT_PATH] in ALL three scripts with the user's actual vault path before writing them.
+
+```zsh
+#!/bin/zsh
+cat << REMINDER
+CONTEXT COMPACTION NOTICE:
+Your context was just compacted. If you have not already saved an interim session log, write one NOW to [VAULT_PATH]/Sessions/ based on what you still know. Use the filename pattern: YYYY-MM-DD-<project>-interim-<N>.md. Even a partial log is better than no log.
+REMINDER
+```
+
+**Backup settings.json first** — hooks live outside the git-tracked vault, so there's no rollback without this:
+```zsh
+cp ~/.claude/settings.json ~/.claude/settings.json.bak
+```
+
+**Install the hooks** by merging into ~/.claude/settings.json. IMPORTANT: preserve ALL existing hooks (e.g., UserPromptSubmit). Use Python to safely merge:
+
+NOTE: Claude Code hooks use three separate event keys: `SessionEnd`, `SessionStart`, and `PreCompact`. The compaction reminder goes under `PreCompact` (its own event), NOT under SessionStart. Do NOT use matcher objects — they are not supported in the current schema. Each hook entry is simply `{"hooks": [{"type": "command", "command": "..."}]}`.
+
+```zsh
+python3 -c "
+import json
+
+settings_path = '$HOME/.claude/settings.json'
+
+with open(settings_path) as f:
+    settings = json.load(f)
+
+hooks = settings.setdefault('hooks', {})
+
+# Add SessionEnd hook (fires when session ends — /clear, exit, etc.)
+hooks['SessionEnd'] = [{
+    'hooks': [{
+        'type': 'command',
+        'command': '$HOME/.claude/hooks/session-safety-net.sh'
+    }]
+}]
+
+# Add SessionStart hook (fires on new session or resume)
+hooks['SessionStart'] = [{
+    'hooks': [{
+        'type': 'command',
+        'command': '$HOME/.claude/hooks/vault-context-loader.sh'
+    }]
+}]
+
+# Add PreCompact hook (fires before context compaction — separate event, NOT SessionStart)
+hooks['PreCompact'] = [{
+    'hooks': [{
+        'type': 'command',
+        'command': '$HOME/.claude/hooks/post-compact-reminder.sh'
+    }]
+}]
+
+with open(settings_path, 'w') as f:
+    json.dump(settings, f, indent=2)
+"
+```
+
+Make all hook scripts executable:
+```zsh
+chmod +x ~/.claude/hooks/session-safety-net.sh
+chmod +x ~/.claude/hooks/vault-context-loader.sh
+chmod +x ~/.claude/hooks/post-compact-reminder.sh
+```
+
+**Verify hooks work** — run each script with test data to catch syntax errors, missing dependencies, or permission issues before the user discovers broken hooks in their next session:
+
+```zsh
+# Test SessionEnd hook (should create a stub file)
+echo '{"session_id":"test-run","cwd":"/tmp","source":"clear","duration_seconds":120}' | ~/.claude/hooks/session-safety-net.sh
+echo "SessionEnd hook: exit $?"
+
+# Test SessionStart hook (should output vault context)
+echo '{"session_id":"test-run","cwd":"/tmp","source":"startup"}' | ~/.claude/hooks/vault-context-loader.sh
+echo "SessionStart hook: exit $?"
+
+# Test PreCompact hook (should output compaction reminder)
+echo '{}' | ~/.claude/hooks/post-compact-reminder.sh
+echo "PreCompact hook: exit $?"
+```
+
+All three should exit 0. If any fails, check the script for syntax errors or missing paths. After verification, clean up the test stub:
+```zsh
+rm -f [VAULT_PATH]/Sessions/*-tmp-session-stub.md
+```
+
+### 10I: Tell the User to Open Obsidian
+
+Tell the user:
+"Open Obsidian now (it should still be closed from Step 9). Check your Graph View — your topic notes should be connected to your conversations and session logs via the 'See Also' links."
+
+"If anything looks wrong, you can revert with: `git -C [VAULT_PATH] restore .`"
+
+---
+
+## STEP 11: Verify Everything
+
+Run a final check:
+1. Claude Vault watch service is running (launchctl list | grep claudevault) -- skip if Claude Code not detected
+2. OpenClaw memory sync is running (launchctl list | grep memory-sync) -- skip if OpenClaw not detected
+3. CLAUDE.md has the auto-archive protocol (grep for "OBSIDIAN AUTO-ARCHIVE PROTOCOL")
+4. CLAUDE.md has the vault-read protocol (grep for "Vault Read")
+5. All bot TOOLS.md files have vault write AND read rules -- skip if OpenClaw not detected
+6. Vault has all required folders with content (including Archive/, Resources/, Templates/)
+7. Auto Note Mover plugin installed and enabled (check `community-plugins.json` and `plugins/auto-note-mover/`)
+8. Topic notes created in [TOPICS_FOLDER]/ (count them)
+9. "See Also" footers added to conversation files (count linked vs orphan files)
+10. Footer linking LaunchAgent is running (launchctl list | grep topic-linker)
+11. Session safety hooks installed (check ~/.claude/settings.json for SessionEnd, SessionStart, PreCompact hooks) and verified (all 3 exited 0 during Step 10H test)
+12. Settings.json backup exists (ls ~/.claude/settings.json.bak)
+13. Git safety net in place (check `git -C [VAULT_PATH] log --oneline -1`)
+14. MCP server connected (if installed): `claude mcp list`
+15. If Option 2 or 3 was chosen, confirm the Archive/Imports/ folder has the expected files and show a count
+16. Show a summary of what was set up:
+    - Machine type: Primary / Secondary
+    - Claude Code integration: YES/NO
+    - OpenClaw integration: YES/NO (list bots found)
+    - Import option: 1/2/3
+    - Vault path on this machine
+    - Background services running
+    - Git safety net: YES/NO
+    - Auto Note Mover: INSTALLED (list rules)
+    - Topic notes: [count] created in [TOPICS_FOLDER]/
+    - "See Also" links: [count] files linked, [count] orphans remaining
+    - Footer linking LaunchAgent: RUNNING / NOT RUNNING
+    - Session safety hooks: INSTALLED / NOT INSTALLED
+    - MCP server: YES/NO
+    - Write-side: COMPLETE/INCOMPLETE
+    - Read-side: COMPLETE/INCOMPLETE
+    - Vault organization: COMPLETE/INCOMPLETE
+    - Total files in vault
+
+SESSION LOGGING: ACTIVE
+- Claude writes full session logs automatically (primary)
+- Background safety net catches missed sessions (hook)
+- Vault context loads automatically at session start (hook)
+- Compaction recovery enabled (hook)
+- New conversation files auto-linked within 10 minutes (LaunchAgent)
+- Note: If Claude Code is force-killed or crashes, the session may not be logged. This is a known limitation of all CLI tools.
+
+16. After the summary, tell the user what to do next:
+"Your second brain is live. Here's how to see it in action:
+1. Start a new Claude Code session and work on any project. When you're done, check [VAULT_PATH]/Sessions/ — you should see a new session log with [[WikiLinks]] to your topic notes.
+2. Open Obsidian and check Graph View — your topic notes should be connected to session logs and conversation exports via 'See Also' links.
+3. New conversation files from Claude Vault will be automatically linked within 10 minutes by the background linker. When new recurring topics emerge, Claude will suggest them at the end of a session.
+4. That's it. Everything runs automatically from here."
+
+---
+
+## IMPORTANT RULES
+
+### File and Path Rules
+- Do NOT symlink any project directories into the vault (crashes Obsidian — indexes node_modules, hundreds of thousands of files)
+- Use ABSOLUTE PATHS everywhere in CLAUDE.md and TOOLS.md protocols, not relative paths
+- ALL generated documents go in the vault — NEVER save to ~/, ~/Documents/, or ~/Downloads/
+- If my CLAUDE.md already has content, PRESERVE it — add protocol sections, don't replace the file
+
+### macOS-Specific Rules
+- Use zsh for ALL scripts (macOS bash is v3 — missing associative arrays, uppercase expansion, and other modern features)
+- Run `pip install --upgrade pip` before any pip install (Apple Python 3.9 ships outdated pip)
+- Store Claude Vault state DB outside ~/Documents/ to avoid macOS TCC sandbox crashes
+- Claude Vault and LaunchAgents are MACHINE-SPECIFIC — they must be installed on every machine independently
+- OpenClaw sync and TOOLS.md configs are MACHINE-SPECIFIC — they must be configured on every machine where OpenClaw runs
+
+### Obsidian Rules
+- The Obsidian app.json should have useMarkdownLinks: false and alwaysUpdateLinks: true
+- If Obsidian Sync is active, do NOT also put the vault in iCloud Drive (causes conflicts)
+- The vault CONTENT syncs via Obsidian Sync. The SERVICES (Claude Vault, OpenClaw sync, LaunchAgents) are local to each machine.
+- Let Claude Code own Sessions/ and [TOPICS_FOLDER]/. Let OpenClaw own OpenClaw/. Smart Connections links them together.
+- NEVER modify file content inline to add links. All [[WikiLinks]] go in "See Also" footer sections ONLY.
+
+### Behavior Rules
+- Do NOT ask me to do things manually if you can do them yourself
+- Do NOT overwrite bot TOOLS.md files — APPEND only (they contain existing configurations)
+- Do NOT assume a `memory-to-obsidian` skill exists for OpenClaw — it doesn't. Build a sync script instead.
+- Do NOT use `memory-to-obsidian`, `obsidian-cli` skills, or any tool that hasn't been verified to exist — check first, then install or build alternatives.
+- ALWAYS audit what's already installed before re-doing work
+- ALWAYS commit the vault to git before adding "See Also" footers or creating topic notes
+- NEVER modify existing file content to add links — only append "See Also" footer sections

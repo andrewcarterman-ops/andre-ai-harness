@@ -1,0 +1,78 @@
+# Review Configuration - Phase 2 Minimal
+# Format: YAML 1.2
+
+version: "1.0"
+last_updated: "2026-03-25T22:40:00+01:00"
+
+# Review-Engine Einstellungen
+engine:
+  enabled: true
+  default_trigger: "on_error"  # always | on_error | manual
+  auto_review: false           # Automatisches Review bei jedem Plan
+  require_approval: false      # Manuelle Freigabe erforderlich?
+  
+# Review-Typen
+types:
+  plan_review:
+    description: "Review nach Plan-Ausführung"
+    enabled: true
+    trigger: "on_error"
+    checklist:
+      - "Alle Schritte ausgeführt?"
+      - "Erfolgskriterien erfüllt?"
+      - "Keine Seiteneffekte?"
+      - "Dokumentation aktualisiert?"
+      - "Rollback-Info notiert?"
+    
+  execution_review:
+    description: "Review nach Tool-Ausführung"
+    enabled: true
+    trigger: "on_error"
+    scope:
+      - "file_operations"
+      - "exec"
+      - "web_search"
+    
+  error_review:
+    description: "Review bei Fehlern"
+    enabled: true
+    trigger: "always"
+    auto_create_ticket: true
+
+# Integrationen
+integrations:
+  self_improving:
+    enabled: true
+    skill_id: "self-improving-andrew"
+    feedback_file: "memory/self-improving/review-feedback.md"
+    patterns_file: "memory/self-improving/review-patterns.md"
+    
+  hooks:
+    enabled: true
+    hook_id: "review:post_execution"
+    handler_file: "hooks/review-post-execution.md"
+    
+  plans:
+    enabled: true
+    plan_template_reference: "plans/TEMPLATE.md#review"
+
+# Review-Output
+output:
+  format: "markdown"
+  location: "memory/reviews/"
+  naming: "{timestamp}_{plan_id}_review.md"
+  include_diff: true
+  include_suggestions: true
+
+# Qualitäts-Thresholds
+thresholds:
+  min_success_rate: 0.8      # 80% Schritte müssen erfolgreich
+  max_severity_allowed: "medium"  # Keine "high" Severity erlaubt
+  require_rollback_plan: true
+
+# Eskalation
+escalation:
+  enabled: true
+  on_high_severity: "notify_user"
+  on_repeated_failures: "require_manual_review"
+  max_auto_retries: 2

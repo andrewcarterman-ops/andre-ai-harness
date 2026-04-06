@@ -1,0 +1,178 @@
+# Install Manifest - Phase 4 Minimal
+# Format: YAML 1.2
+# Dieses Manifest beschreibt den Soll-Zustand des Systems
+
+manifest:
+  version: "1.0.0"
+  created_at: "2026-03-25T22:51:00+01:00"
+  description: "Modulares Agentisches Framework für OpenClaw"
+  author: "Andrew (andrew-main)"
+  project: "proj-modular-agent"
+  
+  # Manifest-Metadaten
+  schema_version: "1.0"
+  format: "yaml"
+  encoding: "UTF-8"
+  
+  # System-Voraussetzungen
+  requirements:
+    openclaw_version: ">= 2026.3.13"
+    platform: ["windows", "linux", "macos"]
+    shell: ["powershell", "bash"]
+    
+  # Installierte Komponenten
+  components:
+    # Phase 1: Registry Foundation
+    - id: "registry-core"
+      name: "Core Registry"
+      phase: 1
+      version: "1.0"
+      description: "Agent, Skill und Hook Registries"
+      required: true
+      files:
+        - path: "registry/agents.yaml"
+          description: "Agent Registry"
+          min_size: 1000
+        - path: "registry/skills.yaml"
+          description: "Skill Registry"
+          min_size: 4000
+        - path: "registry/hooks.yaml"
+          description: "Hook Engine Config"
+          min_size: 1000
+        - path: "registry/README.md"
+          description: "Registry Dokumentation"
+          optional: false
+        - path: "registry/VALIDATION.md"
+          description: "Phase 1 Validierung"
+          optional: true
+          
+    - id: "hooks-core"
+      name: "Core Hooks"
+      phase: 1
+      version: "1.0"
+      description: "Session und Review Hooks"
+      required: true
+      files:
+        - path: "hooks/session-start.md"
+          description: "Session Start Hook"
+        - path: "hooks/session-end.md"
+          description: "Session End Hook"
+        - path: "hooks/review-post-execution.md"
+          description: "Review Hook"
+          phase: 2
+          
+    # Phase 2: Cognitive Layer
+    - id: "search-index"
+      name: "Search Index"
+      phase: 2
+      version: "1.0"
+      description: "Durchsuchbarer Index aller Komponenten"
+      required: true
+      files:
+        - path: "registry/search-index.json"
+          description: "Search Index (JSON)"
+          min_size: 5000
+          format: "json"
+          
+    - id: "planner"
+      name: "Planner System"
+      phase: 2
+      version: "1.0"
+      description: "Planung und Aufgabenzerlegung"
+      required: true
+      directories:
+        - path: "plans/"
+          description: "Plans Verzeichnis"
+          min_files: 1
+      files:
+        - path: "plans/TEMPLATE.md"
+          description: "Plan Template"
+        - path: "plans/example-phase3-prep.md"
+          description: "Beispiel Plan"
+          optional: true
+          
+    - id: "reviewer"
+      name: "Reviewer System"
+      phase: 2
+      version: "1.0"
+      description: "Qualitätsprüfung und Feedback"
+      required: true
+      files:
+        - path: "registry/review-config.yaml"
+          description: "Review Konfiguration"
+        - path: "registry/VALIDATION-PHASE2.md"
+          description: "Phase 2 Validierung"
+          optional: true
+          
+    - id: "eval-harness"
+      name: "Eval Harness"
+      phase: 2
+      version: "1.0"
+      description: "Test- und Evaluation-Framework"
+      required: false
+      files:
+        - path: "registry/eval-example-weather.yaml"
+          description: "Beispiel Eval"
+          optional: true
+          
+    # Phase 3: Persistence & Learning
+    - id: "session-store"
+      name: "Session Store"
+      phase: 3
+      version: "1.0"
+      description: "Vollständige Session-Speicherung"
+      required: true
+      directories:
+        - path: "memory/sessions/"
+          description: "Session Verzeichnis"
+      files:
+        - path: "memory/sessions/README.md"
+          description: "Session Store Doku"
+          
+    - id: "project-registry"
+      name: "Project Registry"
+      phase: 3
+      version: "1.0"
+      description: "Projekt-Verwaltung und kontextuelles Lernen"
+      required: true
+      files:
+        - path: "registry/projects.yaml"
+          description: "Project Registry"
+      directories:
+        - path: "memory/self-improving/projects/"
+          description: "Projekt-Learning Verzeichnis"
+          
+  # Gesamt-Statistik
+  stats:
+    total_components: 8
+    required_components: 6
+    optional_components: 2
+    total_files: 18
+    total_directories: 4
+    
+  # Installation-Metadaten
+  installation:
+    method: "manual"
+    installed_by: "andrew-main"
+    installed_at: "2026-03-25T22:51:00+01:00"
+    verified: false
+    last_check: null
+    
+  # Update-Informationen (für zukünftige Versionen)
+  updates:
+    check_url: null  # Noch nicht implementiert
+    auto_update: false
+    
+  # Kompatibilität
+  compatibility:
+    compatible_with:
+      - "openclaw >= 2026.3.13"
+    conflicts_with: []
+    
+  # Notizen
+  notes: |
+    Dieses Manifest beschreibt den aktuellen Zustand des modularen
+    agentischen Frameworks nach Abschluss von Phase 1-3.
+    
+    Phase 4 Komponenten (Audit, Drift Doctor, Multi-Target) sind
+    noch nicht implementiert.

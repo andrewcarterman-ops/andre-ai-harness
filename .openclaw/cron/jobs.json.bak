@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "jobs": [
+    {
+      "id": "0c40aa57-60c3-4ded-b9a9-9bc719f7d538",
+      "agentId": "main",
+      "sessionKey": "agent:main:main",
+      "name": "obsidian-sync-pipeline",
+      "enabled": false,
+      "createdAtMs": 1775088737721,
+      "updatedAtMs": 1775213718245,
+      "schedule": {
+        "kind": "every",
+        "everyMs": 300000,
+        "anchorMs": 1775088737721
+      },
+      "sessionTarget": "main",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "systemEvent",
+        "text": "Trigger Obsidian Sync Pipeline - check for new messages to sync to Second Brain"
+      },
+      "state": {
+        "lastRunAtMs": 1775213241178,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 36306,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0
+      }
+    }
+  ]
+}

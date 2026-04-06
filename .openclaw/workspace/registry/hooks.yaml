@@ -1,0 +1,159 @@
+# Hook Registry - Phase 1: Manual Execution
+# Phase 2: Automatic Hook Engine (geplant)
+# Format: YAML 1.2
+# Encoding: UTF-8
+
+version: "1.2"
+last_updated: "2026-04-03T00:35:00+01:00"
+
+# Ausführungsmodus
+# Phase 1: "manual" - Agent führt Hooks explizit aus
+# Phase 2: "automatic" - Hook-Engine fängt Events ab
+execution_mode: "manual"
+
+# Dokumentation
+architecture_decision: "docs/adr/003-hook-execution-model.md"
+
+# Hook-Engine Einstellungen (für Phase 2)
+engine:
+  enabled: false              # true wenn Phase 2 implementiert
+  max_recursion_depth: 3
+  log_hooks: true
+  fail_on_error: false
+  
+# Verfügbare Hooks mit ihren Handlern
+# In Phase 1 werden diese durch den Agenten manuell ausgeführt
+hooks:
+  session:start:
+    description: "Wird beim Start einer neuen Session ausgeführt"
+    trigger: "session initialization"
+    handler_file: "hooks/session-start.md"
+    enabled: true
+    priority: 100
+    async: false
+    phase: 1                  # In Phase 1 implementiert
+    
+    # Was dieser Hook tut (für manuelle Implementierung):
+    actions:
+      - name: "validate_registry"
+        description: "Prüfe ob alle Registry-Dateien vorhanden und gültig"
+        required: true
+      - name: "create_session_entry"
+        description: "Erstelle Session-Eintrag in memory/sessions/"
+        required: true
+      - name: "load_context"
+        description: "Lade SOUL.md, USER.md, MEMORY.md"
+        required: true
+      - name: "log_session_start"
+        description: "Logge Session-Start in memory/hooks.log"
+        required: true
+    
+  session:end:
+    description: "Wird beim Ende einer Session ausgeführt"
+    trigger: "session termination"
+    handler_file: "hooks/session-end.md"
+    enabled: true
+    priority: 100
+    async: false
+    phase: 1                  # In Phase 1 implementiert
+    
+    # Was dieser Hook tut (für manuelle Implementierung):
+    actions:
+      - name: "update_session_metadata"
+        description: "Aktualisiere Duration, Message-Count"
+        required: true
+      - name: "write_daily_log"
+        description: "Schreibe in memory/YYYY-MM-DD.md"
+        required: false
+      - name: "log_session_end"
+        description: "Logge Session-Ende in memory/hooks.log"
+        required: true
+      - name: "cleanup_temp"
+        description: "Räume temporäre Dateien auf"
+        required: false
+    
+    post_actions:
+      - name: "sync-second-brain"
+        command: "second-brain/scripts/sync-openclaw-to-secondbrain.ps1"
+        condition: "session.duration_minutes > 10"
+        enabled: true
+        phase: 1                # In Phase 1 implementiert
+    
+  review:post_execution:
+    description: "Review nach Plan-Ausführung oder kritischen Operationen"
+    trigger: "post execution"
+    handler_file: "hooks/review-post-execution.md"
+    enabled: true
+    priority: 150
+    async: false
+    phase: 2                  # Erst in Phase 2 verfügbar
+    note: "Benötigt Hook-Engine für automatische Trigger-Erkennung"
+    
+  # Zukünftige Hooks (Phase 2)
+  # Diese erfordern die automatische Hook-Engine
+  
+  message:pre:
+    description: "Wird vor Verarbeitung einer Nachricht ausgeführt"
+    trigger: "message received"
+    handler_file: "hooks/message-pre.md"
+    enabled: false
+    priority: 200
+    phase: 2
+    note: "Erfordert Hook-Engine"
+    
+  message:post:
+    description: "Wird nach Verarbeitung einer Nachricht ausgeführt"
+    trigger: "message processed"
+    handler_file: "hooks/message-post.md"
+    enabled: false
+    priority: 200
+    phase: 2
+    note: "Erfordert Hook-Engine"
+    
+  error:critical:
+    description: "Wird bei kritischen Fehlern ausgeführt"
+    trigger: "critical error"
+    handler_file: "hooks/error-critical.md"
+    enabled: false
+    priority: 999
+    phase: 2
+    note: "Erfordert Hook-Engine"
+
+# Manuelle Hook-Ausführung (Phase 1)
+# Diese Konfiguration steuert, wie Agents Hooks manuell ausführen
+manual_execution:
+  # Soll der Agent Hooks automatisch prüfen?
+  auto_check: true
+  
+  # Welche Hooks sollen am Session-Start geprüft werden?
+  on_session_start:
+    - session:start
+  
+  # Welche Hooks sollen am Session-Ende geprüft werden?
+  on_session_end:
+    - session:end
+  
+  # Logging
+  log_execution: true
+  log_file: "memory/hooks.log"
+
+# Globale Hook-Variablen (verfügbar in allen Hooks)
+globals:
+  workspace_path: "C:/Users/andre/.openclaw/workspace"
+  registry_path: "C:/Users/andre/.openclaw/workspace/registry"
+  agent_id: "andrew-main"
+  timestamp_format: "ISO8601"
+
+# Logging-Konfiguration
+logging:
+  enabled: true
+  destination: "memory/hooks.log"
+  format: "[{timestamp}] [{hook_id}] {status}: {message}"
+  max_size: "10MB"
+  rotation: 5
+
+# Migration Tracking
+migration:
+  phase_1_complete: true
+  phase_2_planned: true
+  phase_2_issue: "TBD"  # GitHub Issue für Phase 2

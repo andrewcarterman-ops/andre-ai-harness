@@ -1,0 +1,161 @@
+// hooks/useRealtime.ts - Real-time SSE Connection Hook
+
+'use client';
+
+import { useEffect, useRef, useCallback, useState } from 'react';
+import { useActivityStore } from '@/stores/activityStore';
+
+interface UseRealtimeOptions {
+  onConnect?: () => void;
+  onDisconnect?: () => void;
+  onError?: (error: Event) => void;
+  onMessage?: (data: any) => void;
+  reconnectInterval?: number;
+  maxReconnectAttempts?: number;
+}
+
+export function useRealtime(options: UseRealtimeOptions = {}) {
+  const {
+    onConnect,
+    onDisconnect,
+    onError,
+    onMessage,
+    reconnectInterval = 3000,
+    maxReconnectAttempts = 10,
+  } = options;
+
+  const eventSourceRef = useRef<EventSource | null>(null);
+  const reconnectAttemptsRef = useRef(0);
+  const reconnectTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const [connectionStatus, setConnectionStatus] = useState<'connecting' | 'connected' | 'disconnected'>('disconnected');
+  
+  const { addActivity, connect, disconnect } = useActivityStore();
+
+  const cleanup = useCallback(() => {
+    if (reconnectTimerRef.current) {
+      clearTimeout(reconnectTimerRef.current);
+      reconnectTimerRef.current = null;
+    }
+    if (eventSourceRef.current) {
+      eventSourceRef.current.close();
+      eventSourceRef.current = null;
+    }
+  }, []);
+
+  const connectSSE = useCallback(() => {
+    cleanup();
+    
+    setConnectionStatus('connecting');
+    
+    try {
+      const es = new EventSource('/api/realtime');
+      eventSourceRef.current = es;
+
+      es.onopen = () => {
+        setConnectionStatus('connected');
+        reconnectAttemptsRef.current = 0;
+        connect();
+        onConnect?.();
+        console.log('[SSE] Connected');
+      };
+
+      es.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          
+          // Handle ping messages
+          if (data.type === 'ping') return;
+          
+          // Handle connection message
+          if (data.type === 'connected') {
+            console.log('[SSE] Client ID:', data.clientId);
+            return;
+          }
+          
+          // Handle activity messages
+          if (data.type === 'activity') {
+            addActivity(data.payload);
+          }
+          
+          // Call custom message handler
+          onMessage?.(data);
+        } catch (e) {
+          console.error('[SSE] Failed to parse message:', e);
+        }
+      };
+
+      es.onerror = (error) => {
+        setConnectionStatus('disconnected');
+        disconnect();
+        onError?.(error);
+        
+        es.close();
+        
+        // Attempt reconnection
+        if (reconnectAttemptsRef.current < maxReconnectAttempts) {
+          reconnectAttemptsRef.current++;
+          console.log(`[SSE] Reconnecting... (${reconnectAttemptsRef.current}/${maxReconnectAttempts})`);
+          
+          reconnectTimerRef.current = setTimeout(() => {
+            connectSSE();
+          }, reconnectInterval);
+        } else {
+          console.error('[SSE] Max reconnection attempts reached');
+          onDisconnect?.();
+        }
+      };
+    } catch (error) {
+      console.error('[SSE] Failed to create connection:', error);
+      setConnectionStatus('disconnected');
+    }
+  }, [cleanup, connect, disconnect, onConnect, onDisconnect, onError, onMessage, reconnectInterval, maxReconnectAttempts, addActivity]);
+
+  useEffect(() => {
+    connectSSE();
+
+    return () => {
+      cleanup();
+      disconnect();
+    };
+  }, [connectSSE, cleanup, disconnect]);
+
+  // Manual reconnect function
+  const reconnect = useCallback(() => {
+    reconnectAttemptsRef.current = 0;
+    connectSSE();
+  }, [connectSSE]);
+
+  // Send message (for client-initiated actions that should be broadcast)
+  const sendMessage = useCallback(async (data: any) => {
+    try {
+      await fetch('/api/broadcast', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+    } catch (error) {
+      console.error('[SSE] Failed to send message:', error);
+    }
+  }, []);
+
+  return {
+    connectionStatus,
+    isConnected: connectionStatus === 'connected',
+    isConnecting: connectionStatus === 'connecting',
+    reconnect,
+    sendMessage,
+  };
+}
+
+// Hook specifically for activity feed
+export function useActivityFeed() {
+  const { isConnected } = useRealtime();
+  const { activities, unreadCount, markAsRead } = useActivityStore();
+
+  return {
+    activities,
+    unreadCount,
+    isConnected,
+    markAsRead,
+  };
+}

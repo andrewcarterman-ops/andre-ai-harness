@@ -1,0 +1,185 @@
+# Multi-Target Registry - Phase 4 Extended
+# Format: YAML 1.2
+
+version: "1.0"
+last_updated: "2026-03-25T22:56:00+01:00"
+
+# Verfügbare Targets
+targets:
+  - id: "local"
+    name: "Local Workspace"
+    description: "Lokale OpenClaw Installation"
+    type: "local"
+    adapter: "local"
+    active: true
+    default: true
+    
+    config:
+      path: "C:/Users/andre/.openclaw/workspace"
+      shell: "powershell"
+      
+    capabilities:
+      - read
+      - write
+      - delete
+      - list
+      - exec
+      
+    deployment:
+      method: "direct"  # Kein Copy nötig
+      pre_deploy: []
+      post_deploy: []
+
+  # Beispiel: Remote Target (noch nicht aktiv)
+  - id: "vps-dev"
+    name: "Development VPS"
+    description: "Entwicklungsserver"
+    type: "remote"
+    adapter: "ssh"
+    active: false
+    default: false
+    
+    config:
+      host: "dev.example.com"
+      user: "openclaw"
+      port: 22
+      path: "/home/openclaw/workspace"
+      key_file: "~/.ssh/openclaw_dev"
+      
+    capabilities:
+      - read
+      - write
+      - delete
+      - list
+      - exec
+      
+    deployment:
+      method: "rsync"
+      pre_deploy:
+        - "mkdir -p /home/openclaw/workspace"
+      post_deploy:
+        - "chmod +x /home/openclaw/workspace/scripts/*.sh"
+      exclude:
+        - "*.tmp"
+        - "memory/sessions/archive/"
+        - ".git/"
+
+  # Beispiel: Docker Target (noch nicht aktiv)
+  - id: "docker-local"
+    name: "Local Docker"
+    description: "Lokaler Docker Container"
+    type: "container"
+    adapter: "docker"
+    active: false
+    default: false
+    
+    config:
+      image: "openclaw/agent:latest"
+      container_name: "openclaw-local"
+      ports:
+        - "8080:8080"
+      volumes:
+        - "{{workspace}}:/workspace"
+      env:
+        - "OPENCLAW_MODE=local"
+        - "OPENCLAW_LOG_LEVEL=debug"
+        
+    capabilities:
+      - read
+      - write
+      - exec
+      - logs
+      
+    deployment:
+      method: "docker-compose"
+      build:
+        context: "."
+        dockerfile: "Dockerfile"
+      pre_deploy:
+        - "docker-compose down"
+      post_deploy:
+        - "docker-compose up -d"
+
+# Adapter-Definitionen
+adapters:
+  local:
+    name: "Local Adapter"
+    description: "Direkter Zugriff auf lokales Dateisystem"
+    capabilities:
+      - read
+      - write
+      - delete
+      - list
+      - exec
+    commands:
+      read: "Get-Content"
+      write: "Set-Content"
+      delete: "Remove-Item"
+      list: "Get-ChildItem"
+      exec: "Invoke-Expression"
+      
+  ssh:
+    name: "SSH Adapter"
+    description: "Zugriff via SSH auf Remote-Server"
+    capabilities:
+      - read
+      - write
+      - delete
+      - list
+      - exec
+    requirements:
+      - "ssh"
+      - "rsync"
+    commands:
+      read: "ssh {{user}}@{{host}} 'cat {{path}}'"
+      write: "scp {{local}} {{user}}@{{host}}:{{remote}}"
+      delete: "ssh {{user}}@{{host}} 'rm {{path}}'"
+      list: "ssh {{user}}@{{host}} 'ls -la {{path}}'"
+      exec: "ssh {{user}}@{{host}} '{{command}}'"
+      sync: "rsync -avz --exclude='{{excludes}}' {{local}}/ {{user}}@{{host}}:{{remote}}/"
+      
+  docker:
+    name: "Docker Adapter"
+    description: "Zugriff auf Docker Container"
+    capabilities:
+      - read
+      - write
+      - exec
+      - logs
+    requirements:
+      - "docker"
+      - "docker-compose"
+    commands:
+      read: "docker exec {{container}} cat {{path}}"
+      write: "docker cp {{local}} {{container}}:{{remote}}"
+      exec: "docker exec {{container}} {{command}}"
+      logs: "docker logs {{container}}"
+      build: "docker-compose build"
+      up: "docker-compose up -d"
+      down: "docker-compose down"
+
+# Globale Deployment-Einstellungen
+deployment:
+  default_strategy: "mirror"  # mirror | merge | update
+  backup_before_deploy: true
+  verify_after_deploy: true
+  rollback_on_error: true
+  
+  # Zu synchronisierende Pfade (relativ zu workspace)
+  sync_paths:
+    include:
+      - "registry/"
+      - "hooks/"
+      - "plans/"
+      - "skills/"
+      - "scripts/"
+      - "docs/"
+    exclude:
+      - "memory/sessions/archive/"
+      - "*.tmp"
+      - "*.log"
+      - ".git/"
+      - "node_modules/"
+
+# Aktives Target
+active_target: "local"

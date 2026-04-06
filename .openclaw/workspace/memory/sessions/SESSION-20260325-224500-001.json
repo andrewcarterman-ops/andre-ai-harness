@@ -1,0 +1,91 @@
+{
+  "_meta": {
+    "schema_version": "1.0",
+    "schema_type": "session-log"
+  },
+  "session_id": "SESSION-20260325-224500-001",
+  "session_type": "implementation",
+  "agent": {
+    "id": "andrew-main",
+    "name": "Andrew",
+    "version": "1.0"
+  },
+  "timeline": {
+    "start_time": "2026-03-25T22:15:00+01:00",
+    "end_time": "2026-03-25T22:45:00+01:00",
+    "duration_seconds": 1800,
+    "status": "completed",
+    "outcome": "success"
+  },
+  "context": {
+    "channel": "terminal",
+    "registry_version": "1.1",
+    "phase": "3",
+    "workspace_path": "C:/Users/andre/.openclaw/workspace"
+  },
+  "system_state": {
+    "registry_files": [
+      "registry/agents.yaml",
+      "registry/skills.yaml",
+      "registry/hooks.yaml",
+      "registry/search-index.json",
+      "registry/review-config.yaml",
+      "registry/eval-example-weather.yaml"
+    ],
+    "plans": [
+      "plans/TEMPLATE.md",
+      "plans/example-phase3-prep.md"
+    ],
+    "hooks": [
+      "hooks/session-start.md",
+      "hooks/session-end.md",
+      "hooks/review-post-execution.md"
+    ],
+    "skills_loaded": [
+      "example-weather",
+      "secure-api-client",
+      "self-improving-andrew",
+      "mission-control",
+      "mission-control-v2"
+    ]
+  },
+  "activity_summary": {
+    "phases_completed": ["1", "2"],
+    "phase_started": "3",
+    "files_created": 2,
+    "files_modified": 0,
+    "directories_created": ["memory/sessions"],
+    "plans_referenced": ["example-phase3-prep"],
+    "skills_used": ["mission-control"]
+  },
+  "milestones": [
+    {
+      "timestamp": "2026-03-25T22:15:00+01:00",
+      "type": "phase_start",
+      "description": "Phase 3 Analyse begonnen"
+    },
+    {
+      "timestamp": "2026-03-25T22:44:00+01:00",
+      "type": "decision",
+      "description": "Freigabe für Session Store Implementierung erteilt"
+    },
+    {
+      "timestamp": "2026-03-25T22:45:00+01:00",
+      "type": "implementation",
+      "description": "Session Store erstellt (README + Beispiel)"
+    }
+  ],
+  "references": {
+    "plan": "plans/example-phase3-prep.md",
+    "next_step": "Projekt-Registry erstellen"
+  },
+  "tags": [
+    "phase-3",
+    "session-store",
+    "implementation",
+    "architecture"
+  ],
+  "notes": "Erste Session mit neuem Session Store. Demonstriert die Struktur für zukünftige Sessions.",
+  "created_by": "hook:session:start",
+  "updated_by": "hook:session:end"
+}

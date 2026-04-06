@@ -1,0 +1,81 @@
+# Phase 4 Eval - Operations
+# Testet Install, Audit, Drift, Multi-Target
+
+eval_id: "eval-phase4-001"
+title: "Test: Phase 4 Operations"
+description: "Validiert Operations-Schicht"
+phase: 4
+created_at: "2026-03-25T22:56:00+01:00"
+
+target:
+  type: "phase"
+  phase_id: "4"
+  name: "Operations"
+
+criteria:
+  # Selective Install
+  - id: "install_manifest_exists"
+    description: "install-manifest.yaml existiert"
+    check: "file_exists"
+    path: "registry/install-manifest.yaml"
+    required: true
+    weight: 15
+    
+  - id: "install_check_script_exists"
+    description: "install-check.ps1 existiert"
+    check: "file_exists"
+    path: "scripts/install-check.ps1"
+    required: true
+    weight: 10
+    
+  # Audit
+  - id: "audit_config_exists"
+    description: "audit-config.yaml existiert"
+    check: "file_exists"
+    path: "registry/audit-config.yaml"
+    required: true
+    weight: 15
+    
+  # Drift Doctor
+  - id: "drift_config_exists"
+    description: "drift-config.yaml existiert"
+    check: "file_exists"
+    path: "registry/drift-config.yaml"
+    required: true
+    weight: 15
+    
+  - id: "drift_check_script_exists"
+    description: "drift-check.ps1 existiert"
+    check: "file_exists"
+    path: "scripts/drift-check.ps1"
+    required: true
+    weight: 10
+    
+  # Multi-Target
+  - id: "targets_yaml_exists"
+    description: "targets.yaml existiert"
+    check: "file_exists"
+    path: "registry/targets.yaml"
+    required: true
+    weight: 15
+    
+  - id: "deploy_script_exists"
+    description: "deploy.ps1 existiert"
+    check: "file_exists"
+    path: "scripts/deploy.ps1"
+    required: true
+    weight: 10
+    
+  # Dokumentation
+  - id: "main_readme_exists"
+    description: "Haupt-README.md existiert"
+    check: "file_exists"
+    path: "README.md"
+    required: true
+    weight: 5
+
+success_threshold: 80
+
+output:
+  format: "markdown"
+  location: "memory/evals/"

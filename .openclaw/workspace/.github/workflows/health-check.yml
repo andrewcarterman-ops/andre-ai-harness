@@ -1,0 +1,45 @@
+name: Daily Health Check
+
+on:
+  schedule:
+    - cron: '0 9 * * *'  # 9 AM UTC daily
+  workflow_dispatch:  # Manual trigger
+
+permissions:
+  contents: read
+
+jobs:
+  health:
+    name: Framework Health
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PowerShell
+        uses: PowerShell/PowerShell@v2
+
+      - name: Drift Check
+        shell: pwsh
+        run: |
+          .\scripts\drift-check.ps1
+          if ($LASTEXITCODE -ne 0) {
+            Write-Warning "Drift detected - review recommended"
+          }
+
+      - name: Backup Status
+        shell: pwsh
+        run: |
+          $backups = Get-ChildItem memory/backups -Directory -ErrorAction SilentlyContinue
+          if (-not $backups) {
+            Write-Warning "No backups found"
+          } else {
+            Write-Host "✅ $($backups.Count) backups available"
+          }
+
+      - name: Test Coverage
+        shell: pwsh
+        run: |
+          $evals = Get-ChildItem registry/eval-*.yaml
+          Write-Host "Found $($evals.Count) eval configurations"

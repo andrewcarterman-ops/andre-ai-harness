@@ -1,0 +1,62 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate Version
+        shell: pwsh
+        run: |
+          $tag = "${{ github.ref_name }}"
+          $manifest = Get-Content registry/install-manifest.yaml -Raw
+          
+          if (-not ($manifest -match $tag)) {
+            Write-Error "Version mismatch: tag $tag not found in manifest"
+            exit 1
+          }
+          
+          Write-Host "✅ Version validated: $tag"
+
+      - name: Package Framework
+        shell: pwsh
+        run: |
+          $version = "${{ github.ref_name }}"
+          $packageName = "modular-agent-framework-$version"
+          
+          # Create package
+          Compress-Archive -Path @(
+            "registry",
+            "agents",
+            "skills",
+            "contexts",
+            "schemas",
+            "scripts",
+            "tests",
+            "docs",
+            "README.md",
+            "LICENSE"
+          ) -DestinationPath "$packageName.zip" -Force
+          
+          Write-Host "✅ Package created: $packageName.zip"
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            *.zip
+          generate_release_notes: true
+          draft: false
+          prerelease: false

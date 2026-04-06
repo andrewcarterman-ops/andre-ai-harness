@@ -1,0 +1,27 @@
+    def list_available_models(self, task_type: Optional[TaskType] = None) -> List[str]:
+        """
+        Listet alle verfügbaren Modelle auf.
+        
+        Args:
+            task_type: Optional - nur Modelle für diesen Task
+            
+        Returns:
+            Liste von Modell-IDs
+        """
+        if task_type:
+            return self.registry.TASK_MODELS.get(task_type, [])
+        return list(self.registry.MODELS.keys())
+    
+    def get_model_info(self, model_id: str) -> Optional[ModelCapabilities]:
+        """
+        Gibt Info zu einem Modell zurück.
+        
+        Args:
+            model_id: Modell-ID (z.B. "k2p5")
+            
+        Returns:
+            ModelCapabilities oder None
+        """
+        return self.registry.MODELS.get(model_id)
+    
+    def get_model_for_openclaw_config(self, config: Dict[str, Any]) -> ModelCapabilities:

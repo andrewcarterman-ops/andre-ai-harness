@@ -1,0 +1,79 @@
+# Integration Eval - Komplettes Framework
+# Testet alle Phasen und Integrationen
+
+eval_id: "eval-integration-001"
+title: "Test: Komplettes Framework Integration"
+description: "Validiert das gesamte Framework über alle Phasen"
+phase: "all"
+created_at: "2026-03-25T22:56:00+01:00"
+
+target:
+  type: "integration"
+  name: "Full Framework"
+
+criteria:
+  # Phase 1
+  - id: "phase1_complete"
+    description: "Phase 1 Registry vollständig"
+    check: "eval_passed"
+    eval_file: "registry/eval-phase1.yaml"
+    required: true
+    weight: 20
+    
+  # Phase 2
+  - id: "phase2_complete"
+    description: "Phase 2 Cognitive vollständig"
+    check: "eval_passed"
+    eval_file: "registry/eval-phase2.yaml"
+    required: true
+    weight: 20
+    
+  # Phase 3
+  - id: "phase3_complete"
+    description: "Phase 3 Persistence vollständig"
+    check: "eval_passed"
+    eval_file: "registry/eval-phase3.yaml"
+    required: true
+    weight: 20
+    
+  # Phase 4
+  - id: "phase4_complete"
+    description: "Phase 4 Operations vollständig"
+    check: "eval_passed"
+    eval_file: "registry/eval-phase4.yaml"
+    required: true
+    weight: 20
+    
+  # Integrationen
+  - id: "all_registry_files_exist"
+    description: "Alle Registry-Dateien vorhanden"
+    check: "files_exist"
+    paths:
+      - "registry/agents.yaml"
+      - "registry/skills.yaml"
+      - "registry/hooks.yaml"
+      - "registry/projects.yaml"
+      - "registry/search-index.json"
+      - "registry/review-config.yaml"
+      - "registry/audit-config.yaml"
+      - "registry/drift-config.yaml"
+      - "registry/targets.yaml"
+      - "registry/install-manifest.yaml"
+    required: true
+    weight: 10
+    
+  - id: "all_scripts_exist"
+    description: "Alle Skripte vorhanden"
+    check: "files_exist"
+    paths:
+      - "scripts/install-check.ps1"
+      - "scripts/drift-check.ps1"
+      - "scripts/deploy.ps1"
+    required: true
+    weight: 10
+
+success_threshold: 90
+
+output:
+  format: "markdown"
+  location: "memory/evals/"

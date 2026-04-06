@@ -1,0 +1,359 @@
+// lib/ai/agent.ts - AI Agent Service for Autonomous Task Execution
+
+import { Task, Activity, Memory, Assignee } from '@/types';
+
+interface AIAgentConfig {
+  id: string;
+  name: string;
+  role: string;
+  capabilities: string[];
+  maxConcurrentTasks: number;
+  autoExecute: boolean;
+}
+
+interface TaskHandler {
+  canHandle: (task: Task) => boolean;
+  execute: (task: Task) => Promise<TaskExecutionResult>;
+}
+
+interface TaskExecutionResult {
+  success: boolean;
+  output?: string;
+  error?: string;
+  artifacts?: Record<string, any>;
+}
+
+export class AIAgentService {
+  private config: AIAgentConfig;
+  private currentTasks: Map<string, Task> = new Map();
+  private isRunning: boolean = false;
+  private checkInterval: NodeJS.Timeout | null = null;
+  private taskHandlers: TaskHandler[] = [];
+
+  constructor(config: AIAgentConfig) {
+    this.config = config;
+    this.registerDefaultHandlers();
+  }
+
+  // Register task handlers
+  private registerDefaultHandlers() {
+    // Code generation handler
+    this.registerHandler({
+      canHandle: (task) => 
+        task.tags.includes('coding') || 
+        task.tags.includes('development') ||
+        /implement|code|fix|refactor|create/i.test(task.title),
+      execute: async (task) => {
+        console.log(`[AI] Executing code task: ${task.title}`);
+        
+        // Simulate code generation
+        await this.simulateWork(task.estimatedHours || 1);
+        
+        return {
+          success: true,
+          output: `Generated code for: ${task.title}`,
+          artifacts: {
+            files: ['src/generated.ts'],
+            linesOfCode: Math.floor(Math.random() * 100) + 20,
+          },
+        };
+      },
+    });
+
+    // Documentation handler
+    this.registerHandler({
+      canHandle: (task) => 
+        task.tags.includes('documentation') ||
+        /document|readme|wiki|guide/i.test(task.title),
+      execute: async (task) => {
+        console.log(`[AI] Executing documentation task: ${task.title}`);
+        
+        await this.simulateWork(task.estimatedHours || 0.5);
+        
+        return {
+          success: true,
+          output: `Created documentation for: ${task.title}`,
+          artifacts: {
+            documents: ['docs/generated.md'],
+            wordCount: Math.floor(Math.random() * 500) + 100,
+          },
+        };
+      },
+    });
+
+    // Research handler
+    this.registerHandler({
+      canHandle: (task) => 
+        task.tags.includes('research') ||
+        /research|investigate|analyze|study/i.test(task.title),
+      execute: async (task) => {
+        console.log(`[AI] Executing research task: ${task.title}`);
+        
+        await this.simulateWork(task.estimatedHours || 2);
+        
+        return {
+          success: true,
+          output: `Research completed for: ${task.title}`,
+          artifacts: {
+            findings: ['Research findings summary'],
+            sources: 5,
+          },
+        };
+      },
+    });
+
+    // Default handler (fallback)
+    this.registerHandler({
+      canHandle: () => true,
+      execute: async (task) => {
+        console.log(`[AI] Executing generic task: ${task.title}`);
+        
+        await this.simulateWork(task.estimatedHours || 0.5);
+        
+        return {
+          success: true,
+          output: `Task completed: ${task.title}`,
+        };
+      },
+    });
+  }
+
+  registerHandler(handler: TaskHandler) {
+    this.taskHandlers.push(handler);
+  }
+
+  // Start the AI agent
+  async start() {
+    if (this.isRunning) return;
+    
+    this.isRunning = true;
+    console.log(`[AI] Agent ${this.config.name} started`);
+    
+    // Update agent status
+    await this.updateAgentStatus('idle');
+    
+    // Start checking for tasks
+    this.checkInterval = setInterval(() => {
+      this.checkAndExecuteTasks();
+    }, 5000);
+    
+    // Initial check
+    await this.checkAndExecuteTasks();
+  }
+
+  // Stop the AI agent
+  stop() {
+    this.isRunning = false;
+    if (this.checkInterval) {
+      clearInterval(this.checkInterval);
+      this.checkInterval = null;
+    }
+    console.log(`[AI] Agent ${this.config.name} stopped`);
+  }
+
+  // Main task checking loop
+  private async checkAndExecuteTasks() {
+    if (!this.config.autoExecute) return;
+    if (this.currentTasks.size >= this.config.maxConcurrentTasks) return;
+
+    try {
+      // Fetch available AI tasks
+      const response = await fetch('/api/tasks?assignee=ai&status=backlog');
+      if (!response.ok) return;
+      
+      const availableTasks: Task[] = await response.json();
+      
+      // Filter out tasks already being processed
+      const newTasks = availableTasks.filter(
+        (t) => !this.currentTasks.has(t.id)
+      );
+
+      if (newTasks.length === 0) return;
+
+      // Claim and execute the next task
+      const task = newTasks[0];
+      await this.executeTask(task);
+
+    } catch (error) {
+      console.error('[AI] Error checking for tasks:', error);
+    }
+  }
+
+  // Execute a single task
+  private async executeTask(task: Task) {
+    this.currentTasks.set(task.id, task);
+    
+    console.log(`[AI] Starting task: ${task.title}`);
+    
+    try {
+      // Update status to in_progress
+      await this.updateTaskStatus(task.id, 'in_progress');
+      await this.updateAgentStatus('working', task.id);
+
+      // Find appropriate handler
+      const handler = this.taskHandlers.find((h) => h.canHandle(task));
+      if (!handler) {
+        throw new Error('No handler found for task');
+      }
+
+      // Execute the task
+      const result = await handler.execute(task);
+
+      if (result.success) {
+        // Mark as completed
+        await this.updateTaskStatus(task.id, 'done');
+        
+        // Create memory of completion
+        await this.createMemory({
+          content: `Successfully completed task "${task.title}". ${result.output}`,
+          type: 'action',
+          taskId: task.id,
+          importance: 7,
+          tags: [...task.tags, 'completed', 'ai-action'],
+        });
+
+        // Log activity
+        await this.logActivity({
+          type: 'task_completed',
+          actor: this.getAgentAssignee(),
+          targetType: 'task',
+          targetId: task.id,
+          targetName: task.title,
+          action: 'completed',
+          metadata: result.artifacts,
+        });
+
+        console.log(`[AI] Task completed: ${task.title}`);
+      } else {
+        throw new Error(result.error || 'Task execution failed');
+      }
+
+    } catch (error) {
+      console.error(`[AI] Task execution failed: ${task.title}`, error);
+      
+      // Move back to backlog
+      await this.updateTaskStatus(task.id, 'backlog');
+      
+      // Create error memory
+      await this.createMemory({
+        content: `Failed to complete task "${task.title}". Error: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        type: 'observation',
+        taskId: task.id,
+        importance: 8,
+        tags: [...task.tags, 'failed', 'error'],
+      });
+
+    } finally {
+      this.currentTasks.delete(task.id);
+      await this.updateAgentStatus(this.currentTasks.size > 0 ? 'working' : 'idle');
+    }
+  }
+
+  // Helper methods
+  private async updateTaskStatus(taskId: string, status: Task['status']) {
+    await fetch(`/api/tasks/${taskId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status }),
+    });
+  }
+
+  private async updateAgentStatus(status: 'idle' | 'working' | 'paused', currentTaskId?: string) {
+    await fetch(`/api/agents/${this.config.id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status, currentTaskId }),
+    });
+  }
+
+  private async createMemory(memory: Partial<Memory>) {
+    await fetch('/api/memories', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ...memory,
+        agentId: this.config.id,
+        date: new Date(),
+        source: this.config.name,
+      }),
+    });
+  }
+
+  private async logActivity(activity: Partial<Activity>) {
+    await fetch('/api/activities', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ...activity,
+        timestamp: new Date(),
+      }),
+    });
+  }
+
+  private getAgentAssignee(): Assignee {
+    return {
+      id: this.config.id,
+      type: 'ai',
+      name: this.config.name,
+    };
+  }
+
+  private async simulateWork(hours: number): Promise<void> {
+    // In demo mode, speed up (1 second per hour)
+    const workTime = Math.min(hours * 1000, 10000);
+    await new Promise((resolve) => setTimeout(resolve, workTime));
+  }
+
+  // Public methods for manual control
+  async claimTask(taskId: string): Promise<boolean> {
+    try {
+      const response = await fetch(`/api/tasks/${taskId}`);
+      if (!response.ok) return false;
+      
+      const task: Task = await response.json();
+      
+      if (task.status !== 'backlog') return false;
+      
+      await this.executeTask(task);
+      return true;
+    } catch (error) {
+      console.error('[AI] Failed to claim task:', error);
+      return false;
+    }
+  }
+
+  getCurrentTasks(): Task[] {
+    return Array.from(this.currentTasks.values());
+  }
+
+  getStats() {
+    return {
+      isRunning: this.isRunning,
+      currentTasks: this.currentTasks.size,
+      maxConcurrent: this.config.maxConcurrentTasks,
+      capabilities: this.config.capabilities,
+    };
+  }
+}
+
+// Singleton instance
+export const aiAgent = new AIAgentService({
+  id: 'ai-agent-1',
+  name: 'Mission AI',
+  role: 'Autonomous Task Executor',
+  capabilities: ['coding', 'documentation', 'research', 'analysis'],
+  maxConcurrentTasks: 3,
+  autoExecute: true,
+});
+
+// Hook for React components
+export function useAIAgent() {
+  return {
+    agent: aiAgent,
+    start: () => aiAgent.start(),
+    stop: () => aiAgent.stop(),
+    claimTask: (taskId: string) => aiAgent.claimTask(taskId),
+    getStats: () => aiAgent.getStats(),
+    getCurrentTasks: () => aiAgent.getCurrentTasks(),
+  };
+}
