@@ -1,0 +1,168 @@
+﻿{
+    "hubs":  [
+                 {
+                     "name":  "Dashboard",
+                     "backlinks":  2
+                 },
+                 {
+                     "name":  "Project-Template",
+                     "backlinks":  1
+                 },
+                 {
+                     "name":  "README",
+                     "backlinks":  1
+                 },
+                 {
+                     "name":  "Decision-Template",
+                     "backlinks":  0
+                 },
+                 {
+                     "name":  "Session-Template",
+                     "backlinks":  0
+                 },
+                 {
+                     "name":  "MOC-Startseite",
+                     "backlinks":  0
+                 },
+                 {
+                     "name":  "Session-20260326",
+                     "backlinks":  0
+                 },
+                 {
+                     "name":  "Projects-Overview",
+                     "backlinks":  0
+                 }
+             ],
+    "broken_links":  24,
+    "connected_notes":  5,
+    "notes":  [
+                  {
+                      "file":  "MOC-Startseite.md",
+                      "name":  "MOC-Startseite",
+                      "backlinks":  0,
+                      "outgoing_links":  6,
+                      "tags":  "",
+                      "size":  1971,
+                      "importance_score":  0,
+                      "is_orphan":  false,
+                      "broken_links":  5,
+                      "recommendation":  "KEEP",
+                      "reason":  "Active knowledge"
+                  },
+                  {
+                      "file":  "README.md",
+                      "name":  "README",
+                      "backlinks":  1,
+                      "outgoing_links":  0,
+                      "tags":  "architecture, decision",
+                      "size":  3100,
+                      "importance_score":  3,
+                      "is_orphan":  false,
+                      "broken_links":  0,
+                      "recommendation":  "KEEP",
+                      "reason":  "Active knowledge"
+                  },
+                  {
+                      "file":  "00-Dashboard\\Dashboard.md",
+                      "name":  "Dashboard",
+                      "backlinks":  2,
+                      "outgoing_links":  5,
+                      "tags":  "",
+                      "size":  1469,
+                      "importance_score":  2,
+                      "is_orphan":  false,
+                      "broken_links":  5,
+                      "recommendation":  "KEEP",
+                      "reason":  "Active knowledge"
+                  },
+                  {
+                      "file":  "01-Sessions\\Session-20260326.md",
+                      "name":  "Session-20260326",
+                      "backlinks":  0,
+                      "outgoing_links":  9,
+                      "tags":  "framework, implementation, ecc-integration",
+                      "size":  1545,
+                      "importance_score":  1,
+                      "is_orphan":  false,
+                      "broken_links":  7,
+                      "recommendation":  "KEEP",
+                      "reason":  "Active knowledge"
+                  },
+                  {
+                      "file":  "02-Areas\\Projects\\Projects-Overview.md",
+                      "name":  "Projects-Overview",
+                      "backlinks":  0,
+                      "outgoing_links":  1,
+                      "tags":  "",
+                      "size":  636,
+                      "importance_score":  0,
+                      "is_orphan":  true,
+                      "broken_links":  0,
+                      "recommendation":  "REVIEW",
+                      "reason":  "Orphaned but has content"
+                  },
+                  {
+                      "file":  "05-Templates\\Decision-Template.md",
+                      "name":  "Decision-Template",
+                      "backlinks":  0,
+                      "outgoing_links":  2,
+                      "tags":  "adr, decision",
+                      "size":  757,
+                      "importance_score":  2,
+                      "is_orphan":  true,
+                      "broken_links":  2,
+                      "recommendation":  "REVIEW",
+                      "reason":  "Orphaned but has content"
+                  },
+                  {
+                      "file":  "05-Templates\\Project-Template.md",
+                      "name":  "Project-Template",
+                      "backlinks":  1,
+                      "outgoing_links":  2,
+                      "tags":  "project",
+                      "size":  998,
+                      "importance_score":  0,
+                      "is_orphan":  false,
+                      "broken_links":  2,
+                      "recommendation":  "KEEP",
+                      "reason":  "Active knowledge"
+                  },
+                  {
+                      "file":  "05-Templates\\Session-Template.md",
+                      "name":  "Session-Template",
+                      "backlinks":  0,
+                      "outgoing_links":  3,
+                      "tags":  "",
+                      "size":  776,
+                      "importance_score":  0,
+                      "is_orphan":  true,
+                      "broken_links":  3,
+                      "recommendation":  "REVIEW",
+                      "reason":  "Orphaned but has content"
+                  }
+              ],
+    "vault_path":  "C:\\Users\\andre\\.openclaw\\workspace\\second-brain",
+    "timestamp":  "2026-03-26T01:31:07.2843885+01:00",
+    "orphans":  [
+                    {
+                        "name":  "Projects-Overview",
+                        "size":  636,
+                        "recommendation":  "REVIEW",
+                        "reason":  "Orphaned but has content"
+                    },
+                    {
+                        "name":  "Decision-Template",
+                        "size":  757,
+                        "recommendation":  "REVIEW",
+                        "reason":  "Orphaned but has content"
+                    },
+                    {
+                        "name":  "Session-Template",
+                        "size":  776,
+                        "recommendation":  "REVIEW",
+                        "reason":  "Orphaned but has content"
+                    }
+                ],
+    "orphaned_notes":  3,
+    "total_notes":  8
+}

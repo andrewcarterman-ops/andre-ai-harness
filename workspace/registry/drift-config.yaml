@@ -1,0 +1,100 @@
+# Drift Doctor - Implementation
+# Format: YAML 1.2
+
+version: "1.0"
+last_updated: "2026-03-25T22:56:00+01:00"
+
+# Drift Detection Einstellungen
+settings:
+  name: "Drift Doctor"
+  description: "Erkennt Abweichungen zwischen Soll- und Ist-Zustand"
+  
+  # Ausführung
+  frequency: "on-demand"  # on-demand | before-session | daily
+  auto_check: false
+  
+  # Reporting
+  output_format: "markdown"
+  output_path: "memory/drift/"
+  
+  # Schwelle für Warnungen
+  thresholds:
+    critical: 1   # Ab sofort warnen
+    warning: 3    # Ab 3 Drifts warnen
+    info: 5       # Ab 5 nur Info
+
+# Was wird geprüft
+checks:
+  files:
+    enabled: true
+    verify_checksums: true
+    verify_permissions: false  # Nicht auf Windows
+    
+  registry:
+    enabled: true
+    verify_references: true    # Prüft ob Referenzen valide sind
+    
+  directories:
+    enabled: true
+    verify_structure: true
+
+# Drift-Arten und ihre Behandlung
+drift_types:
+  file_missing:
+    severity: "critical"
+    description: "Datei im Manifest fehlt im System"
+    auto_fix: false
+    action: "report"
+    
+  file_untracked:
+    severity: "info"
+    description: "Datei existiert nicht im Manifest"
+    auto_fix: false
+    action: "suggest_add"
+    
+  checksum_mismatch:
+    severity: "warning"
+    description: "Datei wurde verändert"
+    auto_fix: false
+    action: "report"
+    
+  size_changed:
+    severity: "info"
+    description: "Dateigröße hat sich geändert"
+    auto_fix: false
+    action: "report"
+    
+  reference_broken:
+    severity: "warning"
+    description: "Referenz zeigt auf nicht-existentes Ziel"
+    auto_fix: false
+    action: "report"
+
+# Integrations
+integrations:
+  install_manifest:
+    primary_source: true
+    path: "registry/install-manifest.yaml"
+    
+  audit:
+    trigger_on_drift: true
+    severity_threshold: "warning"
+    
+  hooks:
+    session:start:
+      check_drift: false  # Noch nicht aktiv
+    
+  self_improving:
+    log_patterns: true
+    pattern_file: "memory/self-improving/drift-patterns.md"
+
+# Report-Template
+report_template:
+  filename: "DRIFT-{timestamp}.md"
+  sections:
+    - summary
+    - critical
+    - warnings
+    - info
+    - recommendations
+    - checksums

@@ -1,0 +1,118 @@
+# Project Registry - Phase 3 Minimal
+# Format: YAML 1.2
+
+version: "1.0"
+last_updated: "2026-03-25T22:46:00+01:00"
+
+# Projekt-Definitionen
+projects:
+  - id: "proj-modular-agent"
+    name: "Modulares Agentisches Framework"
+    description: "Aufbau eines modularen, erweiterbaren Agenten-Frameworks basierend auf OpenClaw"
+    status: "active"  # active | paused | completed | archived
+    priority: "high"
+    
+    # Zeitrahmen
+    timeline:
+      started_at: "2026-03-25"
+      target_completion: "2026-04-15"
+      actual_completion: null
+    
+    # Ziele
+    objectives:
+      - "Etablierung einer Registry-Infrastruktur (Phase 1)"
+      - "Kognitive Schicht mit Planung und Review (Phase 2)"
+      - "Persistenz und projektspezifisches Lernen (Phase 3)"
+      - "Selektive Installation und Multi-Target-Adapter (Phase 4)"
+    
+    # Phasen-Tracking
+    phases:
+      - id: "1"
+        name: "Registry Foundation"
+        status: "completed"
+        completed_at: "2026-03-25T22:15:00+01:00"
+        
+      - id: "2"
+        name: "Cognitive Layer"
+        status: "completed"
+        completed_at: "2026-03-25T22:40:00+01:00"
+        
+      - id: "3"
+        name: "Persistence & Learning"
+        status: "active"
+        started_at: "2026-03-25T22:45:00+01:00"
+        
+      - id: "4"
+        name: "Deployment & Adapters"
+        status: "pending"
+    
+    # Verknüpfte Sessions
+    sessions:
+      - session_id: "SESSION-20260325-224500-001"
+        date: "2026-03-25"
+        description: "Phase 3 Session Store Implementierung"
+        outcome: "success"
+    
+    # Genutzte Skills
+    skills:
+      - "secure-api-client"
+      - "mission-control"
+      - "self-improving-andrew"
+    
+    # Projekt-spezifische Pfade
+    paths:
+      docs: "docs/modular-agent-framework/"
+      sessions: "memory/sessions/"
+      learning: "memory/self-improving/projects/proj-modular-agent/"
+    
+    # Agent-Zuordnung
+    assigned_agents:
+      - "andrew-main"
+    
+    # Projekt-spezifisches Lernen
+    learning_config:
+      enabled: true
+      patterns_file: "memory/self-improving/projects/proj-modular-agent/patterns.md"
+      preferences_file: "memory/self-improving/projects/proj-modular-agent/preferences.md"
+      auto_extract: true
+    
+    # Tags
+    tags:
+      - "architecture"
+      - "framework"
+      - "openclaw"
+      - "phase-3"
+    
+    # Notizen
+    notes: |
+      Hauptprojekt für den kontrollierten Aufbau eines modularen
+      agentischen Frameworks. Strikte Phasenabfolge, keine
+      ungeprüften Übernahmen aus fremden Frameworks.
+
+# Projekt-Templates (für zukünftige Projekte)
+templates:
+  - id: "template-web-app"
+    name: "Web Application"
+    description: "Standard-Template für Web-App-Projekte"
+    default_skills:
+      - "secure-api-client"
+      - "mission-control"
+    default_paths:
+      docs: "docs/{project-id}/"
+      src: "src/{project-id}/"
+    
+  - id: "template-data-analysis"
+    name: "Data Analysis"
+    description: "Template für Datenanalyse-Projekte"
+    default_skills:
+      - "secure-api-client"
+    default_paths:
+      data: "data/{project-id}/"
+      notebooks: "notebooks/{project-id}/"
+
+# Global-Einstellungen
+globals:
+  default_agent: "andrew-main"
+  sessions_auto_link: true
+  learning_enabled_by_default: true
+  archive_after_days: 365

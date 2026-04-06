@@ -1,0 +1,33 @@
+// lib/db/index.ts - Database Connection Setup
+
+import { drizzle } from 'drizzle-orm/better-sqlite3';
+import Database from 'better-sqlite3';
+import * as schema from './schema';
+
+// Initialize SQLite database
+const sqlite = new Database(process.env.DATABASE_URL || './sqlite.db');
+
+// Enable WAL mode for better concurrency
+sqlite.pragma('journal_mode = WAL');
+
+// Create Drizzle ORM instance
+export const db = drizzle(sqlite, { schema });
+
+// Export schema for use in other files
+export * from './schema';
+
+// Helper function to run migrations
+export async function runMigrations() {
+  // This would run your migration files
+  // For production, use drizzle-kit migrate
+  console.log('Database connected successfully');
+}
+
+// Helper for transactions
+export async function withTransaction<T>(
+  fn: (tx: typeof db) => Promise<T>
+): Promise<T> {
+  return db.transaction(async (tx) => {
+    return fn(tx as unknown as typeof db);
+  });
+}

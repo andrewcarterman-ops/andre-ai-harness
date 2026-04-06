@@ -1,0 +1,17 @@
+[package]
+name = "safe-file-ops"
+version = "0.1.0"
+edition = "2021"
+authors = ["Andrew (OpenClaw) <openclaw@ecc-framework.local>"]
+description = "Safe file operations with pre-flight checks and automatic fallbacks"
+license = "MIT"
+
+[dependencies]
+# No external dependencies - pure std
+
+[dev-dependencies]
+tempfile = "3.8"
+
+[lib]
+name = "safe_file_ops"
+path = "src/lib.rs"

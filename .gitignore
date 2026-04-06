@@ -1,0 +1,85 @@
+
+# === SYSTEM & SENSITIVE DATEN (ABSOLUT NOTWENDIG) ===
+#agents/                    # Chat-Sessions, Auth-Profile, Logs
+credentials/               # API-Keys, Tokens, Telegram-Pairing
+browser/                   # Browser-Cache, Cookies, Extension-Daten
+#sandboxes/                 # Sandboxed Agents (duplizierte Skills + Secrets)
+#cron/runs/                 # Cron-Logs
+delivery-queue/            # Temporäre Queue-Daten
+devices/                   # Geräte-Pairing-Daten
+exec-approvals.json        # Sicherheits-Approvals
+identity/                  # Device-Auth, Identität
+media/inbound/             # Temporäre Uploads/Downloads
+#openclaw.json              # Hauptkonfiguration (kann Secrets enthalten)
+#openclaw.json.*            # Alle Backups davon
+#registry/                  # Registry-Hooks
+#subagents/                 # Subagent-Logs
+telegram/                  # Telegram-Konfiguration
+update-check.json          # Update-Daten
+canvas/                    # Canvas-Runtime-Daten
+completions/               # Shell-Completion-Scripts (generierbar)
+#hooks/                     # Session-Hooks
+
+
+# fuer workspace
+# Das fängt 17k+ .js, .ts, .map, .json ab:
+node_modules/
+
+# Das fängt 7k+ .o, .rmeta, .rlib, .pdb, .exe ab:
+target/
+**/target/
+
+# Das fängt .timestamp, .old, logs ab:
+*.timestamp
+*.old
+*.log
+logs/
+
+# Python-Cache (Teil der .pyc, __pycache__):
+__pycache__/
+*.py[cod]
+
+# Obsidian-System (nicht deine Notizen):
+.obsidian/
+
+# Temporäre Dateien:
+*.tmp
+.cache/
+
+# Logs & temporäre Daten
+*.log
+logs/
+*.tmp
+*.cache
+.cache/
+
+# Lokale Datenbanken (werden zur Laufzeit erstellt)
+*.db
+*.sqlite
+*.sqlite3
+data/local.db
+
+# API-Keys, Tokens, persönliche Config
+.env
+.env.local
+secrets.json
+config.local.json
+telegram_bot_token.txt
+api_keys.json
+
+# Persönliche Obsidian-Einstellungen (nicht die Inhalte!)
+.obsidian/workspace.json
+.obsidian/graph.json
+
+# Modelle/AI-Weights (falls du die lokal hast)
+*.gguf
+*.bin
+*.onnx
+models/
+weights/
+
+# Build-Ausgaben (sind Daten, nicht Quellcode)
+/target/
+node_modules/
+dist/
+build/

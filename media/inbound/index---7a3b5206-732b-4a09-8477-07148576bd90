@@ -1,0 +1,240 @@
+// types/index.ts - Core TypeScript Interfaces for Mission Control Dashboard
+
+// ==================== TASK SYSTEM ====================
+
+export type TaskStatus = 'backlog' | 'in_progress' | 'review' | 'done';
+export type TaskPriority = 'low' | 'medium' | 'high' | 'urgent';
+export type AssigneeType = 'user' | 'ai';
+
+export interface Task {
+  id: string;
+  title: string;
+  description: string;
+  status: TaskStatus;
+  priority: TaskPriority;
+  assignee: Assignee;
+  projectId?: string;
+  tags: string[];
+  dueDate?: Date;
+  scheduledAt?: Date;           // For cron/scheduled tasks
+  cronExpression?: string;      // Recurring task pattern
+  estimatedHours?: number;
+  actualHours?: number;
+  createdAt: Date;
+  updatedAt: Date;
+  completedAt?: Date;
+  parentTaskId?: string;        // For subtasks
+  subtasks: string[];
+  metadata: Record<string, any>;
+}
+
+export interface Assignee {
+  id: string;
+  type: AssigneeType;
+  name: string;
+  avatar?: string;
+}
+
+// ==================== PROJECT SYSTEM ====================
+
+export type ProjectStatus = 'planning' | 'active' | 'paused' | 'completed' | 'archived';
+
+export interface Project {
+  id: string;
+  name: string;
+  description: string;
+  status: ProjectStatus;
+  progress: number;             // 0-100
+  startDate?: Date;
+  targetDate?: Date;
+  completedDate?: Date;
+  taskCount: {
+    total: number;
+    completed: number;
+  };
+  linkedMemories: string[];     // Memory IDs
+  linkedDocs: string[];         // Document IDs
+  color: string;                // Theme color
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+// ==================== MEMORY SYSTEM ====================
+
+export type MemoryType = 'observation' | 'action' | 'decision' | 'conversation' | 'insight';
+
+export interface Memory {
+  id: string;
+  content: string;
+  type: MemoryType;
+  date: Date;
+  tags: string[];
+  importance: number;           // 1-10 for long-term storage
+  projectId?: string;
+  taskId?: string;
+  agentId?: string;
+  embedding?: number[];         // For semantic search
+  source: string;               // Origin of memory
+  relatedMemories: string[];    // Linked memory IDs
+}
+
+export interface MemoryDay {
+  date: string;                 // YYYY-MM-DD
+  memories: Memory[];
+  summary?: string;             // AI-generated daily summary
+}
+
+// ==================== DOCUMENT SYSTEM ====================
+
+export type DocCategory = 
+  | 'requirements' 
+  | 'architecture' 
+  | 'api' 
+  | 'guide' 
+  | 'meeting' 
+  | 'research' 
+  | 'other';
+
+export interface Doc {
+  id: string;
+  title: string;
+  content: string;
+  category: DocCategory;
+  tags: string[];
+  projectId?: string;
+  createdBy: string;
+  updatedBy: string;
+  createdAt: Date;
+  updatedAt: Date;
+  version: number;
+  isArchived: boolean;
+  searchIndex: string;          // For full-text search
+}
+
+// ==================== AGENT/TEAM SYSTEM ====================
+
+export type AgentStatus = 'idle' | 'working' | 'paused' | 'offline';
+
+export interface Agent {
+  id: string;
+  name: string;
+  role: string;
+  avatar: string;
+  status: AgentStatus;
+  currentTask?: string;
+  deviceInfo?: {
+    type: string;
+    os: string;
+    lastSeen: Date;
+  };
+  capabilities: string[];
+  performance: {
+    tasksCompleted: number;
+    avgCompletionTime: number;
+    successRate: number;
+  };
+  officePosition?: {
+    x: number;
+    y: number;
+  };
+  createdAt: Date;
+}
+
+export interface Team {
+  id: string;
+  name: string;
+  mission: string;
+  agents: Agent[];
+  hierarchy: TeamNode[];
+}
+
+export interface TeamNode {
+  agentId: string;
+  reportsTo?: string;
+  role: string;
+}
+
+// ==================== ACTIVITY SYSTEM ====================
+
+export type ActivityType = 
+  | 'task_created'
+  | 'task_updated'
+  | 'task_completed'
+  | 'task_assigned'
+  | 'task_moved'
+  | 'project_created'
+  | 'project_updated'
+  | 'doc_created'
+  | 'doc_updated'
+  | 'memory_created'
+  | 'agent_action'
+  | 'system_event';
+
+export interface Activity {
+  id: string;
+  type: ActivityType;
+  actor: Assignee;
+  targetType: 'task' | 'project' | 'doc' | 'memory' | 'system';
+  targetId: string;
+  targetName: string;
+  action: string;
+  metadata: Record<string, any>;
+  timestamp: Date;
+}
+
+// ==================== SCHEDULE SYSTEM ====================
+
+export interface ScheduledJob {
+  id: string;
+  name: string;
+  cronExpression: string;
+  taskTemplate: Partial<Task>;
+  isActive: boolean;
+  lastRun?: Date;
+  nextRun?: Date;
+  runCount: number;
+  createdAt: Date;
+}
+
+// ==================== OFFICE/VISUALIZATION ====================
+
+export interface OfficeState {
+  width: number;
+  height: number;
+  gridSize: number;
+  agents: OfficeAgent[];
+  furniture: Furniture[];
+}
+
+export interface OfficeAgent {
+  agentId: string;
+  position: { x: number; y: number };
+  targetPosition?: { x: number; y: number };
+  direction: 'up' | 'down' | 'left' | 'right';
+  isMoving: boolean;
+  currentDeskId?: string;
+}
+
+export interface Furniture {
+  id: string;
+  type: 'desk' | 'chair' | 'plant' | 'whiteboard' | 'door';
+  position: { x: number; y: number };
+  size: { width: number; height: number };
+  assignedAgentId?: string;
+}
+
+// ==================== API RESPONSE TYPES ====================
+
+export interface ApiResponse<T> {
+  data?: T;
+  error?: string;
+  message?: string;
+}
+
+export interface PaginatedResponse<T> {
+  data: T[];
+  total: number;
+  page: number;
+  pageSize: number;
+  hasMore: boolean;
+}

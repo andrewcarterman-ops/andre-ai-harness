@@ -1,0 +1,156 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "last_updated": "2026-03-25T22:34:00+01:00",
+    "type": "keyword-index",
+    "generator": "phase2-search-index-generator",
+    "source_files": [
+      "registry/skills.yaml",
+      "registry/agents.yaml",
+      "registry/hooks.yaml"
+    ]
+  },
+  "stats": {
+    "total_entries": 8,
+    "skills": 5,
+    "agents": 1,
+    "hooks": 2,
+    "keywords_unique": 42
+  },
+  "entries": [
+    {
+      "id": "example-weather",
+      "type": "skill",
+      "name": "example-weather",
+      "description": "Fetch weather data from external APIs",
+      "keywords": ["weather", "forecast", "temperature", "current weather", "api", "external", "openweathermap", "location", "city"],
+      "category": "external-api",
+      "triggers": ["weather", "forecast", "temperature"],
+      "requires_env": ["WEATHER_API_KEY"],
+      "path": "skills/example-weather",
+      "priority": 100
+    },
+    {
+      "id": "secure-api-client",
+      "type": "skill",
+      "name": "secure-api-client",
+      "description": "Secure HTTP API client with built-in security controls",
+      "keywords": ["api", "http", "https", "request", "client", "security", "authentication", "rate limiting", "timeout", "validation", "rest", "json"],
+      "category": "security",
+      "triggers": ["make API call", "fetch data from API", "secure HTTP request", "call REST API", "API client request"],
+      "requires_env": ["API_BASE_URL", "API_KEY", "API_TIMEOUT"],
+      "requires_tools": ["read", "write", "web_search"],
+      "path": "skills/secure-api-client",
+      "priority": 100
+    },
+    {
+      "id": "self-improving-andrew",
+      "type": "skill",
+      "name": "self-improving-andrew",
+      "description": "Self-improving agent that learns from corrections and feedback",
+      "keywords": ["learning", "feedback", "correction", "improvement", "preference", "memory", "pattern", "adaptation", "personalization"],
+      "category": "learning",
+      "triggers": ["feedback", "correction", "preference", "learn", "you should", "don't do", "I prefer"],
+      "memory_structure": ["memory/self-improving/hot.md", "memory/self-improving/corrections.md"],
+      "path": "skills/self-improving-andrew",
+      "priority": 90
+    },
+    {
+      "id": "mission-control",
+      "type": "skill",
+      "name": "mission-control",
+      "description": "Command center for creating, managing, and deploying tools/skills",
+      "keywords": ["tool", "skill", "create", "deploy", "package", "template", "scaffold", "generate", "mission control"],
+      "category": "tooling",
+      "triggers": ["create tool", "mission control", "deploy", "package", "new skill"],
+      "capabilities": ["create", "list", "edit", "test", "package"],
+      "path": "skills/mission-control",
+      "priority": 80
+    },
+    {
+      "id": "mission-control-v2",
+      "type": "skill",
+      "name": "mission-control-v2",
+      "description": "Enhanced version of mission-control with additional features",
+      "keywords": ["tool", "skill", "advanced", "enhanced", "v2", "typescript", "node"],
+      "category": "tooling",
+      "triggers": ["advanced tool", "mission control v2"],
+      "path": "skills/mission-control-v2",
+      "has_node_modules": true,
+      "priority": 70,
+      "note": "Contains node_modules - heavy dependency"
+    },
+    {
+      "id": "andrew-main",
+      "type": "agent",
+      "name": "Andrew",
+      "description": "Hauptagent für direkte Interaktion mit Parzival",
+      "keywords": ["andrew", "main", "primary", "assistant", "agent"],
+      "capabilities": ["chat", "file_access", "web_search", "web_fetch", "tool_use", "exec", "memory_access"],
+      "channels": ["webchat", "telegram", "terminal"],
+      "identity_file": "IDENTITY.md",
+      "soul_file": "SOUL.md",
+      "user_file": "USER.md",
+      "registry_scope": ["phase_1", "phase_2", "phase_3", "phase_4"],
+      "priority": 100
+    },
+    {
+      "id": "session:start",
+      "type": "hook",
+      "name": "Session Start",
+      "description": "Wird beim Start einer neuen Session ausgeführt",
+      "keywords": ["session", "start", "begin", "initialize", "setup", "hook"],
+      "trigger": "session initialization",
+      "handler_file": "hooks/session-start.md",
+      "enabled": true,
+      "priority": 100,
+      "async": false
+    },
+    {
+      "id": "session:end",
+      "type": "hook",
+      "name": "Session End",
+      "description": "Wird beim Ende einer Session ausgeführt",
+      "keywords": ["session", "end", "finish", "cleanup", "teardown", "hook"],
+      "trigger": "session termination",
+      "handler_file": "hooks/session-end.md",
+      "enabled": true,
+      "priority": 100,
+      "async": false
+    }
+  ],
+  "categories": {
+    "external-api": ["example-weather"],
+    "security": ["secure-api-client"],
+    "learning": ["self-improving-andrew"],
+    "tooling": ["mission-control", "mission-control-v2"]
+  },
+  "keyword_index": {
+    "weather": ["example-weather"],
+    "forecast": ["example-weather"],
+    "api": ["example-weather", "secure-api-client"],
+    "security": ["secure-api-client"],
+    "http": ["secure-api-client"],
+    "learning": ["self-improving-andrew"],
+    "feedback": ["self-improving-andrew"],
+    "tool": ["mission-control", "mission-control-v2"],
+    "skill": ["mission-control", "mission-control-v2"],
+    "session": ["session:start", "session:end"],
+    "agent": ["andrew-main"],
+    "chat": ["andrew-main"]
+  },
+  "search_config": {
+    "default_limit": 5,
+    "min_keyword_length": 3,
+    "case_sensitive": false,
+    "fuzzy_matching": false,
+    "priority_boost": 10
+  },
+  "examples": [
+    {"query": "weather", "expected_results": ["example-weather"]},
+    {"query": "api security", "expected_results": ["secure-api-client", "example-weather"]},
+    {"query": "learn from feedback", "expected_results": ["self-improving-andrew"]},
+    {"query": "create tool", "expected_results": ["mission-control", "mission-control-v2"]},
+    {"query": "session start", "expected_results": ["session:start"]}
+  ]
+}

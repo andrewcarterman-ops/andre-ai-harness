@@ -1,0 +1,208 @@
+# Command Registry
+# Format: YAML 1.2
+
+version: "1.2"
+last_updated: "2026-03-26T00:04:00+01:00"
+
+commands:
+  # Learning Commands
+  - name: "/learn"
+    description: "Extrahiert Patterns aus der aktuellen Session"
+    script: "scripts/cmd-learn.ps1"
+    category: "learning"
+    aliases: ["learn", "extract"]
+    
+  - name: "/checkpoint"
+    description: "Erstellt einen Checkpoint der aktuellen Session"
+    script: "scripts/cmd-checkpoint.ps1"
+    category: "session"
+    aliases: ["checkpoint", "save"]
+    
+  # Verification Commands
+  - name: "/verify"
+    description: "Verifiziert die Installation detailliert"
+    script: "scripts/cmd-verify.ps1"
+    category: "system"
+    aliases: ["verify", "check"]
+    
+  - name: "/install-check"
+    description: "Schneller Installations-Check"
+    script: "scripts/install-check.ps1"
+    category: "system"
+    aliases: ["install-check"]
+    
+  # Context Commands
+  - name: "/context"
+    description: "Zeigt oder wechselt den aktuellen Context"
+    script: "scripts/cmd-context.ps1"
+    category: "context"
+    aliases: ["context", "mode"]
+    args:
+      - name: "target"
+        optional: true
+        values: ["dev", "research", "review"]
+        
+  # System Commands
+  - name: "/drift"
+    description: "Prüft auf Konfigurations-Drift"
+    script: "scripts/drift-check.ps1"
+    category: "system"
+    aliases: ["drift", "diff"]
+    
+  - name: "/backup"
+    description: "Backup und Restore des Frameworks"
+    script: "scripts/cmd-backup.ps1"
+    category: "system"
+    aliases: ["backup", "restore"]
+    args:
+      - name: "action"
+        optional: false
+        values: ["create", "restore", "list", "prune"]
+        
+  # Quality Commands
+  - name: "/quality-gate"
+    description: "Führt Qualitätsprüfungen durch"
+    script: "scripts/cmd-quality-gate.ps1"
+    category: "quality"
+    aliases: ["quality", "gate"]
+    args:
+      - name: "mode"
+        optional: true
+        values: ["quick", "full", "strict"]
+        default: "quick"
+        
+  # Orchestration Commands
+  - name: "/orchestrate"
+    description: "Orchestriert Multi-Agent Workflows"
+    script: "scripts/cmd-orchestrate.ps1"
+    category: "orchestration"
+    aliases: ["orchestrate", "workflow"]
+    args:
+      - name: "workflow"
+        optional: false
+        values: ["design", "review", "refactor"]
+        
+  # Deployment Commands
+  - name: "/deploy"
+    description: "Deployt auf ein Target"
+    script: "scripts/deploy.ps1"
+    category: "deployment"
+    aliases: ["deploy"]
+    args:
+      - name: "target"
+        optional: false
+        default: "local"
+        
+  # Testing Commands
+  - name: "/test"
+    description: "Führt Tests aus"
+    script: "tests/ci-test-runner.ps1"
+    category: "testing"
+    aliases: ["test", "ci"]
+    args:
+      - name: "type"
+        optional: true
+        values: ["unit", "integration", "all"]
+        default: "all"
+        
+  - name: "/eval"
+    description: "Führt Eval-Suite aus"
+    script: "tests/ci-eval-runner.ps1"
+    category: "testing"
+    aliases: ["eval", "evaluate"]
+    args:
+      - name: "suite"
+        optional: true
+        values: ["all", "phase1", "phase2", "phase3", "phase4", "integration"]
+        default: "all"
+
+  # Extended Commands
+  - name: "/model-route"
+    description: "Select optimal model for current task"
+    script: "scripts/cmd-model-route.ps1"
+    category: "ai"
+    aliases: ["model", "route"]
+    
+  - name: "/multi-backend"
+    description: "Execute across multiple backends"
+    script: "scripts/cmd-multi-backend.ps1"
+    category: "execution"
+    aliases: ["multi", "backend"]
+    
+  - name: "/resume-session"
+    description: "Resume a previous session"
+    script: "scripts/cmd-resume-session.ps1"
+    category: "session"
+    aliases: ["resume"]
+    
+  - name: "/tdd"
+    description: "Test-Driven Development workflow"
+    script: "scripts/cmd-tdd.ps1"
+    category: "development"
+    aliases: ["tdd"]
+    args:
+      - name: "phase"
+        values: ["start", "test", "implement", "refactor", "cycle"]
+        
+  - name: "/prune"
+    description: "Cleanup old logs, backups, sessions"
+    script: "scripts/cmd-prune.ps1"
+    category: "maintenance"
+    aliases: ["prune", "cleanup"]
+    
+  - name: "/skill-health"
+    description: "Check health of all skills"
+    script: "scripts/cmd-skill-health.ps1"
+    category: "maintenance"
+    aliases: ["skill-health", "health"]
+    
+  - name: "/stats"
+    description: "Show framework statistics"
+    script: "scripts/cmd-stats.ps1"
+    category: "info"
+    aliases: ["stats"]
+    
+  - name: "/update-docs"
+    description: "Auto-update documentation"
+    script: "scripts/cmd-update-docs.ps1"
+    category: "maintenance"
+    aliases: ["update-docs"]
+    
+  - name: "/whoami"
+    description: "Show current agent context"
+    script: "scripts/cmd-whoami.ps1"
+    category: "info"
+    aliases: ["whoami"]
+
+  - name: "/analyze-vault"
+    description: "Analyze Second Brain vault for connections, orphans, and quality"
+    script: "second-brain/scripts/analyze-vault.ps1"
+    category: "second-brain"
+    aliases: ["vault-analysis", "knowledge-audit", "curator"]
+    args:
+      - name: "detailed"
+        optional: true
+        flag: true
+      - name: "auto-decide"
+        optional: true
+        flag: true
+
+  # Second Brain Commands
+  - name: "/sync-second-brain"
+    description: "Sync OpenClaw sessions to Second Brain"
+    script: "second-brain/scripts/sync-openclaw-to-secondbrain.ps1"
+    category: "second-brain"
+    aliases: ["sync-brain", "para-sync"]
+    args:
+      - name: "dry-run"
+        optional: true
+        flag: true
+      - name: "force"
+        optional: true
+        flag: true
+
+  - name: "/second-brain"
+    description: "Open Second Brain dashboard"
+    script: "second-brain/MOC-Startseite.md"
+    category: "second-brain"
+    aliases: ["brain", "para"]

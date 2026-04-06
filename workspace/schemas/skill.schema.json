@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://framework.local/schemas/skill.schema.json",
+  "title": "Skill",
+  "description": "Schema for SKILL.md files",
+  "type": "object",
+  "required": ["name", "description"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Unique skill identifier"
+    },
+    "description": {
+      "type": "string",
+      "description": "What this skill does and when to use it"
+    },
+    "trigger_phrases": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Phrases that trigger this skill"
+    },
+    "category": {
+      "type": "string",
+      "enum": ["language", "security", "quality", "architecture", "tooling", "external-api", "learning"],
+      "description": "Skill category"
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Additional tags"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "version": { "type": "string" },
+        "author": { "type": "string" },
+        "requires": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

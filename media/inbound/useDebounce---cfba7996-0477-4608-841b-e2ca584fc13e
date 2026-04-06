@@ -1,0 +1,62 @@
+// hooks/useDebounce.ts - Debounce Hook for Search Inputs
+
+import { useState, useEffect } from 'react';
+
+export function useDebounce<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+}
+
+// Hook with loading state
+export function useDebouncedSearch<T>(
+  searchFn: (query: string) => Promise<T>,
+  delay: number = 300
+) {
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState<T | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const debouncedQuery = useDebounce(query, delay);
+
+  useEffect(() => {
+    if (!debouncedQuery.trim()) {
+      setResults(null);
+      return;
+    }
+
+    setIsLoading(true);
+    setError(null);
+
+    searchFn(debouncedQuery)
+      .then((data) => {
+        setResults(data);
+      })
+      .catch((err) => {
+        setError(err.message);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [debouncedQuery, searchFn]);
+
+  return {
+    query,
+    setQuery,
+    results,
+    isLoading,
+    error,
+    debouncedQuery,
+  };
+}

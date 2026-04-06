@@ -1,0 +1,902 @@
+{
+  "agent:main:main": {
+    "sessionId": "e18cbde7-f841-44dc-957e-f99a8511d075",
+    "updatedAt": 1774987771092,
+    "systemSent": true,
+    "abortedLastRun": false,
+    "chatType": "direct",
+    "deliveryContext": {
+      "channel": "webchat"
+    },
+    "lastChannel": "webchat",
+    "origin": {
+      "label": "openclaw-tui",
+      "provider": "webchat",
+      "surface": "webchat",
+      "chatType": "direct",
+      "from": "heartbeat",
+      "to": "heartbeat"
+    },
+    "sessionFile": "C:\\Users\\andre\\.openclaw\\agents\\main\\sessions\\e18cbde7-f841-44dc-957e-f99a8511d075.jsonl",
+    "compactionCount": 0,
+    "skillsSnapshot": {
+      "prompt": "\n\nThe following skills provide specialized instructions for specific tasks.\nUse the read tool to load a skill's file when the task matches its description.\nWhen a skill file references a relative path, resolve it against the skill directory (parent of SKILL.md / dirname of the path) and use that absolute path in tool commands.\n\n<available_skills>\n  <skill>\n    <name>clawhub</name>\n    <description>Use the ClawHub CLI to search, install, update, and publish agent skills from clawhub.com. Use when you need to fetch new skills on the fly, sync installed skills to latest or a specific version, or publish new/updated skill folders with the npm-installed clawhub CLI.</description>\n    <location>~/AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\clawhub\\SKILL.md</location>\n  </skill>\n  <skill>\n    <name>healthcheck</name>\n    <description>Host security hardening and risk-tolerance configuration for OpenClaw deployments. Use when a user asks for security audits, firewall/SSH/update hardening, risk posture, exposure review, OpenClaw cron scheduling for periodic checks, or version status checks on a machine running OpenClaw (laptop, workstation, Pi, VPS).</description>\n    <location>~/AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\healthcheck\\SKILL.md</location>\n  </skill>\n  <skill>\n    <name>nano-pdf</name>\n    <description>Edit PDFs with natural-language instructions using the nano-pdf CLI.</description>\n    <location>~/AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\nano-pdf\\SKILL.md</location>\n  </skill>\n  <skill>\n    <name>node-connect</name>\n    <description>Diagnose OpenClaw node connection and pairing failures for Android, iOS, and macOS companion apps. Use when QR/setup code/manual connect fails, local Wi-Fi works but VPS/tailnet does not, or errors mention pairing required, unauthorized, bootstrap token invalid or expired, gateway.bind, gateway.remote.url, Tailscale, or plugins.entries.device-pair.config.publicUrl.</description>\n    <location>~/AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\node-connect\\SKILL.md</location>\n  </skill>\n  <skill>\n    <name>skill-creator</name>\n    <description>Create, edit, improve, or audit AgentSkills. Use when creating a new skill from scratch or when asked to improve, review, audit, tidy up, or clean up an existing skill or SKILL.md file. Also use when editing or restructuring a skill directory (moving files to references/ or scripts/, removing stale content, validating against the AgentSkills spec). Triggers on phrases like &quot;create a skill&quot;, &quot;author a skill&quot;, &quot;tidy up a skill&quot;, &quot;improve this skill&quot;, &quot;review the skill&quot;, &quot;clean up the skill&quot;, &quot;audit the skill&quot;.</description>\n    <location>~/AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\skill-creator\\SKILL.md</location>\n  </skill>\n  <skill>\n    <name>weather</name>\n    <description>Get current weather and forecasts via wttr.in or Open-Meteo. Use when: user asks about weather, temperature, or forecasts for any location. NOT for: historical weather data, severe weather alerts, or detailed meteorological analysis. No API key needed.</description>\n    <location>~/AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\weather\\SKILL.md</location>\n  </skill>\n  <skill>\n    <name>api-design</name>\n    <description>REST API design patterns and best practices. Use when: (1) designing APIs,\n(2) reviewing API contracts, (3) implementing endpoints, (4) API versioning.\n</description>\n    <location>~/.openclaw\\workspace\\skills\\api-design\\SKILL.md</location>\n  </skill>\n  <skill>\n    <name>documentation</name>\n    <description>Documentation best practices and patterns. Use when: (1) writing documentation,\n(2) reviewing docs, (3) creating READMEs, (4) API documentation.\n</description>\n    <location>~/.openclaw\\workspace\\skills\\documentation\\SKILL.md</location>\n  </skill>\n  <skill>\n    <name>python-patterns</name>\n    <description>Python best practices and patterns. Use when: (1) writing Python code, \n(2) reviewing Python, (3) debugging Python issues, (4) structuring Python projects.\n</description>\n    <location>~/.openclaw\\workspace\\skills\\python-patterns\\SKILL.md</location>\n  </skill>\n  <skill>\n    <name>refactoring</name>\n    <description>Code refactoring patterns and techniques. Use when: (1) improving existing code,\n(2) technical debt reduction, (3) code modernization, (4) performance optimization.\n</description>\n    <location>~/.openclaw\\workspace\\skills\\refactoring\\SKILL.md</location>\n  </skill>\n  <skill>\n    <name>secure-api-client</name>\n    <description>A secure HTTP API client skill with built-in security controls.\n\nUse WHEN: Making API requests with proper authentication, rate limiting,\ntimeout handling, and input validation.\n\nTrigger phrases: &quot;make API call&quot;, &quot;fetch data from API&quot;, &quot;secure HTTP request&quot;,\n&quot;call REST API&quot;, &quot;API client request&quot;\n</description>\n    <location>~/.openclaw\\workspace\\skills\\secure-api-client\\SKILL.md</location>\n  </skill>\n  <skill>\n    <name>security-review</name>\n    <description>Security-focused code review patterns. Use when: (1) reviewing code for security,\n(2) implementing security features, (3) handling sensitive data, (4) API security.\n</description>\n    <location>~/.openclaw\\workspace\\skills\\security-review\\SKILL.md</location>\n  </skill>\n  <skill>\n    <name>testing-patterns</name>\n    <description>Testing best practices and patterns. Use when: (1) writing tests, \n(2) designing test strategy, (3) debugging test failures, (4) setting up test infrastructure.\n</description>\n    <location>~/.openclaw\\workspace\\skills\\testing-patterns\\SKILL.md</location>\n  </skill>\n</available_skills>",
+      "skills": [
+        {
+          "name": "clawhub",
+          "requiredEnv": []
+        },
+        {
+          "name": "healthcheck"
+        },
+        {
+          "name": "nano-pdf",
+          "requiredEnv": []
+        },
+        {
+          "name": "node-connect"
+        },
+        {
+          "name": "skill-creator"
+        },
+        {
+          "name": "weather",
+          "requiredEnv": []
+        },
+        {
+          "name": "api-design"
+        },
+        {
+          "name": "documentation"
+        },
+        {
+          "name": "python-patterns"
+        },
+        {
+          "name": "refactoring"
+        },
+        {
+          "name": "secure-api-client"
+        },
+        {
+          "name": "security-review"
+        },
+        {
+          "name": "testing-patterns"
+        }
+      ],
+      "resolvedSkills": [
+        {
+          "name": "clawhub",
+          "description": "Use the ClawHub CLI to search, install, update, and publish agent skills from clawhub.com. Use when you need to fetch new skills on the fly, sync installed skills to latest or a specific version, or publish new/updated skill folders with the npm-installed clawhub CLI.",
+          "filePath": "C:\\Users\\andre\\AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\clawhub\\SKILL.md",
+          "baseDir": "C:\\Users\\andre\\AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\clawhub",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "healthcheck",
+          "description": "Host security hardening and risk-tolerance configuration for OpenClaw deployments. Use when a user asks for security audits, firewall/SSH/update hardening, risk posture, exposure review, OpenClaw cron scheduling for periodic checks, or version status checks on a machine running OpenClaw (laptop, workstation, Pi, VPS).",
+          "filePath": "C:\\Users\\andre\\AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\healthcheck\\SKILL.md",
+          "baseDir": "C:\\Users\\andre\\AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\healthcheck",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "nano-pdf",
+          "description": "Edit PDFs with natural-language instructions using the nano-pdf CLI.",
+          "filePath": "C:\\Users\\andre\\AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\nano-pdf\\SKILL.md",
+          "baseDir": "C:\\Users\\andre\\AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\nano-pdf",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "node-connect",
+          "description": "Diagnose OpenClaw node connection and pairing failures for Android, iOS, and macOS companion apps. Use when QR/setup code/manual connect fails, local Wi-Fi works but VPS/tailnet does not, or errors mention pairing required, unauthorized, bootstrap token invalid or expired, gateway.bind, gateway.remote.url, Tailscale, or plugins.entries.device-pair.config.publicUrl.",
+          "filePath": "C:\\Users\\andre\\AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\node-connect\\SKILL.md",
+          "baseDir": "C:\\Users\\andre\\AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\node-connect",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "skill-creator",
+          "description": "Create, edit, improve, or audit AgentSkills. Use when creating a new skill from scratch or when asked to improve, review, audit, tidy up, or clean up an existing skill or SKILL.md file. Also use when editing or restructuring a skill directory (moving files to references/ or scripts/, removing stale content, validating against the AgentSkills spec). Triggers on phrases like \"create a skill\", \"author a skill\", \"tidy up a skill\", \"improve this skill\", \"review the skill\", \"clean up the skill\", \"audit the skill\".",
+          "filePath": "C:\\Users\\andre\\AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\skill-creator\\SKILL.md",
+          "baseDir": "C:\\Users\\andre\\AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\skill-creator",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "weather",
+          "description": "Get current weather and forecasts via wttr.in or Open-Meteo. Use when: user asks about weather, temperature, or forecasts for any location. NOT for: historical weather data, severe weather alerts, or detailed meteorological analysis. No API key needed.",
+          "filePath": "C:\\Users\\andre\\AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\weather\\SKILL.md",
+          "baseDir": "C:\\Users\\andre\\AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\weather",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "api-design",
+          "description": "REST API design patterns and best practices. Use when: (1) designing APIs,\n(2) reviewing API contracts, (3) implementing endpoints, (4) API versioning.\n",
+          "filePath": "C:\\Users\\andre\\.openclaw\\workspace\\skills\\api-design\\SKILL.md",
+          "baseDir": "C:\\Users\\andre\\.openclaw\\workspace\\skills\\api-design",
+          "source": "openclaw-workspace",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "documentation",
+          "description": "Documentation best practices and patterns. Use when: (1) writing documentation,\n(2) reviewing docs, (3) creating READMEs, (4) API documentation.\n",
+          "filePath": "C:\\Users\\andre\\.openclaw\\workspace\\skills\\documentation\\SKILL.md",
+          "baseDir": "C:\\Users\\andre\\.openclaw\\workspace\\skills\\documentation",
+          "source": "openclaw-workspace",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "python-patterns",
+          "description": "Python best practices and patterns. Use when: (1) writing Python code, \n(2) reviewing Python, (3) debugging Python issues, (4) structuring Python projects.\n",
+          "filePath": "C:\\Users\\andre\\.openclaw\\workspace\\skills\\python-patterns\\SKILL.md",
+          "baseDir": "C:\\Users\\andre\\.openclaw\\workspace\\skills\\python-patterns",
+          "source": "openclaw-workspace",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "refactoring",
+          "description": "Code refactoring patterns and techniques. Use when: (1) improving existing code,\n(2) technical debt reduction, (3) code modernization, (4) performance optimization.\n",
+          "filePath": "C:\\Users\\andre\\.openclaw\\workspace\\skills\\refactoring\\SKILL.md",
+          "baseDir": "C:\\Users\\andre\\.openclaw\\workspace\\skills\\refactoring",
+          "source": "openclaw-workspace",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "secure-api-client",
+          "description": "A secure HTTP API client skill with built-in security controls.\n\nUse WHEN: Making API requests with proper authentication, rate limiting,\ntimeout handling, and input validation.\n\nTrigger phrases: \"make API call\", \"fetch data from API\", \"secure HTTP request\",\n\"call REST API\", \"API client request\"\n",
+          "filePath": "C:\\Users\\andre\\.openclaw\\workspace\\skills\\secure-api-client\\SKILL.md",
+          "baseDir": "C:\\Users\\andre\\.openclaw\\workspace\\skills\\secure-api-client",
+          "source": "openclaw-workspace",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "security-review",
+          "description": "Security-focused code review patterns. Use when: (1) reviewing code for security,\n(2) implementing security features, (3) handling sensitive data, (4) API security.\n",
+          "filePath": "C:\\Users\\andre\\.openclaw\\workspace\\skills\\security-review\\SKILL.md",
+          "baseDir": "C:\\Users\\andre\\.openclaw\\workspace\\skills\\security-review",
+          "source": "openclaw-workspace",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "testing-patterns",
+          "description": "Testing best practices and patterns. Use when: (1) writing tests, \n(2) designing test strategy, (3) debugging test failures, (4) setting up test infrastructure.\n",
+          "filePath": "C:\\Users\\andre\\.openclaw\\workspace\\skills\\testing-patterns\\SKILL.md",
+          "baseDir": "C:\\Users\\andre\\.openclaw\\workspace\\skills\\testing-patterns",
+          "source": "openclaw-workspace",
+          "disableModelInvocation": false
+        }
+      ],
+      "version": 0
+    },
+    "authProfileOverride": "kimi-coding:default",
+    "authProfileOverrideSource": "auto",
+    "authProfileOverrideCompactionCount": 0,
+    "modelProvider": "kimi-coding",
+    "model": "kimi-k2-thinking",
+    "contextTokens": 262144,
+    "systemPromptReport": {
+      "source": "run",
+      "generatedAt": 1774987664067,
+      "sessionId": "e18cbde7-f841-44dc-957e-f99a8511d075",
+      "sessionKey": "agent:main:main",
+      "provider": "kimi-coding",
+      "model": "kimi-k2-thinking",
+      "workspaceDir": "C:\\Users\\andre\\.openclaw\\workspace",
+      "bootstrapMaxChars": 20000,
+      "bootstrapTotalMaxChars": 150000,
+      "bootstrapTruncation": {
+        "warningMode": "once",
+        "warningShown": false,
+        "truncatedFiles": 0,
+        "nearLimitFiles": 0,
+        "totalNearLimit": false
+      },
+      "sandbox": {
+        "mode": "off",
+        "sandboxed": false
+      },
+      "systemPrompt": {
+        "chars": 36967,
+        "projectContextChars": 21094,
+        "nonProjectContextChars": 15873
+      },
+      "injectedWorkspaceFiles": [
+        {
+          "name": "AGENTS.md",
+          "path": "C:\\Users\\andre\\.openclaw\\workspace\\AGENTS.md",
+          "missing": false,
+          "rawChars": 8266,
+          "injectedChars": 8266,
+          "truncated": false
+        },
+        {
+          "name": "SOUL.md",
+          "path": "C:\\Users\\andre\\.openclaw\\workspace\\SOUL.md",
+          "missing": false,
+          "rawChars": 1664,
+          "injectedChars": 1664,
+          "truncated": false
+        },
+        {
+          "name": "TOOLS.md",
+          "path": "C:\\Users\\andre\\.openclaw\\workspace\\TOOLS.md",
+          "missing": false,
+          "rawChars": 2733,
+          "injectedChars": 2733,
+          "truncated": false
+        },
+        {
+          "name": "IDENTITY.md",
+          "path": "C:\\Users\\andre\\.openclaw\\workspace\\IDENTITY.md",
+          "missing": false,
+          "rawChars": 552,
+          "injectedChars": 552,
+          "truncated": false
+        },
+        {
+          "name": "USER.md",
+          "path": "C:\\Users\\andre\\.openclaw\\workspace\\USER.md",
+          "missing": false,
+          "rawChars": 554,
+          "injectedChars": 554,
+          "truncated": false
+        },
+        {
+          "name": "HEARTBEAT.md",
+          "path": "C:\\Users\\andre\\.openclaw\\workspace\\HEARTBEAT.md",
+          "missing": false,
+          "rawChars": 1215,
+          "injectedChars": 1215,
+          "truncated": false
+        },
+        {
+          "name": "BOOTSTRAP.md",
+          "path": "C:\\Users\\andre\\.openclaw\\workspace\\BOOTSTRAP.md",
+          "missing": false,
+          "rawChars": 1449,
+          "injectedChars": 1449,
+          "truncated": false
+        },
+        {
+          "name": "MEMORY.md",
+          "path": "C:\\Users\\andre\\.openclaw\\workspace\\MEMORY.md",
+          "missing": false,
+          "rawChars": 4043,
+          "injectedChars": 4043,
+          "truncated": false
+        }
+      ],
+      "skills": {
+        "promptChars": 5711,
+        "entries": [
+          {
+            "name": "clawhub",
+            "blockChars": 436
+          },
+          {
+            "name": "healthcheck",
+            "blockChars": 495
+          },
+          {
+            "name": "nano-pdf",
+            "blockChars": 238
+          },
+          {
+            "name": "node-connect",
+            "blockChars": 545
+          },
+          {
+            "name": "skill-creator",
+            "blockChars": 763
+          },
+          {
+            "name": "weather",
+            "blockChars": 420
+          },
+          {
+            "name": "api-design",
+            "blockChars": 304
+          },
+          {
+            "name": "documentation",
+            "blockChars": 303
+          },
+          {
+            "name": "python-patterns",
+            "blockChars": 318
+          },
+          {
+            "name": "refactoring",
+            "blockChars": 319
+          },
+          {
+            "name": "secure-api-client",
+            "blockChars": 513
+          },
+          {
+            "name": "security-review",
+            "blockChars": 327
+          },
+          {
+            "name": "testing-patterns",
+            "blockChars": 325
+          }
+        ]
+      },
+      "tools": {
+        "listChars": 1979,
+        "schemaChars": 7948,
+        "entries": [
+          {
+            "name": "read",
+            "summaryChars": 298,
+            "schemaChars": 392,
+            "propertiesCount": 4
+          },
+          {
+            "name": "edit",
+            "summaryChars": 129,
+            "schemaChars": 591,
+            "propertiesCount": 6
+          },
+          {
+            "name": "write",
+            "summaryChars": 127,
+            "schemaChars": 313,
+            "propertiesCount": 3
+          },
+          {
+            "name": "exec",
+            "summaryChars": 181,
+            "schemaChars": 1086,
+            "propertiesCount": 12
+          },
+          {
+            "name": "process",
+            "summaryChars": 85,
+            "schemaChars": 961,
+            "propertiesCount": 12
+          },
+          {
+            "name": "cron",
+            "summaryChars": 2689,
+            "schemaChars": 690,
+            "propertiesCount": 13
+          },
+          {
+            "name": "sessions_list",
+            "summaryChars": 54,
+            "schemaChars": 212,
+            "propertiesCount": 4
+          },
+          {
+            "name": "sessions_history",
+            "summaryChars": 36,
+            "schemaChars": 161,
+            "propertiesCount": 3
+          },
+          {
+            "name": "sessions_send",
+            "summaryChars": 84,
+            "schemaChars": 273,
+            "propertiesCount": 5
+          },
+          {
+            "name": "sessions_yield",
+            "summaryChars": 97,
+            "schemaChars": 60,
+            "propertiesCount": 1
+          },
+          {
+            "name": "sessions_spawn",
+            "summaryChars": 198,
+            "schemaChars": 1179,
+            "propertiesCount": 17
+          },
+          {
+            "name": "subagents",
+            "summaryChars": 105,
+            "schemaChars": 191,
+            "propertiesCount": 4
+          },
+          {
+            "name": "session_status",
+            "summaryChars": 207,
+            "schemaChars": 89,
+            "propertiesCount": 2
+          },
+          {
+            "name": "web_search",
+            "summaryChars": 123,
+            "schemaChars": 767,
+            "propertiesCount": 7
+          },
+          {
+            "name": "web_fetch",
+            "summaryChars": 129,
+            "schemaChars": 374,
+            "propertiesCount": 3
+          },
+          {
+            "name": "image",
+            "summaryChars": 201,
+            "schemaChars": 342,
+            "propertiesCount": 6
+          },
+          {
+            "name": "memory_search",
+            "summaryChars": 334,
+            "schemaChars": 139,
+            "propertiesCount": 3
+          },
+          {
+            "name": "memory_get",
+            "summaryChars": 151,
+            "schemaChars": 128,
+            "propertiesCount": 3
+          }
+        ]
+      }
+    },
+    "inputTokens": 380126,
+    "outputTokens": 579,
+    "cacheRead": 0,
+    "cacheWrite": 0,
+    "totalTokens": 190063,
+    "totalTokensFresh": true,
+    "memoryFlushAt": 1774923638837,
+    "memoryFlushCompactionCount": 0
+  },
+  "agent:main:telegram:direct:8446374972": {
+    "origin": {
+      "label": "Andrew Carterman id:8446374972",
+      "provider": "telegram",
+      "surface": "telegram",
+      "chatType": "direct",
+      "from": "telegram:8446374972",
+      "to": "telegram:8446374972",
+      "accountId": "default"
+    },
+    "sessionId": "9e58fcc4-4690-4d1c-93fd-5bbc17e4b9a6",
+    "updatedAt": 1774905052232,
+    "deliveryContext": {
+      "channel": "telegram",
+      "to": "telegram:8446374972",
+      "accountId": "default"
+    },
+    "lastChannel": "telegram",
+    "lastTo": "telegram:8446374972",
+    "lastAccountId": "default",
+    "systemSent": true,
+    "abortedLastRun": false,
+    "chatType": "direct",
+    "sessionFile": "C:\\Users\\andre\\.openclaw\\agents\\main\\sessions\\9e58fcc4-4690-4d1c-93fd-5bbc17e4b9a6.jsonl",
+    "skillsSnapshot": {
+      "prompt": "\n\nThe following skills provide specialized instructions for specific tasks.\nUse the read tool to load a skill's file when the task matches its description.\nWhen a skill file references a relative path, resolve it against the skill directory (parent of SKILL.md / dirname of the path) and use that absolute path in tool commands.\n\n<available_skills>\n  <skill>\n    <name>clawhub</name>\n    <description>Use the ClawHub CLI to search, install, update, and publish agent skills from clawhub.com. Use when you need to fetch new skills on the fly, sync installed skills to latest or a specific version, or publish new/updated skill folders with the npm-installed clawhub CLI.</description>\n    <location>~/AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\clawhub\\SKILL.md</location>\n  </skill>\n  <skill>\n    <name>healthcheck</name>\n    <description>Host security hardening and risk-tolerance configuration for OpenClaw deployments. Use when a user asks for security audits, firewall/SSH/update hardening, risk posture, exposure review, OpenClaw cron scheduling for periodic checks, or version status checks on a machine running OpenClaw (laptop, workstation, Pi, VPS).</description>\n    <location>~/AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\healthcheck\\SKILL.md</location>\n  </skill>\n  <skill>\n    <name>nano-pdf</name>\n    <description>Edit PDFs with natural-language instructions using the nano-pdf CLI.</description>\n    <location>~/AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\nano-pdf\\SKILL.md</location>\n  </skill>\n  <skill>\n    <name>node-connect</name>\n    <description>Diagnose OpenClaw node connection and pairing failures for Android, iOS, and macOS companion apps. Use when QR/setup code/manual connect fails, local Wi-Fi works but VPS/tailnet does not, or errors mention pairing required, unauthorized, bootstrap token invalid or expired, gateway.bind, gateway.remote.url, Tailscale, or plugins.entries.device-pair.config.publicUrl.</description>\n    <location>~/AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\node-connect\\SKILL.md</location>\n  </skill>\n  <skill>\n    <name>skill-creator</name>\n    <description>Create, edit, improve, or audit AgentSkills. Use when creating a new skill from scratch or when asked to improve, review, audit, tidy up, or clean up an existing skill or SKILL.md file. Also use when editing or restructuring a skill directory (moving files to references/ or scripts/, removing stale content, validating against the AgentSkills spec). Triggers on phrases like &quot;create a skill&quot;, &quot;author a skill&quot;, &quot;tidy up a skill&quot;, &quot;improve this skill&quot;, &quot;review the skill&quot;, &quot;clean up the skill&quot;, &quot;audit the skill&quot;.</description>\n    <location>~/AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\skill-creator\\SKILL.md</location>\n  </skill>\n  <skill>\n    <name>weather</name>\n    <description>Get current weather and forecasts via wttr.in or Open-Meteo. Use when: user asks about weather, temperature, or forecasts for any location. NOT for: historical weather data, severe weather alerts, or detailed meteorological analysis. No API key needed.</description>\n    <location>~/AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\weather\\SKILL.md</location>\n  </skill>\n  <skill>\n    <name>api-design</name>\n    <description>REST API design patterns and best practices. Use when: (1) designing APIs,\n(2) reviewing API contracts, (3) implementing endpoints, (4) API versioning.\n</description>\n    <location>~/.openclaw\\workspace\\skills\\api-design\\SKILL.md</location>\n  </skill>\n  <skill>\n    <name>documentation</name>\n    <description>Documentation best practices and patterns. Use when: (1) writing documentation,\n(2) reviewing docs, (3) creating READMEs, (4) API documentation.\n</description>\n    <location>~/.openclaw\\workspace\\skills\\documentation\\SKILL.md</location>\n  </skill>\n  <skill>\n    <name>python-patterns</name>\n    <description>Python best practices and patterns. Use when: (1) writing Python code, \n(2) reviewing Python, (3) debugging Python issues, (4) structuring Python projects.\n</description>\n    <location>~/.openclaw\\workspace\\skills\\python-patterns\\SKILL.md</location>\n  </skill>\n  <skill>\n    <name>refactoring</name>\n    <description>Code refactoring patterns and techniques. Use when: (1) improving existing code,\n(2) technical debt reduction, (3) code modernization, (4) performance optimization.\n</description>\n    <location>~/.openclaw\\workspace\\skills\\refactoring\\SKILL.md</location>\n  </skill>\n  <skill>\n    <name>secure-api-client</name>\n    <description>A secure HTTP API client skill with built-in security controls.\n\nUse WHEN: Making API requests with proper authentication, rate limiting,\ntimeout handling, and input validation.\n\nTrigger phrases: &quot;make API call&quot;, &quot;fetch data from API&quot;, &quot;secure HTTP request&quot;,\n&quot;call REST API&quot;, &quot;API client request&quot;\n</description>\n    <location>~/.openclaw\\workspace\\skills\\secure-api-client\\SKILL.md</location>\n  </skill>\n  <skill>\n    <name>security-review</name>\n    <description>Security-focused code review patterns. Use when: (1) reviewing code for security,\n(2) implementing security features, (3) handling sensitive data, (4) API security.\n</description>\n    <location>~/.openclaw\\workspace\\skills\\security-review\\SKILL.md</location>\n  </skill>\n  <skill>\n    <name>testing-patterns</name>\n    <description>Testing best practices and patterns. Use when: (1) writing tests, \n(2) designing test strategy, (3) debugging test failures, (4) setting up test infrastructure.\n</description>\n    <location>~/.openclaw\\workspace\\skills\\testing-patterns\\SKILL.md</location>\n  </skill>\n</available_skills>",
+      "skills": [
+        {
+          "name": "clawhub",
+          "requiredEnv": []
+        },
+        {
+          "name": "healthcheck"
+        },
+        {
+          "name": "nano-pdf",
+          "requiredEnv": []
+        },
+        {
+          "name": "node-connect"
+        },
+        {
+          "name": "skill-creator"
+        },
+        {
+          "name": "weather",
+          "requiredEnv": []
+        },
+        {
+          "name": "api-design"
+        },
+        {
+          "name": "documentation"
+        },
+        {
+          "name": "python-patterns"
+        },
+        {
+          "name": "refactoring"
+        },
+        {
+          "name": "secure-api-client"
+        },
+        {
+          "name": "security-review"
+        },
+        {
+          "name": "testing-patterns"
+        }
+      ],
+      "resolvedSkills": [
+        {
+          "name": "clawhub",
+          "description": "Use the ClawHub CLI to search, install, update, and publish agent skills from clawhub.com. Use when you need to fetch new skills on the fly, sync installed skills to latest or a specific version, or publish new/updated skill folders with the npm-installed clawhub CLI.",
+          "filePath": "C:\\Users\\andre\\AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\clawhub\\SKILL.md",
+          "baseDir": "C:\\Users\\andre\\AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\clawhub",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "healthcheck",
+          "description": "Host security hardening and risk-tolerance configuration for OpenClaw deployments. Use when a user asks for security audits, firewall/SSH/update hardening, risk posture, exposure review, OpenClaw cron scheduling for periodic checks, or version status checks on a machine running OpenClaw (laptop, workstation, Pi, VPS).",
+          "filePath": "C:\\Users\\andre\\AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\healthcheck\\SKILL.md",
+          "baseDir": "C:\\Users\\andre\\AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\healthcheck",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "nano-pdf",
+          "description": "Edit PDFs with natural-language instructions using the nano-pdf CLI.",
+          "filePath": "C:\\Users\\andre\\AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\nano-pdf\\SKILL.md",
+          "baseDir": "C:\\Users\\andre\\AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\nano-pdf",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "node-connect",
+          "description": "Diagnose OpenClaw node connection and pairing failures for Android, iOS, and macOS companion apps. Use when QR/setup code/manual connect fails, local Wi-Fi works but VPS/tailnet does not, or errors mention pairing required, unauthorized, bootstrap token invalid or expired, gateway.bind, gateway.remote.url, Tailscale, or plugins.entries.device-pair.config.publicUrl.",
+          "filePath": "C:\\Users\\andre\\AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\node-connect\\SKILL.md",
+          "baseDir": "C:\\Users\\andre\\AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\node-connect",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "skill-creator",
+          "description": "Create, edit, improve, or audit AgentSkills. Use when creating a new skill from scratch or when asked to improve, review, audit, tidy up, or clean up an existing skill or SKILL.md file. Also use when editing or restructuring a skill directory (moving files to references/ or scripts/, removing stale content, validating against the AgentSkills spec). Triggers on phrases like \"create a skill\", \"author a skill\", \"tidy up a skill\", \"improve this skill\", \"review the skill\", \"clean up the skill\", \"audit the skill\".",
+          "filePath": "C:\\Users\\andre\\AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\skill-creator\\SKILL.md",
+          "baseDir": "C:\\Users\\andre\\AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\skill-creator",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "weather",
+          "description": "Get current weather and forecasts via wttr.in or Open-Meteo. Use when: user asks about weather, temperature, or forecasts for any location. NOT for: historical weather data, severe weather alerts, or detailed meteorological analysis. No API key needed.",
+          "filePath": "C:\\Users\\andre\\AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\weather\\SKILL.md",
+          "baseDir": "C:\\Users\\andre\\AppData\\Roaming\\npm\\node_modules\\openclaw\\skills\\weather",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "api-design",
+          "description": "REST API design patterns and best practices. Use when: (1) designing APIs,\n(2) reviewing API contracts, (3) implementing endpoints, (4) API versioning.\n",
+          "filePath": "C:\\Users\\andre\\.openclaw\\workspace\\skills\\api-design\\SKILL.md",
+          "baseDir": "C:\\Users\\andre\\.openclaw\\workspace\\skills\\api-design",
+          "source": "openclaw-workspace",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "documentation",
+          "description": "Documentation best practices and patterns. Use when: (1) writing documentation,\n(2) reviewing docs, (3) creating READMEs, (4) API documentation.\n",
+          "filePath": "C:\\Users\\andre\\.openclaw\\workspace\\skills\\documentation\\SKILL.md",
+          "baseDir": "C:\\Users\\andre\\.openclaw\\workspace\\skills\\documentation",
+          "source": "openclaw-workspace",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "python-patterns",
+          "description": "Python best practices and patterns. Use when: (1) writing Python code, \n(2) reviewing Python, (3) debugging Python issues, (4) structuring Python projects.\n",
+          "filePath": "C:\\Users\\andre\\.openclaw\\workspace\\skills\\python-patterns\\SKILL.md",
+          "baseDir": "C:\\Users\\andre\\.openclaw\\workspace\\skills\\python-patterns",
+          "source": "openclaw-workspace",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "refactoring",
+          "description": "Code refactoring patterns and techniques. Use when: (1) improving existing code,\n(2) technical debt reduction, (3) code modernization, (4) performance optimization.\n",
+          "filePath": "C:\\Users\\andre\\.openclaw\\workspace\\skills\\refactoring\\SKILL.md",
+          "baseDir": "C:\\Users\\andre\\.openclaw\\workspace\\skills\\refactoring",
+          "source": "openclaw-workspace",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "secure-api-client",
+          "description": "A secure HTTP API client skill with built-in security controls.\n\nUse WHEN: Making API requests with proper authentication, rate limiting,\ntimeout handling, and input validation.\n\nTrigger phrases: \"make API call\", \"fetch data from API\", \"secure HTTP request\",\n\"call REST API\", \"API client request\"\n",
+          "filePath": "C:\\Users\\andre\\.openclaw\\workspace\\skills\\secure-api-client\\SKILL.md",
+          "baseDir": "C:\\Users\\andre\\.openclaw\\workspace\\skills\\secure-api-client",
+          "source": "openclaw-workspace",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "security-review",
+          "description": "Security-focused code review patterns. Use when: (1) reviewing code for security,\n(2) implementing security features, (3) handling sensitive data, (4) API security.\n",
+          "filePath": "C:\\Users\\andre\\.openclaw\\workspace\\skills\\security-review\\SKILL.md",
+          "baseDir": "C:\\Users\\andre\\.openclaw\\workspace\\skills\\security-review",
+          "source": "openclaw-workspace",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "testing-patterns",
+          "description": "Testing best practices and patterns. Use when: (1) writing tests, \n(2) designing test strategy, (3) debugging test failures, (4) setting up test infrastructure.\n",
+          "filePath": "C:\\Users\\andre\\.openclaw\\workspace\\skills\\testing-patterns\\SKILL.md",
+          "baseDir": "C:\\Users\\andre\\.openclaw\\workspace\\skills\\testing-patterns",
+          "source": "openclaw-workspace",
+          "disableModelInvocation": false
+        }
+      ],
+      "version": 0
+    },
+    "authProfileOverride": "kimi-coding:default",
+    "authProfileOverrideSource": "auto",
+    "authProfileOverrideCompactionCount": 0,
+    "modelProvider": "kimi-coding",
+    "model": "kimi-k2-thinking",
+    "contextTokens": 262144,
+    "systemPromptReport": {
+      "source": "run",
+      "generatedAt": 1774905015544,
+      "sessionId": "9e58fcc4-4690-4d1c-93fd-5bbc17e4b9a6",
+      "sessionKey": "agent:main:telegram:direct:8446374972",
+      "provider": "kimi-coding",
+      "model": "kimi-k2-thinking",
+      "workspaceDir": "C:\\Users\\andre\\.openclaw\\workspace",
+      "bootstrapMaxChars": 20000,
+      "bootstrapTotalMaxChars": 150000,
+      "bootstrapTruncation": {
+        "warningMode": "once",
+        "warningShown": false,
+        "truncatedFiles": 0,
+        "nearLimitFiles": 0,
+        "totalNearLimit": false
+      },
+      "sandbox": {
+        "mode": "off",
+        "sandboxed": false
+      },
+      "systemPrompt": {
+        "chars": 33389,
+        "projectContextChars": 17002,
+        "nonProjectContextChars": 16387
+      },
+      "injectedWorkspaceFiles": [
+        {
+          "name": "AGENTS.md",
+          "path": "C:\\Users\\andre\\.openclaw\\workspace\\AGENTS.md",
+          "missing": false,
+          "rawChars": 8266,
+          "injectedChars": 8266,
+          "truncated": false
+        },
+        {
+          "name": "SOUL.md",
+          "path": "C:\\Users\\andre\\.openclaw\\workspace\\SOUL.md",
+          "missing": false,
+          "rawChars": 1664,
+          "injectedChars": 1664,
+          "truncated": false
+        },
+        {
+          "name": "TOOLS.md",
+          "path": "C:\\Users\\andre\\.openclaw\\workspace\\TOOLS.md",
+          "missing": false,
+          "rawChars": 2733,
+          "injectedChars": 2733,
+          "truncated": false
+        },
+        {
+          "name": "IDENTITY.md",
+          "path": "C:\\Users\\andre\\.openclaw\\workspace\\IDENTITY.md",
+          "missing": false,
+          "rawChars": 552,
+          "injectedChars": 552,
+          "truncated": false
+        },
+        {
+          "name": "USER.md",
+          "path": "C:\\Users\\andre\\.openclaw\\workspace\\USER.md",
+          "missing": false,
+          "rawChars": 554,
+          "injectedChars": 554,
+          "truncated": false
+        },
+        {
+          "name": "HEARTBEAT.md",
+          "path": "C:\\Users\\andre\\.openclaw\\workspace\\HEARTBEAT.md",
+          "missing": false,
+          "rawChars": 1215,
+          "injectedChars": 1215,
+          "truncated": false
+        },
+        {
+          "name": "BOOTSTRAP.md",
+          "path": "C:\\Users\\andre\\.openclaw\\workspace\\BOOTSTRAP.md",
+          "missing": false,
+          "rawChars": 1449,
+          "injectedChars": 1449,
+          "truncated": false
+        }
+      ],
+      "skills": {
+        "promptChars": 5711,
+        "entries": [
+          {
+            "name": "clawhub",
+            "blockChars": 436
+          },
+          {
+            "name": "healthcheck",
+            "blockChars": 495
+          },
+          {
+            "name": "nano-pdf",
+            "blockChars": 238
+          },
+          {
+            "name": "node-connect",
+            "blockChars": 545
+          },
+          {
+            "name": "skill-creator",
+            "blockChars": 763
+          },
+          {
+            "name": "weather",
+            "blockChars": 420
+          },
+          {
+            "name": "api-design",
+            "blockChars": 304
+          },
+          {
+            "name": "documentation",
+            "blockChars": 303
+          },
+          {
+            "name": "python-patterns",
+            "blockChars": 318
+          },
+          {
+            "name": "refactoring",
+            "blockChars": 319
+          },
+          {
+            "name": "secure-api-client",
+            "blockChars": 513
+          },
+          {
+            "name": "security-review",
+            "blockChars": 327
+          },
+          {
+            "name": "testing-patterns",
+            "blockChars": 325
+          }
+        ]
+      },
+      "tools": {
+        "listChars": 1979,
+        "schemaChars": 7948,
+        "entries": [
+          {
+            "name": "read",
+            "summaryChars": 298,
+            "schemaChars": 392,
+            "propertiesCount": 4
+          },
+          {
+            "name": "edit",
+            "summaryChars": 129,
+            "schemaChars": 591,
+            "propertiesCount": 6
+          },
+          {
+            "name": "write",
+            "summaryChars": 127,
+            "schemaChars": 313,
+            "propertiesCount": 3
+          },
+          {
+            "name": "exec",
+            "summaryChars": 181,
+            "schemaChars": 1086,
+            "propertiesCount": 12
+          },
+          {
+            "name": "process",
+            "summaryChars": 85,
+            "schemaChars": 961,
+            "propertiesCount": 12
+          },
+          {
+            "name": "cron",
+            "summaryChars": 2689,
+            "schemaChars": 690,
+            "propertiesCount": 13
+          },
+          {
+            "name": "sessions_list",
+            "summaryChars": 54,
+            "schemaChars": 212,
+            "propertiesCount": 4
+          },
+          {
+            "name": "sessions_history",
+            "summaryChars": 36,
+            "schemaChars": 161,
+            "propertiesCount": 3
+          },
+          {
+            "name": "sessions_send",
+            "summaryChars": 84,
+            "schemaChars": 273,
+            "propertiesCount": 5
+          },
+          {
+            "name": "sessions_yield",
+            "summaryChars": 97,
+            "schemaChars": 60,
+            "propertiesCount": 1
+          },
+          {
+            "name": "sessions_spawn",
+            "summaryChars": 198,
+            "schemaChars": 1179,
+            "propertiesCount": 17
+          },
+          {
+            "name": "subagents",
+            "summaryChars": 105,
+            "schemaChars": 191,
+            "propertiesCount": 4
+          },
+          {
+            "name": "session_status",
+            "summaryChars": 207,
+            "schemaChars": 89,
+            "propertiesCount": 2
+          },
+          {
+            "name": "web_search",
+            "summaryChars": 123,
+            "schemaChars": 767,
+            "propertiesCount": 7
+          },
+          {
+            "name": "web_fetch",
+            "summaryChars": 129,
+            "schemaChars": 374,
+            "propertiesCount": 3
+          },
+          {
+            "name": "image",
+            "summaryChars": 201,
+            "schemaChars": 342,
+            "propertiesCount": 6
+          },
+          {
+            "name": "memory_search",
+            "summaryChars": 334,
+            "schemaChars": 139,
+            "propertiesCount": 3
+          },
+          {
+            "name": "memory_get",
+            "summaryChars": 151,
+            "schemaChars": 128,
+            "propertiesCount": 3
+          }
+        ]
+      }
+    },
+    "inputTokens": 13588,
+    "outputTokens": 531,
+    "cacheRead": 0,
+    "cacheWrite": 0,
+    "totalTokens": 13588,
+    "totalTokensFresh": true
+  }
+}

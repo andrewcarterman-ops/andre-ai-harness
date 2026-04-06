@@ -1,0 +1,154 @@
+# Agent Registry - Phase 1 Minimal
+# Manuelle Pflege erforderlich bei neuen Agenten
+# Format: YAML 1.2
+# Encoding: UTF-8
+
+version: "1.1"
+last_updated: "2026-03-25T23:40:00+01:00"
+
+agents:
+  # Hauptagent
+  - id: "andrew-main"
+    name: "Andrew"
+    type: "main"
+    description: "Hauptagent für direkte Interaktion mit Parzival"
+    emoji: "🤖"
+    identity_file: "IDENTITY.md"
+    soul_file: "SOUL.md"
+    user_context_file: "USER.md"
+    active: true
+    created_at: "2026-03-25"
+    updated_at: "2026-03-25"
+    capabilities:
+      - chat
+      - file_access
+      - web_search
+      - web_fetch
+      - tool_use
+      - exec
+      - memory_access
+      - orchestration
+    default_model: "kimi-coding/kimi-k2-thinking"
+    supported_channels:
+      - webchat
+      - telegram
+      - terminal
+    registry_scope:
+      - phase_1
+      - phase_2
+      - phase_3
+      - phase_4
+
+  # Spezialisierte Sub-Agenten
+  - id: "architect"
+    name: "Architect"
+    type: "subagent"
+    description: "Technical architect for system design and architecture decisions"
+    emoji: "🏗️"
+    active: true
+    parent_agent: "andrew-main"
+    definition_file: "agents/architect.md"
+    capabilities:
+      - system_design
+      - architecture_review
+      - adr_creation
+      - trade_off_analysis
+    trigger_phrases:
+      - "architect"
+      - "design system"
+      - "architecture decision"
+
+  - id: "planner"
+    name: "Planner"
+    type: "subagent"
+    description: "Strategic planner for breaking down complex tasks"
+    emoji: "📋"
+    active: true
+    parent_agent: "andrew-main"
+    definition_file: "agents/planner.md"
+    capabilities:
+      - task_decomposition
+      - effort_estimation
+      - roadmap_creation
+      - dependency_mapping
+    trigger_phrases:
+      - "plan"
+      - "break down"
+      - "roadmap"
+      - "estimate"
+
+  - id: "code-reviewer"
+    name: "Code Reviewer"
+    type: "subagent"
+    description: "Code reviewer focused on quality and best practices"
+    emoji: "👁️"
+    active: true
+    parent_agent: "andrew-main"
+    definition_file: "agents/code-reviewer.md"
+    capabilities:
+      - code_review
+      - quality_check
+      - bug_detection
+      - pattern_enforcement
+    trigger_phrases:
+      - "review code"
+      - "code review"
+      - "quality check"
+
+  - id: "security-reviewer"
+    name: "Security Reviewer"
+    type: "subagent"
+    description: "Security-focused code reviewer for vulnerability detection"
+    emoji: "🔒"
+    active: true
+    parent_agent: "andrew-main"
+    definition_file: "agents/security-reviewer.md"
+    capabilities:
+      - security_audit
+      - vulnerability_detection
+      - secure_coding_review
+      - owasp_check
+    trigger_phrases:
+      - "security review"
+      - "security audit"
+      - "vulnerability"
+
+  - id: "python-reviewer"
+    name: "Python Reviewer"
+    type: "subagent"
+    description: "Python-specific code reviewer for Pythonic code"
+    emoji: "🐍"
+    active: true
+    parent_agent: "andrew-main"
+    definition_file: "agents/python-reviewer.md"
+    capabilities:
+      - python_review
+      - pep8_check
+      - pythonic_patterns
+      - type_hint_review
+    trigger_phrases:
+      - "python review"
+      - "pythonic"
+      - "pep8"
+
+  - id: "knowledge-curator"
+    name: "Knowledge Curator"
+    type: "subagent"
+    description: "Analyzes knowledge bases for connections, orphans, and information quality"
+    emoji: "📚"
+    active: true
+    parent_agent: "andrew-main"
+    definition_file: "agents/knowledge-curator.md"
+    capabilities:
+      - vault_analysis
+      - orphan_detection
+      - importance_evaluation
+      - knowledge_optimization
+      - connection_mapping
+    trigger_phrases:
+      - "analyze vault"
+      - "knowledge cleanup"
+      - "find orphans"
+      - "evaluate notes"
+      - "obsidian cleanup"
+      - "vault audit"

@@ -1,0 +1,141 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+# Prevent duplicate runs
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate Framework
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PowerShell
+        uses: PowerShell/PowerShell@v2
+        with:
+          pwsh-version: '7.4'
+
+      - name: Validate Registry Files
+        shell: pwsh
+        run: |
+          $errors = 0
+          
+          # Check YAML files
+          Get-ChildItem registry/*.yaml | ForEach-Object {
+            try {
+              $content = Get-Content $_.FullName -Raw
+              if (-not ($content -match "^\s*\w+:")) {
+                Write-Error "Invalid YAML: $($_.Name)"
+                $errors++
+              }
+            } catch {
+              Write-Error "Failed to parse: $($_.Name)"
+              $errors++
+            }
+          }
+          
+          # Check JSON files
+          Get-ChildItem registry/*.json -ErrorAction SilentlyContinue | ForEach-Object {
+            try {
+              $null = Get-Content $_.FullName | ConvertFrom-Json
+            } catch {
+              Write-Error "Invalid JSON: $($_.Name)"
+              $errors++
+            }
+          }
+          
+          if ($errors -gt 0) { exit 1 }
+          Write-Host "✅ All registry files valid"
+
+      - name: Check Required Files
+        shell: pwsh
+        run: |
+          $required = @(
+            "registry/agents.yaml",
+            "registry/skills.yaml",
+            "registry/hooks.yaml",
+            "README.md",
+            "scripts/validate-complete.ps1"
+          )
+          
+          $missing = $required | Where-Object { -not (Test-Path $_) }
+          
+          if ($missing) {
+            Write-Error "Missing files: $($missing -join ', ')"
+            exit 1
+          }
+          
+          Write-Host "✅ All required files present"
+
+      - name: Run Complete Validation
+        shell: pwsh
+        run: |
+          $result = .\scripts\validate-complete.ps1
+          exit $LASTEXITCODE
+
+  test:
+    name: Test Suite
+    runs-on: windows-latest
+    timeout-minutes: 15
+    needs: validate
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PowerShell
+        uses: PowerShell/PowerShell@v2
+
+      - name: Run Eval Suite
+        shell: pwsh
+        run: |
+          .\tests\ci-eval-runner.ps1 -Suite all -CI
+
+  quality:
+    name: Quality Gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [validate, test]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PowerShell
+        uses: PowerShell/PowerShell@v2
+
+      - name: Run Quality Gate
+        shell: pwsh
+        run: |
+          $result = .\scripts\cmd-quality-gate.ps1 -Mode strict
+          if ($result -ne 0) {
+            Write-Error "Quality gate failed"
+            exit 1
+          }
+
+      - name: Check Documentation
+        shell: pwsh
+        run: |
+          $docs = @("README.md", "FINAL-COMPLETE.md")
+          $missing = $docs | Where-Object { -not (Test-Path $_) }
+          
+          if ($missing) {
+            Write-Error "Missing documentation: $($missing -join ', ')"
+            exit 1
+          }
+          
+          Write-Host "✅ Documentation complete"

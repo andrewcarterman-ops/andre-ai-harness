@@ -1,0 +1,97 @@
+// app/api/memories/search/route.ts - Memory Search API
+
+import { NextRequest, NextResponse } from 'next/server';
+import { db } from '@/lib/db';
+import { memories } from '@/lib/db/schema';
+import { like, desc, gte, lte, and, or, SQL, eq } from 'drizzle-orm';
+
+export async function GET(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const query = searchParams.get('q');
+    const dateFrom = searchParams.get('from');
+    const dateTo = searchParams.get('to');
+    const tags = searchParams.get('tags')?.split(',').filter(Boolean);
+    const type = searchParams.get('type');
+    const agentId = searchParams.get('agentId');
+    const projectId = searchParams.get('projectId');
+    const limit = parseInt(searchParams.get('limit') || '100');
+
+    let conditions: SQL<unknown>[] = [];
+
+    // Text search
+    if (query) {
+      conditions.push(
+        or(
+          like(memories.content, `%${query}%`),
+          like(memories.source, `%${query}%`)
+        )!
+      );
+    }
+
+    // Date range filter
+    if (dateFrom) {
+      conditions.push(gte(memories.date, new Date(dateFrom)));
+    }
+    if (dateTo) {
+      conditions.push(lte(memories.date, new Date(dateTo)));
+    }
+
+    // Type filter
+    if (type) {
+      conditions.push(eq(memories.type, type as any));
+    }
+
+    // Agent filter
+    if (agentId) {
+      conditions.push(eq(memories.agentId, agentId));
+    }
+
+    // Project filter
+    if (projectId) {
+      conditions.push(eq(memories.projectId, projectId));
+    }
+
+    const results = await db
+      .select()
+      .from(memories)
+      .where(conditions.length > 0 ? and(...conditions) : undefined)
+      .orderBy(desc(memories.date))
+      .limit(limit);
+
+    // Parse JSON fields
+    const parsed = results.map((memory) => ({
+      ...memory,
+      tags: JSON.parse(memory.tags as string),
+      relatedMemories: JSON.parse(memory.relatedMemories as string),
+    }));
+
+    // Group by date for day-organized view
+    const grouped = parsed.reduce((acc, memory) => {
+      const dateKey = new Date(memory.date).toISOString().split('T')[0];
+      if (!acc[dateKey]) acc[dateKey] = [];
+      acc[dateKey].push(memory);
+      return acc;
+    }, {} as Record<string, typeof parsed>);
+
+    // Filter by tags if specified (post-query filter for JSON arrays)
+    if (tags && tags.length > 0) {
+      Object.keys(grouped).forEach((date) => {
+        grouped[date] = grouped[date].filter((memory) =>
+          tags.some((tag) => memory.tags.includes(tag))
+        );
+        if (grouped[date].length === 0) {
+          delete grouped[date];
+        }
+      });
+    }
+
+    return NextResponse.json(grouped);
+  } catch (error) {
+    console.error('Error searching memories:', error);
+    return NextResponse.json(
+      { error: 'Failed to search memories' },
+      { status: 500 }
+    );
+  }
+}

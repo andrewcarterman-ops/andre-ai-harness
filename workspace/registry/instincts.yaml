@@ -1,0 +1,77 @@
+# Instinct System
+# Format: YAML 1.2
+
+version: "1.0"
+last_updated: "2026-03-25T23:06:00+01:00"
+
+# Instincts = Automatisch erlernte Verhaltensmuster
+instincts:
+  - id: "auto-context-switch"
+    name: "Automatischer Context-Switch"
+    description: "Erkennt Keywords und wechselt automatisch Context"
+    enabled: true
+    trigger:
+      type: "keyword"
+      keywords: ["implementiere", "recherchiere", "prüfe"]
+    action:
+      type: "switch_context"
+      target: "auto"
+    source: "self-improving"
+    confidence: 0.9
+    
+  - id: "auto-skill-suggest"
+    name: "Automatische Skill-Vorschläge"
+    description: "Schlägt Skills vor basierend auf Query"
+    enabled: true
+    trigger:
+      type: "search"
+    action:
+      type: "suggest_skills"
+      max_suggestions: 3
+    source: "search-index"
+    confidence: 0.8
+    
+  - id: "error-pattern-recognition"
+    name: "Fehler-Muster-Erkennung"
+    description: "Erkennt wiederkehrende Fehler und schlägt Fixes vor"
+    enabled: true
+    trigger:
+      type: "error"
+    action:
+      type: "suggest_fix"
+      lookup_in: "memory/self-improving/patterns.md"
+    source: "learned"
+    confidence: 0.7
+
+# Instinct-Lernen
+learning:
+  auto_extract: true
+  min_occurrences: 3
+  confidence_threshold: 0.7
+  review_required: true
+  
+  sources:
+    - type: "corrections"
+      file: "memory/self-improving/corrections.md"
+      weight: 1.0
+      
+    - type: "patterns"
+      file: "memory/self-improving/patterns.md"
+      weight: 0.9
+      
+    - type: "project_patterns"
+      file: "memory/self-improving/projects/{project_id}/patterns.md"
+      weight: 0.8
+
+# Aktive Instincts pro Context
+context_instincts:
+  dev:
+    - auto-skill-suggest
+    - error-pattern-recognition
+    
+  research:
+    - auto-skill-suggest
+    
+  review:
+    - auto-skill-suggest
+    - error-pattern-recognition

@@ -1,0 +1,29 @@
+{
+  "default_model": "small",
+  "models": {
+    "base": {
+      "size": "base",
+      "device": "auto",
+      "compute_type": "int8",
+      "description": "Schnell (150 MB)"
+    },
+    "small": {
+      "size": "small",
+      "device": "auto",
+      "compute_type": "int8",
+      "description": "Mittel (500 MB)"
+    },
+    "medium": {
+      "size": "medium",
+      "device": "auto",
+      "compute_type": "int8",
+      "description": "Genau (1.5 GB)"
+    }
+  },
+  "telegram": {
+    "delete_after_transcribe": true,
+    "max_duration": 600,
+    "supported_formats": ["ogg", "mp3", "wav", "m4a"]
+  },
+  "user_preferences": {}
+}

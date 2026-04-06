@@ -1,0 +1,59 @@
+{
+  "$schema": "https://raw.githubusercontent.com/modelcontextprotocol/specification/main/schema/mcp-server-schema.json",
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "."],
+      "description": "Filesystem operations for current workspace",
+      "enabledByDefault": true
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      },
+      "description": "GitHub operations - PRs, issues, repos",
+      "enabledByDefault": false,
+      "setupRequired": "Set GITHUB_TOKEN environment variable"
+    },
+    "memory": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"],
+      "description": "Persistent memory across sessions",
+      "enabledByDefault": true
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
+      "description": "Chain-of-thought reasoning",
+      "enabledByDefault": false
+    },
+    "web-search": {
+      "command": "npx",
+      "args": ["-y", "@mcp/server-brave-search"],
+      "env": {
+        "BRAVE_API_KEY": "${BRAVE_API_KEY}"
+      },
+      "description": "Web search via Brave",
+      "enabledByDefault": false,
+      "setupRequired": "Set BRAVE_API_KEY environment variable"
+    },
+    "fetch": {
+      "command": "npx",
+      "args": ["-y", "@mcp/server-fetch"],
+      "description": "Fetch web content",
+      "enabledByDefault": true
+    }
+  },
+  "_metadata": {
+    "version": "1.0",
+    "lastUpdated": "2026-03-25",
+    "framework": "modular-agent-framework",
+    "notes": [
+      "Copy servers you need to your MCP client config",
+      "Set required environment variables before enabling",
+      "Keep under 5 MCPs enabled to preserve context window"
+    ]
+  }
+}

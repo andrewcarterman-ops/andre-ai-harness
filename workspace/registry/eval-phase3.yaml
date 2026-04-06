@@ -1,0 +1,81 @@
+# Phase 3 Eval - Persistence & Learning
+# Testet Session Store und Project Registry
+
+eval_id: "eval-phase3-001"
+title: "Test: Phase 3 Persistence & Learning"
+description: "Validiert Session Store und projektspezifisches Lernen"
+phase: 3
+created_at: "2026-03-25T22:56:00+01:00"
+
+target:
+  type: "phase"
+  phase_id: "3"
+  name: "Persistence & Learning"
+
+criteria:
+  # Session Store
+  - id: "sessions_dir_exists"
+    description: "memory/sessions/ existiert"
+    check: "dir_exists"
+    path: "memory/sessions/"
+    required: true
+    weight: 15
+    
+  - id: "sessions_readme_exists"
+    description: "Session Store README existiert"
+    check: "file_exists"
+    path: "memory/sessions/README.md"
+    required: true
+    weight: 10
+    
+  - id: "session_example_exists"
+    description: "Beispiel-Session existiert"
+    check: "file_exists"
+    path: "memory/sessions/SESSION-20260325-224500-001.json"
+    required: false
+    weight: 5
+    
+  # Project Registry
+  - id: "projects_yaml_exists"
+    description: "projects.yaml existiert"
+    check: "file_exists"
+    path: "registry/projects.yaml"
+    required: true
+    weight: 15
+    
+  - id: "projects_has_active_project"
+    description: "projects.yaml hat aktives Projekt"
+    check: "yaml_contains"
+    path: "registry/projects.yaml"
+    key: "projects"
+    value: "proj-modular-agent"
+    required: true
+    weight: 15
+    
+  # Project Learning
+  - id: "project_learning_dir_exists"
+    description: "Projekt-Learning Verzeichnis existiert"
+    check: "dir_exists"
+    path: "memory/self-improving/projects/proj-modular-agent/"
+    required: true
+    weight: 15
+    
+  - id: "project_patterns_exists"
+    description: "Projekt-Patterns existieren"
+    check: "file_exists"
+    path: "memory/self-improving/projects/proj-modular-agent/patterns.md"
+    required: true
+    weight: 10
+    
+  - id: "project_preferences_exists"
+    description: "Projekt-Präferenzen existieren"
+    check: "file_exists"
+    path: "memory/self-improving/projects/proj-modular-agent/preferences.md"
+    required: true
+    weight: 10
+
+success_threshold: 80
+
+output:
+  format: "markdown"
+  location: "memory/evals/"

@@ -1,0 +1,84 @@
+# Phase 2 Eval - Cognitive Layer
+# Testet Search, Planner, Reviewer, Eval
+
+eval_id: "eval-phase2-001"
+title: "Test: Phase 2 Cognitive Layer"
+description: "Validiert die kognitive Schicht"
+phase: 2
+created_at: "2026-03-25T22:56:00+01:00"
+
+target:
+  type: "phase"
+  phase_id: "2"
+  name: "Cognitive Layer"
+
+criteria:
+  # Search Index
+  - id: "search_index_exists"
+    description: "search-index.json existiert"
+    check: "file_exists"
+    path: "registry/search-index.json"
+    required: true
+    weight: 15
+    
+  - id: "search_index_valid_json"
+    description: "search-index.json ist valides JSON"
+    check: "json_valid"
+    path: "registry/search-index.json"
+    required: true
+    weight: 10
+    
+  - id: "search_index_has_entries"
+    description: "Search-Index hat Einträge"
+    check: "json_array_min"
+    path: "registry/search-index.json"
+    key: "entries"
+    min_count: 5
+    required: true
+    weight: 10
+    
+  # Planner
+  - id: "plans_dir_exists"
+    description: "plans/ Verzeichnis existiert"
+    check: "dir_exists"
+    path: "plans/"
+    required: true
+    weight: 10
+    
+  - id: "plan_template_exists"
+    description: "Plan-Template existiert"
+    check: "file_exists"
+    path: "plans/TEMPLATE.md"
+    required: true
+    weight: 10
+    
+  # Reviewer
+  - id: "review_config_exists"
+    description: "review-config.yaml existiert"
+    check: "file_exists"
+    path: "registry/review-config.yaml"
+    required: true
+    weight: 15
+    
+  - id: "review_hook_exists"
+    description: "Review-Hook existiert"
+    check: "file_exists"
+    path: "hooks/review-post-execution.md"
+    required: true
+    weight: 10
+    
+  # Integration
+  - id: "hooks_has_review_hook"
+    description: "hooks.yaml registriert Review-Hook"
+    check: "yaml_contains"
+    path: "registry/hooks.yaml"
+    key: "hooks"
+    value: "review:post_execution"
+    required: true
+    weight: 10
+
+success_threshold: 80
+
+output:
+  format: "markdown"
+  location: "memory/evals/"

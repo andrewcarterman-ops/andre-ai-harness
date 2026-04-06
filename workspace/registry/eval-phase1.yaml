@@ -1,0 +1,86 @@
+# Phase 1 Eval - Registry Foundation
+# Testet die Kern-Registry-Komponenten
+
+eval_id: "eval-phase1-001"
+title: "Test: Phase 1 Registry Foundation"
+description: "Validiert dass alle Registry-Komponenten korrekt angelegt sind"
+phase: 1
+created_at: "2026-03-25T22:56:00+01:00"
+
+target:
+  type: "phase"
+  phase_id: "1"
+  name: "Registry Foundation"
+
+criteria:
+  # Registry Dateien
+  - id: "agents_yaml_exists"
+    description: "agents.yaml existiert"
+    check: "file_exists"
+    path: "registry/agents.yaml"
+    required: true
+    weight: 15
+    
+  - id: "skills_yaml_exists"
+    description: "skills.yaml existiert"
+    check: "file_exists"
+    path: "registry/skills.yaml"
+    required: true
+    weight: 15
+    
+  - id: "hooks_yaml_exists"
+    description: "hooks.yaml existiert"
+    check: "file_exists"
+    path: "registry/hooks.yaml"
+    required: true
+    weight: 15
+    
+  # YAML-Validität
+  - id: "agents_yaml_valid"
+    description: "agents.yaml ist valides YAML"
+    check: "yaml_valid"
+    path: "registry/agents.yaml"
+    required: true
+    weight: 10
+    
+  - id: "skills_yaml_valid"
+    description: "skills.yaml ist valides YAML"
+    check: "yaml_valid"
+    path: "registry/skills.yaml"
+    required: true
+    weight: 10
+    
+  # Inhalt
+  - id: "agents_has_andrew"
+    description: "agents.yaml enthält andrew-main"
+    check: "yaml_contains"
+    path: "registry/agents.yaml"
+    key: "agents"
+    value: "andrew-main"
+    required: true
+    weight: 10
+    
+  - id: "skills_has_5_skills"
+    description: "skills.yaml enthält 5 Skills"
+    check: "yaml_array_min"
+    path: "registry/skills.yaml"
+    key: "skills"
+    min_count: 5
+    required: true
+    weight: 10
+    
+  # Hooks
+  - id: "hooks_has_session_start"
+    description: "hooks.yaml enthält session:start"
+    check: "yaml_contains"
+    path: "registry/hooks.yaml"
+    key: "hooks"
+    value: "session:start"
+    required: true
+    weight: 15
+
+success_threshold: 80
+
+output:
+  format: "markdown"
+  location: "memory/evals/"

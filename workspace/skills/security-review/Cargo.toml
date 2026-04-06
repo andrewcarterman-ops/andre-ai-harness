@@ -1,0 +1,33 @@
+[package]
+name = "security-review"
+version = "0.1.0"
+edition = "2021"
+authors = ["Andrew (OpenClaw) <openclaw@ecc-framework.local>"]
+description = "Security review skill with permission framework and risk analysis"
+license = "MIT"
+
+[dependencies]
+# Async
+async-trait = "0.1"
+tokio = { version = "1.35", features = ["full"] }
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Date/Time
+chrono = { version = "0.4", features = ["serde"] }
+
+# Directories
+dirs = "5.0"
+
+# Error Handling
+thiserror = "1.0"
+
+[dev-dependencies]
+tokio-test = "0.4"
+tempfile = "3.8"
+
+[lib]
+name = "security_review"
+path = "src/lib.rs"

@@ -1,0 +1,256 @@
+# Skill Registry - Phase 2: Matt Pocock Enhancement
+# Auto-generiert aus skills/*/SKILL.md
+# Format: YAML 1.2
+
+version: "2.0"
+last_updated: "2026-04-05T18:05:00+02:00"
+auto_generated: false
+generator_version: "2.0"
+
+# Gesamtanzahl Skills
+count: 15
+
+skills:
+  # ============================================
+  # PLANNING SKILLS (NEW - Matt Pocock Style)
+  # ============================================
+  - id: "write-a-prd"
+    name: "write-a-prd"
+    description: "Create a Product Requirements Document through interactive user interview, codebase exploration, and module design. Use when user wants to write a PRD, create product requirements, or plan a new feature from scratch."
+    path: "skills/write-a-prd"
+    skill_file: "skills/write-a-prd/SKILL.md"
+    has_frontmatter: true
+    category: "planning"
+    triggers: ["write prd", "product requirements", "prd", "plan feature"]
+    status: "active"
+    source: "matt-pocock-adapted"
+    workflow_type: "interactive"
+    
+  - id: "grill-me"
+    name: "grill-me"
+    description: "Relentlessly interview the user about a plan or design until reaching shared understanding, resolving each branch of the decision tree. Use when user wants to stress-test a plan, get grilled on their design, mentions 'grill me', or before starting implementation to catch edge cases."
+    path: "skills/grill-me"
+    skill_file: "skills/grill-me/SKILL.md"
+    has_frontmatter: true
+    category: "planning"
+    triggers: ["grill me", "stress test", "review plan", "edge cases"]
+    status: "active"
+    source: "matt-pocock-adapted"
+    workflow_type: "interactive"
+    
+  - id: "plan-feature"
+    name: "plan-feature"
+    description: "Turn a feature idea into a phased implementation plan using vertical slices (tracer bullets). Use when user wants to break down a feature, create an implementation plan, plan phases, or mentions 'tracer bullets' or 'vertical slices'."
+    path: "skills/plan-feature"
+    skill_file: "skills/plan-feature/SKILL.md"
+    has_frontmatter: true
+    category: "planning"
+    triggers: ["plan feature", "break down", "implementation plan", "tracer bullets", "vertical slices", "phases"]
+    status: "active"
+    source: "matt-pocock-adapted"
+    workflow_type: "structured"
+    
+  # ============================================
+  # DEVELOPMENT SKILLS
+  # ============================================
+  - id: "tdd-loop"
+    name: "tdd-loop"
+    description: "Test-driven development with active red-green-refactor loop. Use when user wants to build features or fix bugs using TDD, mentions 'red-green-refactor', 'write a test first', or wants integration tests through public interfaces."
+    path: "skills/tdd-loop"
+    skill_file: "skills/tdd-loop/SKILL.md"
+    has_frontmatter: true
+    category: "development"
+    triggers: ["tdd", "red green refactor", "test first", "write test"]
+    status: "active"
+    source: "matt-pocock-adapted"
+    workflow_type: "active-loop"
+    related_skills: ["testing-patterns"]
+    
+  # ============================================
+  # ORIGINAL SKILLS
+  # ============================================
+  - id: "example-weather"
+    name: "example-weather"
+    description: "Fetch weather data from external APIs"
+    path: "skills/example-weather"
+    skill_file: "skills/example-weather/SKILL.md"
+    has_frontmatter: true
+    category: "external-api"
+    triggers: ["weather", "forecast", "temperature"]
+    status: "active"
+    
+  - id: "secure-api-client"
+    name: "secure-api-client"
+    description: "Secure HTTP API client with built-in security controls"
+    path: "skills/secure-api-client"
+    skill_file: "skills/secure-api-client/SKILL.md"
+    has_frontmatter: true
+    category: "security"
+    triggers: ["api", "http", "security"]
+    status: "active"
+    
+  - id: "self-improving-andrew"
+    name: "self-improving-andrew"
+    description: "Self-improving agent that learns from corrections"
+    path: "skills/self-improving-andrew"
+    skill_file: "skills/self-improving-andrew/SKILL.md"
+    has_frontmatter: true
+    category: "learning"
+    triggers: ["learning", "feedback", "correction"]
+    status: "active"
+    
+  - id: "mission-control"
+    name: "mission-control"
+    description: "Command center for creating, managing, and deploying tools"
+    path: "skills/mission-control"
+    skill_file: "skills/mission-control/SKILL.md"
+    has_frontmatter: false
+    category: "tooling"
+    triggers: ["tool", "create", "deploy"]
+    status: "active"
+    
+  - id: "mission-control-v2"
+    name: "mission-control-v2"
+    description: "Enhanced version of mission-control"
+    path: "skills/mission-control-v2"
+    skill_file: "skills/mission-control-v2/SKILL.md"
+    has_frontmatter: false
+    category: "tooling"
+    triggers: ["advanced tool"]
+    status: "active"
+    note: "Contains node_modules"
+    
+  # ECC Skills
+  - id: "python-patterns"
+    name: "python-patterns"
+    description: "Python best practices and patterns"
+    path: "skills/python-patterns"
+    skill_file: "skills/python-patterns/SKILL.md"
+    has_frontmatter: true
+    category: "language"
+    triggers: ["python", "pythonic", "py"]
+    status: "active"
+    source: "adapted-from-ecc"
+    
+  - id: "security-review"
+    name: "security-review"
+    description: "Security-focused code review patterns"
+    path: "skills/security-review"
+    skill_file: "skills/security-review/SKILL.md"
+    has_frontmatter: true
+    category: "security"
+    triggers: ["security", "vulnerability", "audit"]
+    status: "active"
+    source: "adapted-from-ecc"
+    
+  - id: "testing-patterns"
+    name: "testing-patterns"
+    description: "Testing best practices and TDD patterns (static reference). Use when looking for testing patterns, test structure, or TDD theory. For active TDD workflow, use tdd-loop."
+    path: "skills/testing-patterns"
+    skill_file: "skills/testing-patterns/SKILL.md"
+    has_frontmatter: true
+    category: "quality"
+    triggers: ["test patterns", "testing theory", "tdd patterns"]
+    status: "active"
+    source: "adapted-from-ecc"
+    related_skills: ["tdd-loop"]
+    
+  - id: "api-design"
+    name: "api-design"
+    description: "REST API design patterns and OpenAPI"
+    path: "skills/api-design"
+    skill_file: "skills/api-design/SKILL.md"
+    has_frontmatter: true
+    category: "architecture"
+    triggers: ["api", "rest", "endpoint"]
+    status: "active"
+    source: "adapted-from-ecc"
+    
+  - id: "documentation"
+    name: "documentation"
+    description: "Documentation best practices"
+    path: "skills/documentation"
+    skill_file: "skills/documentation/SKILL.md"
+    has_frontmatter: true
+    category: "communication"
+    triggers: ["document", "readme", "docs"]
+    status: "active"
+    source: "adapted-from-ecc"
+    
+  - id: "refactoring"
+    name: "refactoring"
+    description: "Code refactoring patterns"
+    path: "skills/refactoring"
+    skill_file: "skills/refactoring/SKILL.md"
+    has_frontmatter: true
+    category: "quality"
+    triggers: ["refactor", "clean up", "optimize"]
+    status: "active"
+    source: "adapted-from-ecc"
+    
+  - id: "second-brain"
+    name: "second-brain"
+    description: "PARA-based knowledge management for OpenClaw sessions"
+    path: "second-brain"
+    skill_file: "second-brain/SKILL.md"
+    has_frontmatter: true
+    category: "tooling"
+    triggers: ["second brain", "para", "knowledge", "obsidian", "sync"]
+    status: "active"
+    source: "custom"
+
+# ============================================
+# CATEGORY INDEX
+# ============================================
+categories:
+  planning: ["write-a-prd", "grill-me", "plan-feature"]
+  development: ["tdd-loop"]
+  external-api: ["example-weather"]
+  security: ["secure-api-client", "security-review"]
+  learning: ["self-improving-andrew"]
+  tooling: ["mission-control", "mission-control-v2", "second-brain"]
+  language: ["python-patterns"]
+  quality: ["testing-patterns", "refactoring"]
+  architecture: ["api-design"]
+  communication: ["documentation"]
+
+# ============================================
+# WORKFLOW CHAINS
+# ============================================
+workflow_chains:
+  feature_development:
+    description: "Complete workflow from idea to implementation"
+    steps:
+      - write-a-prd
+      - grill-me
+      - plan-feature
+      - tdd-loop
+    optional:
+      - testing-patterns
+      
+  quick_feature:
+    description: "Fast track for small features"
+    steps:
+      - plan-feature
+      - tdd-loop
+
+# ============================================
+# AGENT ASSIGNMENTS
+# ============================================
+agent_assignments:
+  andrew-main:
+    - write-a-prd
+    - grill-me
+    - plan-feature
+    - tdd-loop
+    - example-weather
+    - secure-api-client
+    - self-improving-andrew
+    - mission-control
+    - python-patterns
+    - security-review
+    - testing-patterns
+    - api-design
+    - documentation
+    - refactoring
+    - second-brain

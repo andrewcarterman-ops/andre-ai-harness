@@ -1,0 +1,6 @@
+﻿hooks:
+  session:end:
+    description: "Sync mit SecondBrain"
+    handler_file: "hooks/session-end.ps1"
+    enabled: true
+    priority: 100

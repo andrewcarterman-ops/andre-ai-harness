@@ -1,0 +1,179 @@
+// lib/db/schema.ts - Drizzle ORM Database Schema
+
+import { 
+  sqliteTable, 
+  text, 
+  integer, 
+  real, 
+  blob,
+} from 'drizzle-orm/sqlite-core';
+import { relations } from 'drizzle-orm';
+
+// ==================== TASKS ====================
+export const tasks = sqliteTable('tasks', {
+  id: text('id').primaryKey(),
+  title: text('title').notNull(),
+  description: text('description').notNull(),
+  status: text('status').notNull().$type<'backlog' | 'in_progress' | 'review' | 'done'>(),
+  priority: text('priority').notNull().$type<'low' | 'medium' | 'high' | 'urgent'>(),
+  assigneeId: text('assignee_id').notNull(),
+  assigneeType: text('assignee_type').notNull().$type<'user' | 'ai'>(),
+  assigneeName: text('assignee_name').notNull(),
+  assigneeAvatar: text('assignee_avatar'),
+  projectId: text('project_id').references(() => projects.id),
+  tags: text('tags', { mode: 'json' }).$type<string[]>().default('[]'),
+  dueDate: integer('due_date', { mode: 'timestamp' }),
+  scheduledAt: integer('scheduled_at', { mode: 'timestamp' }),
+  cronExpression: text('cron_expression'),
+  estimatedHours: real('estimated_hours'),
+  actualHours: real('actual_hours'),
+  parentTaskId: text('parent_task_id'),
+  subtasks: text('subtasks', { mode: 'json' }).$type<string[]>().default('[]'),
+  metadata: text('metadata', { mode: 'json' }).$type<Record<string, any>>().default('{}'),
+  createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
+  updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull(),
+  completedAt: integer('completed_at', { mode: 'timestamp' }),
+});
+
+// ==================== PROJECTS ====================
+export const projects = sqliteTable('projects', {
+  id: text('id').primaryKey(),
+  name: text('name').notNull(),
+  description: text('description').notNull(),
+  status: text('status').notNull().$type<'planning' | 'active' | 'paused' | 'completed' | 'archived'>(),
+  progress: integer('progress').notNull().default(0),
+  startDate: integer('start_date', { mode: 'timestamp' }),
+  targetDate: integer('target_date', { mode: 'timestamp' }),
+  completedDate: integer('completed_date', { mode: 'timestamp' }),
+  color: text('color').notNull().default('#3b82f6'),
+  taskCountTotal: integer('task_count_total').default(0),
+  taskCountCompleted: integer('task_count_completed').default(0),
+  linkedMemories: text('linked_memories', { mode: 'json' }).$type<string[]>().default('[]'),
+  linkedDocs: text('linked_docs', { mode: 'json' }).$type<string[]>().default('[]'),
+  createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
+  updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull(),
+});
+
+// ==================== MEMORIES ====================
+export const memories = sqliteTable('memories', {
+  id: text('id').primaryKey(),
+  content: text('content').notNull(),
+  type: text('type').notNull().$type<'observation' | 'action' | 'decision' | 'conversation' | 'insight'>(),
+  date: integer('date', { mode: 'timestamp' }).notNull(),
+  tags: text('tags', { mode: 'json' }).$type<string[]>().default('[]'),
+  importance: integer('importance').notNull().default(5),
+  projectId: text('project_id').references(() => projects.id),
+  taskId: text('task_id').references(() => tasks.id),
+  agentId: text('agent_id').references(() => agents.id),
+  embedding: blob('embedding'), // For vector search (optional)
+  source: text('source').notNull(),
+  relatedMemories: text('related_memories', { mode: 'json' }).$type<string[]>().default('[]'),
+});
+
+// ==================== DOCUMENTS ====================
+export const docs = sqliteTable('docs', {
+  id: text('id').primaryKey(),
+  title: text('title').notNull(),
+  content: text('content').notNull(),
+  category: text('category').notNull().$type<'requirements' | 'architecture' | 'api' | 'guide' | 'meeting' | 'research' | 'other'>(),
+  tags: text('tags', { mode: 'json' }).$type<string[]>().default('[]'),
+  projectId: text('project_id').references(() => projects.id),
+  createdBy: text('created_by').notNull(),
+  updatedBy: text('updated_by').notNull(),
+  createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
+  updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull(),
+  version: integer('version').notNull().default(1),
+  isArchived: integer('is_archived', { mode: 'boolean' }).default(false),
+});
+
+// ==================== AGENTS ====================
+export const agents = sqliteTable('agents', {
+  id: text('id').primaryKey(),
+  name: text('name').notNull(),
+  role: text('role').notNull(),
+  avatar: text('avatar'),
+  status: text('status').notNull().$type<'idle' | 'working' | 'paused' | 'offline'>(),
+  currentTaskId: text('current_task_id').references(() => tasks.id),
+  deviceType: text('device_type'),
+  deviceOs: text('device_os'),
+  deviceLastSeen: integer('device_last_seen', { mode: 'timestamp' }),
+  capabilities: text('capabilities', { mode: 'json' }).$type<string[]>().default('[]'),
+  tasksCompleted: integer('tasks_completed').default(0),
+  avgCompletionTime: real('avg_completion_time'),
+  successRate: real('success_rate'),
+  officeX: integer('office_x'),
+  officeY: integer('office_y'),
+  createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
+});
+
+// ==================== ACTIVITIES ====================
+export const activities = sqliteTable('activities', {
+  id: text('id').primaryKey(),
+  type: text('type').notNull().$type<'task_created' | 'task_updated' | 'task_completed' | 'task_assigned' | 'task_moved' | 'project_created' | 'project_updated' | 'doc_created' | 'doc_updated' | 'memory_created' | 'agent_action' | 'system_event'>(),
+  actorId: text('actor_id').notNull(),
+  actorType: text('actor_type').notNull().$type<'user' | 'ai'>(),
+  actorName: text('actor_name').notNull(),
+  targetType: text('target_type').notNull().$type<'task' | 'project' | 'doc' | 'memory' | 'system'>(),
+  targetId: text('target_id').notNull(),
+  targetName: text('target_name').notNull(),
+  action: text('action').notNull(),
+  metadata: text('metadata', { mode: 'json' }).$type<Record<string, any>>().default('{}'),
+  timestamp: integer('timestamp', { mode: 'timestamp' }).notNull(),
+});
+
+// ==================== SCHEDULED JOBS ====================
+export const scheduledJobs = sqliteTable('scheduled_jobs', {
+  id: text('id').primaryKey(),
+  name: text('name').notNull(),
+  description: text('description'),
+  cronExpression: text('cron_expression').notNull(),
+  taskTemplate: text('task_template', { mode: 'json' }).notNull().$type<Record<string, any>>(),
+  isActive: integer('is_active', { mode: 'boolean' }).default(true),
+  lastRun: integer('last_run', { mode: 'timestamp' }),
+  nextRun: integer('next_run', { mode: 'timestamp' }),
+  runCount: integer('run_count').default(0),
+  createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
+  updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull(),
+});
+
+// ==================== RELATIONS ====================
+export const projectsRelations = relations(projects, ({ many }) => ({
+  tasks: many(tasks),
+  memories: many(memories),
+  docs: many(docs),
+}));
+
+export const tasksRelations = relations(tasks, ({ one, many }) => ({
+  project: one(projects, {
+    fields: [tasks.projectId],
+    references: [projects.id],
+  }),
+  memories: many(memories),
+  subtaskItems: many(tasks),
+}));
+
+export const agentsRelations = relations(agents, ({ many }) => ({
+  memories: many(memories),
+}));
+
+// ==================== TYPES ====================
+export type Task = typeof tasks.$inferSelect;
+export type NewTask = typeof tasks.$inferInsert;
+
+export type Project = typeof projects.$inferSelect;
+export type NewProject = typeof projects.$inferInsert;
+
+export type Memory = typeof memories.$inferSelect;
+export type NewMemory = typeof memories.$inferInsert;
+
+export type Doc = typeof docs.$inferSelect;
+export type NewDoc = typeof docs.$inferInsert;
+
+export type Agent = typeof agents.$inferSelect;
+export type NewAgent = typeof agents.$inferInsert;
+
+export type Activity = typeof activities.$inferSelect;
+export type NewActivity = typeof activities.$inferInsert;
+
+export type ScheduledJob = typeof scheduledJobs.$inferSelect;
+export type NewScheduledJob = typeof scheduledJobs.$inferInsert;

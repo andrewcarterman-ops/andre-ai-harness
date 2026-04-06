@@ -1,0 +1,100 @@
+'use client';
+
+import { create } from 'zustand';
+import { immer } from 'zustand/middleware/immer';
+import { Activity, ActivityType } from '@/types';
+
+interface ActivityState {
+  activities: Activity[];
+  unreadCount: number;
+  isConnected: boolean;
+  filter: ActivityType | 'all';
+  
+  // Actions
+  addActivity: (activity: Activity) => void;
+  addActivities: (activities: Activity[]) => void;
+  markAsRead: () => void;
+  markOneAsRead: (activityId: string) => void;
+  connect: () => void;
+  disconnect: () => void;
+  setFilter: (filter: ActivityType | 'all') => void;
+  clearActivities: () => void;
+  
+  // Getters
+  getFilteredActivities: () => Activity[];
+  getUnreadActivities: () => Activity[];
+  getActivitiesByType: (type: ActivityType) => Activity[];
+}
+
+export const useActivityStore = create<ActivityState>()(
+  immer((set, get) => ({
+    activities: [],
+    unreadCount: 0,
+    isConnected: false,
+    filter: 'all',
+
+    addActivity: (activity) => {
+      set((state) => {
+        // Prevent duplicates
+        const exists = state.activities.some((a) => a.id === activity.id);
+        if (exists) return;
+        
+        state.activities.unshift(activity);
+        
+        // Keep only last 100 activities
+        if (state.activities.length > 100) {
+          state.activities.pop();
+        }
+        
+        state.unreadCount++;
+      });
+    },
+
+    addActivities: (newActivities) => {
+      set((state) => {
+        const existingIds = new Set(state.activities.map((a) => a.id));
+        const uniqueNew = newActivities.filter((a) => !existingIds.has(a.id));
+        
+        state.activities.unshift(...uniqueNew);
+        state.unreadCount += uniqueNew.length;
+        
+        // Keep only last 100 activities
+        if (state.activities.length > 100) {
+          state.activities = state.activities.slice(0, 100);
+        }
+      });
+    },
+
+    markAsRead: () => set({ unreadCount: 0 }),
+
+    markOneAsRead: (activityId) => {
+      set((state) => {
+        if (state.unreadCount > 0) {
+          state.unreadCount--;
+        }
+      });
+    },
+
+    connect: () => set({ isConnected: true }),
+    disconnect: () => set({ isConnected: false }),
+    
+    setFilter: (filter) => set({ filter }),
+    
+    clearActivities: () => set({ activities: [], unreadCount: 0 }),
+
+    getFilteredActivities: () => {
+      const { activities, filter } = get();
+      if (filter === 'all') return activities;
+      return activities.filter((a) => a.type === filter);
+    },
+
+    getUnreadActivities: () => {
+      const { activities, unreadCount } = get();
+      return activities.slice(0, unreadCount);
+    },
+
+    getActivitiesByType: (type) => {
+      return get().activities.filter((a) => a.type === type);
+    },
+  }))
+);

@@ -1,0 +1,4 @@
+Functionality test after restoration
+Line 1: Write OK
+Line 2: No path errors
+Line 3: No ENOENT errors

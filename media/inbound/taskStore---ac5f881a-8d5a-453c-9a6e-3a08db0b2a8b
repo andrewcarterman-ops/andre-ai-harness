@@ -1,0 +1,208 @@
+// stores/taskStore.ts - Zustand store for Task Management
+
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { immer } from 'zustand/middleware/immer';
+import { Task, TaskStatus, Activity, Assignee } from '@/types';
+
+interface TaskState {
+  // State
+  tasks: Task[];
+  columns: Record<TaskStatus, string[]>; // task IDs by column
+  isLoading: boolean;
+  error: string | null;
+  selectedTask: Task | null;
+  
+  // Actions
+  fetchTasks: () => Promise<void>;
+  createTask: (task: Omit<Task, 'id' | 'createdAt' | 'updatedAt'>) => Promise<Task>;
+  updateTask: (id: string, updates: Partial<Task>) => Promise<void>;
+  deleteTask: (id: string) => Promise<void>;
+  moveTask: (taskId: string, from: TaskStatus, to: TaskStatus) => Promise<void>;
+  setSelectedTask: (task: Task | null) => void;
+  
+  // AI Integration
+  getAITasks: () => Task[];
+  claimNextAITask: () => Task | null;
+  
+  // Search & Filter
+  searchTasks: (query: string) => Task[];
+  getTasksByProject: (projectId: string) => Task[];
+  getTasksByAssignee: (assigneeId: string) => Task[];
+}
+
+export const useTaskStore = create<TaskState>()(
+  immer(
+    persist(
+      (set, get) => ({
+        tasks: [],
+        columns: {
+          backlog: [],
+          in_progress: [],
+          review: [],
+          done: [],
+        },
+        isLoading: false,
+        error: null,
+        selectedTask: null,
+
+        fetchTasks: async () => {
+          set({ isLoading: true, error: null });
+          try {
+            const res = await fetch('/api/tasks');
+            if (!res.ok) throw new Error('Failed to fetch tasks');
+            const tasks = await res.json();
+            
+            // Organize by columns
+            const columns: Record<TaskStatus, string[]> = {
+              backlog: [],
+              in_progress: [],
+              review: [],
+              done: [],
+            };
+            
+            tasks.forEach((task: Task) => {
+              columns[task.status].push(task.id);
+            });
+            
+            set({ tasks, columns, isLoading: false });
+          } catch (error) {
+            set({ 
+              error: error instanceof Error ? error.message : 'Failed to fetch tasks', 
+              isLoading: false 
+            });
+          }
+        },
+
+        createTask: async (taskData) => {
+          const res = await fetch('/api/tasks', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(taskData),
+          });
+          
+          if (!res.ok) throw new Error('Failed to create task');
+          const newTask = await res.json();
+          
+          set((state) => {
+            state.tasks.push(newTask);
+            state.columns[newTask.status].push(newTask.id);
+          });
+          
+          return newTask;
+        },
+
+        updateTask: async (id, updates) => {
+          const res = await fetch(`/api/tasks/${id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updates),
+          });
+          
+          if (!res.ok) throw new Error('Failed to update task');
+          const updated = await res.json();
+          
+          set((state) => {
+            const index = state.tasks.findIndex((t) => t.id === id);
+            if (index !== -1) {
+              // Handle status change
+              if (updates.status && updates.status !== state.tasks[index].status) {
+                const oldStatus = state.tasks[index].status;
+                state.columns[oldStatus] = state.columns[oldStatus].filter(
+                  (tid) => tid !== id
+                );
+                state.columns[updates.status].push(id);
+              }
+              state.tasks[index] = { ...state.tasks[index], ...updated };
+            }
+          });
+        },
+
+        deleteTask: async (id) => {
+          const res = await fetch(`/api/tasks/${id}`, {
+            method: 'DELETE',
+          });
+          
+          if (!res.ok) throw new Error('Failed to delete task');
+          
+          set((state) => {
+            const task = state.tasks.find((t) => t.id === id);
+            if (task) {
+              state.columns[task.status] = state.columns[task.status].filter(
+                (tid) => tid !== id
+              );
+              state.tasks = state.tasks.filter((t) => t.id !== id);
+            }
+          });
+        },
+
+        moveTask: async (taskId, from, to) => {
+          // Optimistic update
+          set((state) => {
+            state.columns[from] = state.columns[from].filter((id) => id !== taskId);
+            state.columns[to].push(taskId);
+            const task = state.tasks.find((t) => t.id === taskId);
+            if (task) task.status = to;
+          });
+
+          // API call
+          try {
+            const res = await fetch(`/api/tasks/${taskId}`, {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ status: to }),
+            });
+            
+            if (!res.ok) throw new Error('Failed to move task');
+          } catch (error) {
+            // Rollback on error
+            set((state) => {
+              state.columns[to] = state.columns[to].filter((id) => id !== taskId);
+              state.columns[from].push(taskId);
+              const task = state.tasks.find((t) => t.id === taskId);
+              if (task) task.status = from;
+            });
+            throw error;
+          }
+        },
+
+        getAITasks: () => {
+          return get().tasks.filter(
+            (t) => t.assignee.type === 'ai' && t.status !== 'done'
+          );
+        },
+
+        claimNextAITask: () => {
+          const aiTasks = get().tasks.filter(
+            (t) => t.assignee.type === 'ai' && t.status === 'backlog'
+          );
+          return aiTasks.length > 0 ? aiTasks[0] : null;
+        },
+
+        searchTasks: (query) => {
+          const lowerQuery = query.toLowerCase();
+          return get().tasks.filter(
+            (t) =>
+              t.title.toLowerCase().includes(lowerQuery) ||
+              t.description.toLowerCase().includes(lowerQuery) ||
+              t.tags.some((tag) => tag.toLowerCase().includes(lowerQuery))
+          );
+        },
+
+        getTasksByProject: (projectId) => {
+          return get().tasks.filter((t) => t.projectId === projectId);
+        },
+
+        getTasksByAssignee: (assigneeId) => {
+          return get().tasks.filter((t) => t.assignee.id === assigneeId);
+        },
+
+        setSelectedTask: (task) => set({ selectedTask: task }),
+      }),
+      {
+        name: 'task-store',
+        partialize: (state) => ({ tasks: state.tasks, columns: state.columns }),
+      }
+    )
+  )
+);

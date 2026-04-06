@@ -1,0 +1,143 @@
+// app/api/tasks/route.ts - Tasks API Routes
+
+import { NextRequest, NextResponse } from 'next/server';
+import { db } from '@/lib/db';
+import { tasks } from '@/lib/db/schema';
+import { eq, desc, and, like, or, SQL } from 'drizzle-orm';
+import { nanoid } from 'nanoid';
+
+// GET /api/tasks - List all tasks with optional filtering
+export async function GET(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const status = searchParams.get('status');
+    const assigneeId = searchParams.get('assignee');
+    const projectId = searchParams.get('projectId');
+    const search = searchParams.get('search');
+    const limit = parseInt(searchParams.get('limit') || '100');
+
+    let conditions: SQL<unknown>[] = [];
+
+    if (status) {
+      conditions.push(eq(tasks.status, status as any));
+    }
+    if (assigneeId) {
+      conditions.push(eq(tasks.assigneeId, assigneeId));
+    }
+    if (projectId) {
+      conditions.push(eq(tasks.projectId, projectId));
+    }
+    if (search) {
+      conditions.push(
+        or(
+          like(tasks.title, `%${search}%`),
+          like(tasks.description, `%${search}%`)
+        )!
+      );
+    }
+
+    const query = db
+      .select()
+      .from(tasks)
+      .where(conditions.length > 0 ? and(...conditions) : undefined)
+      .orderBy(desc(tasks.createdAt))
+      .limit(limit);
+
+    const result = await query;
+
+    // Parse JSON fields
+    const parsed = result.map((task) => ({
+      ...task,
+      tags: JSON.parse(task.tags as string),
+      subtasks: JSON.parse(task.subtasks as string),
+      metadata: JSON.parse(task.metadata as string),
+    }));
+
+    return NextResponse.json(parsed);
+  } catch (error) {
+    console.error('Error fetching tasks:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch tasks' },
+      { status: 500 }
+    );
+  }
+}
+
+// POST /api/tasks - Create a new task
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+    
+    const now = new Date();
+    const newTask = {
+      id: nanoid(),
+      title: body.title,
+      description: body.description || '',
+      status: body.status || 'backlog',
+      priority: body.priority || 'medium',
+      assigneeId: body.assignee?.id || 'unassigned',
+      assigneeType: body.assignee?.type || 'user',
+      assigneeName: body.assignee?.name || 'Unassigned',
+      assigneeAvatar: body.assignee?.avatar,
+      projectId: body.projectId,
+      tags: JSON.stringify(body.tags || []),
+      dueDate: body.dueDate ? new Date(body.dueDate) : null,
+      scheduledAt: body.scheduledAt ? new Date(body.scheduledAt) : null,
+      cronExpression: body.cronExpression,
+      estimatedHours: body.estimatedHours,
+      actualHours: body.actualHours,
+      parentTaskId: body.parentTaskId,
+      subtasks: JSON.stringify(body.subtasks || []),
+      metadata: JSON.stringify(body.metadata || {}),
+      createdAt: now,
+      updatedAt: now,
+      completedAt: body.status === 'done' ? now : null,
+    };
+
+    await db.insert(tasks).values(newTask);
+
+    // Broadcast activity
+    await broadcastActivity({
+      type: 'task_created',
+      actor: body.assignee || { id: 'system', type: 'user', name: 'System' },
+      targetType: 'task',
+      targetId: newTask.id,
+      targetName: body.title,
+      action: 'created',
+    });
+
+    return NextResponse.json(
+      {
+        ...newTask,
+        tags: JSON.parse(newTask.tags),
+        subtasks: JSON.parse(newTask.subtasks),
+        metadata: JSON.parse(newTask.metadata),
+      },
+      { status: 201 }
+    );
+  } catch (error) {
+    console.error('Error creating task:', error);
+    return NextResponse.json(
+      { error: 'Failed to create task' },
+      { status: 500 }
+    );
+  }
+}
+
+// Helper function to broadcast activity (would connect to SSE)
+async function broadcastActivity(activityData: any) {
+  try {
+    // Import and use the broadcast function from realtime route
+    const { broadcastToClients } = await import('../realtime/route');
+    broadcastToClients({
+      type: 'activity',
+      payload: {
+        ...activityData,
+        id: nanoid(),
+        timestamp: new Date().toISOString(),
+      },
+    });
+  } catch (e) {
+    // Silent fail - activity broadcasting is non-critical
+  }
+}

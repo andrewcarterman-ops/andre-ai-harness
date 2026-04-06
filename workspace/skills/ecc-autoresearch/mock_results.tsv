@@ -1,0 +1,11 @@
+commit	val_bpb	memory_gb	status	description	safety_score	duration_sec	timestamp
+a1b2c3d	0.997900	44.0	keep	baseline	100	300	2026-03-31T00:00:00
+b2c3d4e	0.993200	44.2	keep	increase LR to 0.04	100	300	2026-03-31T00:05:00
+c3d4e5f	1.005000	44.0	discard	switch to GeLU activation	100	300	2026-03-31T00:10:00
+d4e5f6g	0.000000	0.0	crash	double model width OOM	95	45	2026-03-31T00:15:00
+e5f6g7h	0.991500	44.1	keep	add dropout 0.1	100	300	2026-03-31T00:20:00
+f6g7h8i	0.992000	43.9	keep	decrease batch size	100	300	2026-03-31T00:25:00
+g7h8i9j	0.990800	44.3	keep	tune weight decay	100	300	2026-03-31T00:30:00
+h8i9j0k	0.994000	44.0	discard	remove layer norm	100	300	2026-03-31T00:35:00
+i9j0k1l	0.000000	0.0	crash	OOM again	95	60	2026-03-31T00:40:00
+j0k1l2m	0.989500	44.2	keep	best config so far	100	300	2026-03-31T00:45:00

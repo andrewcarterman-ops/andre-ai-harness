@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "profiles": {
+    "kimi-coding:default": {
+      "type": "api_key",
+      "provider": "kimi-coding",
+      "key": "sk-kimi-CZCR2A4JzWdQfkqGz900Ny9kKYprSCFocRv1e0jKFXvgRouoHjwHAx70YEO3Sc1x"
+    }
+  },
+  "lastGood": {
+    "kimi-coding": "kimi-coding:default"
+  },
+  "usageStats": {
+    "kimi-coding:default": {
+      "errorCount": 0,
+      "lastUsed": 1775494685268
+    }
+  }
+}
