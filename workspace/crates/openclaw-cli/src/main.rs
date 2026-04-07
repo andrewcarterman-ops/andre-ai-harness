@@ -1,10 +1,4 @@
 ﻿//! OpenClaw CLI - Unified command-line interface
-//! 
-//! Usage:
-//!   openclaw index <vault-path>     - Index a vault into LanceDB
-//!   openclaw search <query>         - Search indexed content
-//!   openclaw session list           - List all sessions
-//!   openclaw analyze <file>         - Analyze code file
 
 use clap::{Parser, Subcommand};
 use anyhow::Result;
@@ -30,6 +24,10 @@ enum Commands {
         /// Database path (optional)
         #[arg(short, long, default_value = ".openclaw/db")]
         db_path: String,
+        
+        /// Max chars per chunk
+        #[arg(short, long, default_value_t = 2000)]
+        chunk_size: usize,
     },
     
     /// Search indexed content
@@ -100,12 +98,32 @@ async fn main() -> Result<()> {
     let cli = Cli::parse();
     
     match cli.command {
-        Commands::Index { vault_path, db_path } => {
+        Commands::Index { vault_path, db_path, chunk_size } => {
             info!("Indexing vault: {}", vault_path);
             info!("Database path: {}", db_path);
+            info!("Chunk size: {}", chunk_size);
             
-            // TODO: Implement vault indexing
-            println!("Indexing not yet implemented. Use Phase 4+ RAG.");
+            // Create directories
+            std::fs::create_dir_all(&db_path)?;
+            
+            // Initialize indexer
+            let chunker = openclaw_rag::MarkdownChunker::new(chunk_size);
+            let indexer = openclaw_rag::VaultIndexer::new(chunker, &db_path);
+            
+            // Index vault
+            let vault_path = std::path::PathBuf::from(vault_path);
+            match indexer.index_vault(&vault_path).await {
+                Ok(stats) => {
+                    println!("✅ Indexing complete!");
+                    println!("   Files processed: {}", stats.files_processed);
+                    println!("   Chunks created: {}", stats.chunks_created);
+                    println!("   Errors: {}", stats.errors);
+                }
+                Err(e) => {
+                    eprintln!("❌ Indexing failed: {}", e);
+                    return Err(e);
+                }
+            }
             
             Ok(())
         }
@@ -114,8 +132,27 @@ async fn main() -> Result<()> {
             info!("Searching for: {}", query);
             info!("Top {} results from {}", top_k, db_path);
             
-            // TODO: Implement search
-            println!("Search not yet implemented.");
+            // Initialize searcher
+            let searcher = openclaw_rag::VaultSearcher::new(&db_path);
+            
+            // Search
+            match searcher.search(&query, top_k).await {
+                Ok(results) => {
+                    println!("🔍 Found {} results for '{}':", results.len(), query);
+                    println!("");
+                    
+                    for (i, result) in results.iter().enumerate() {
+                        println!("{}. {} (score: {:.2})", i + 1, result.heading, result.score);
+                        println!("   Source: {}", result.source_path);
+                        println!("   Content: {:.100}...", result.content);
+                        println!("");
+                    }
+                }
+                Err(e) => {
+                    eprintln!("❌ Search failed: {}", e);
+                    return Err(e);
+                }
+            }
             
             Ok(())
         }
@@ -175,8 +212,8 @@ async fn main() -> Result<()> {
                     session.add_content("System", "Session initialized");
                     session.save(&path)?;
                     
-                    println!("Created new session: {}", session.frontmatter.session_id);
-                    println!("Path: {}", path.display());
+                    println!("✅ Created new session: {}", session.frontmatter.session_id);
+                    println!("   Path: {}", path.display());
                     
                     Ok(())
                 }
@@ -187,23 +224,92 @@ async fn main() -> Result<()> {
             info!("Analyzing file: {}", file);
             info!("Analysis type: {:?}", analysis);
             
-            // TODO: Implement code analysis with openclaw-parser
-            println!("Code analysis not yet implemented.");
+            let file_path = std::path::PathBuf::from(&file);
+            
+            if !file_path.exists() {
+                eprintln!("❌ File not found: {}", file);
+                return Err(anyhow::anyhow!("File not found: {}", file));
+            }
+            
+            // Initialize parser
+            let mut parser = openclaw_parser::CodeParser::new()?;
+            
+            // Parse file
+            match parser.parse_file(&file_path) {
+                Ok(parse_result) => {
+                    println!("✅ Parsed: {} ({:?})", file, parse_result.language);
+                    
+                    // Analyze based on type
+                    let analyzer = openclaw_parser::AstAnalyzer::new();
+                    let mut cursor = parse_result.tree.walk();
+                    let ast = analyzer.traverse(&mut cursor, &parse_result.source);
+                    
+                    match analysis {
+                        AnalysisType::Structure | AnalysisType::Full => {
+                            let functions = analyzer.find_functions(&ast, parse_result.language);
+                            let types = analyzer.find_types(&ast, parse_result.language);
+                            
+                            println!("");
+                            println!("📊 Structure Analysis:");
+                            println!("   Functions: {}", functions.len());
+                            println!("   Types: {}", types.len());
+                            
+                            if !functions.is_empty() {
+                                println!("");
+                                println!("   Functions:");
+                                for func in functions.iter().take(5) {
+                                    // Zeige ersten Teil des Textes (Funktionsname)
+                                    let name = func.text.lines().next().unwrap_or("unknown");
+                                    println!("     - {} (lines {}-{})", 
+                                        name.trim(), func.start_line, func.end_line);
+                                }
+                            }
+                        }
+                        _ => {}
+                    }
+                    
+                    match analysis {
+                        AnalysisType::Metrics | AnalysisType::Full => {
+                            println!("");
+                            println!("📈 Metrics:");
+                            println!("   Total lines: {}", parse_result.source.lines().count());
+                        }
+                        _ => {}
+                    }
+                    
+                    println!("");
+                    println!("✅ Analysis complete!");
+                }
+                Err(e) => {
+                    eprintln!("❌ Parsing failed: {}", e);
+                    return Err(e);
+                }
+            }
             
             Ok(())
         }
         
         Commands::Status => {
-            println!("OpenClaw AI Harness v0.1.0");
+            println!("╔════════════════════════════════════════════════════════╗");
+            println!("║        OpenClaw AI Harness v0.1.0                      ║");
+            println!("╚════════════════════════════════════════════════════════╝");
             println!("");
-            println!("Available modules:");
-            println!("  - openclaw-core:    ✅ Atomic writes + State management");
-            println!("  - openclaw-agents:  ✅ Agent system");
-            println!("  - openclaw-rag:     ✅ RAG + LanceDB");
-            println!("  - openclaw-parser:  ✅ Tree-sitter parsing");
+            println!("📦 Available modules:");
+            println!("   ✅ openclaw-core:    Atomic writes + State management");
+            println!("   ✅ openclaw-agents:  Agent system");
+            println!("   ✅ openclaw-rag:     RAG + LanceDB + Embeddings");
+            println!("   ✅ openclaw-parser:  Tree-sitter parsing");
             println!("");
-            println!("Session directory: .openclaw/sessions");
-            println!("Database directory: .openclaw/db");
+            println!("📁 Directories:");
+            println!("   Sessions: .openclaw/sessions");
+            println!("   Database: .openclaw/db");
+            println!("");
+            println!("🔧 Available commands:");
+            println!("   openclaw index <path>        - Index vault");
+            println!("   openclaw search <query>      - Search content");
+            println!("   openclaw analyze <file>      - Analyze code");
+            println!("   openclaw session new         - New session");
+            println!("   openclaw session list        - List sessions");
             
             Ok(())
         }
