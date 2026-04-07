@@ -1,6 +1,6 @@
 [workspace]
 members = ["crates/openclaw-agents",
-    "crates/openclaw-core", "crates/openclaw-rag",
+    "crates/openclaw-core", "crates/openclaw-parser", "crates/openclaw-rag",
 ]
 resolver = "2"
 

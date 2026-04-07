@@ -1,0 +1,24 @@
+﻿[package]
+name = "openclaw-parser"
+version = "0.1.0"
+edition = "2021"
+description = "Code parser for OpenClaw - Tree-sitter integration"
+authors = ["andre"]
+
+[dependencies]
+tokio = { workspace = true }
+anyhow = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+chrono = { workspace = true, features = ["serde"] }
+tracing = { workspace = true }
+
+# Parser-specific
+tree-sitter = "0.25"
+tree-sitter-rust = "0.24"
+tree-sitter-python = "0.23"
+tree-sitter-typescript = "0.23"
+tree-sitter-javascript = "0.23"
+
+[dev-dependencies]
+tokio-test = "0.4"
