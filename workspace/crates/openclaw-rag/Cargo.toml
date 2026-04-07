@@ -1,0 +1,23 @@
+﻿[package]
+name = "openclaw-rag"
+version = "0.1.0"
+edition = "2021"
+description = "RAG system for OpenClaw - Vector DB and Embeddings"
+authors = ["andre"]
+
+[dependencies]
+tokio = { workspace = true }
+anyhow = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+chrono = { workspace = true, features = ["serde"] }
+tracing = { workspace = true }
+async-trait = "0.1"
+
+# RAG-specific (ohne LanceDB für jetzt)
+regex = "1.10"
+walkdir = "2.5"
+
+[dev-dependencies]
+tokio-test = "0.4"
+tempfile = "3.0"
