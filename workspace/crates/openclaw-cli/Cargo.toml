@@ -1,0 +1,31 @@
+﻿[package]
+name = "openclaw-cli"
+version = "0.1.0"
+edition = "2021"
+description = "OpenClaw CLI - Unified command-line interface"
+authors = ["andre"]
+
+[[bin]]
+name = "openclaw"
+path = "src/main.rs"
+
+[dependencies]
+# Internal crates
+openclaw-core = { path = "../openclaw-core" }
+openclaw-agents = { path = "../openclaw-agents" }
+openclaw-rag = { path = "../openclaw-rag" }
+openclaw-parser = { path = "../openclaw-parser" }
+
+# CLI
+clap = { version = "4.5", features = ["derive"] }
+
+# Async
+tokio = { workspace = true }
+anyhow = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = "0.3"
+
+# Utils
+serde = { workspace = true }
+serde_json = { workspace = true }
+chrono = { workspace = true }

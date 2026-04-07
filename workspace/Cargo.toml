@@ -1,5 +1,5 @@
 [workspace]
-members = ["crates/openclaw-agents",
+members = ["crates/openclaw-agents", "crates/openclaw-cli",
     "crates/openclaw-core", "crates/openclaw-parser", "crates/openclaw-rag",
 ]
 resolver = "2"
