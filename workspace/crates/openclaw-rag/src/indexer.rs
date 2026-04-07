@@ -1,8 +1,8 @@
 ﻿//! Vault indexer - indexes Markdown files into vector database
 
-use crate::{Chunk, MarkdownChunker};
+use crate::{Chunk, MarkdownChunker, PlaceholderEmbeddingModel};
 use anyhow::Result;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use tracing::info;
 
 /// Statistics about the indexing process
@@ -26,11 +26,20 @@ impl IndexStats {
 /// Indexes a vault of Markdown files
 pub struct VaultIndexer {
     chunker: MarkdownChunker,
+    embedding_model: PlaceholderEmbeddingModel,
+    db_path: PathBuf,
 }
 
 impl VaultIndexer {
-    pub fn new(chunker: MarkdownChunker) -> Self {
-        Self { chunker }
+    pub fn new(
+        chunker: MarkdownChunker,
+        db_path: impl Into<PathBuf>,
+    ) -> Self {
+        Self {
+            chunker,
+            embedding_model: PlaceholderEmbeddingModel::new(),
+            db_path: db_path.into(),
+        }
     }
     
     /// Index a single file
@@ -46,6 +55,7 @@ impl VaultIndexer {
     /// Index entire vault directory
     pub async fn index_vault(&self, vault_path: &Path) -> Result<IndexStats> {
         info!("Starting vault indexing: {}", vault_path.display());
+        info!("Database path: {}", self.db_path.display());
         
         let mut stats = IndexStats::new();
         
@@ -54,11 +64,24 @@ impl VaultIndexer {
             let entry = entry?;
             let path = entry.path();
             
+            // Skip excluded directories
+            if path.to_string_lossy().contains(".git") ||
+               path.to_string_lossy().contains(".obsidian") ||
+               path.to_string_lossy().contains(".system") {
+                continue;
+            }
+            
             if path.extension().map_or(false, |ext| ext == "md") {
                 match self.index_file(path).await {
                     Ok(chunks) => {
                         stats.files_processed += 1;
                         stats.chunks_created += chunks.len();
+                        
+                        for chunk in &chunks {
+                            info!("  Chunk: {} lines from {}", 
+                                chunk.line_end - chunk.line_start + 1,
+                                chunk.source_path);
+                        }
                     }
                     Err(e) => {
                         tracing::warn!("Failed to index {}: {}", path.display(), e);
@@ -74,5 +97,10 @@ impl VaultIndexer {
         );
         
         Ok(stats)
+    }
+    
+    /// Get database path
+    pub fn db_path(&self) -> &Path {
+        &self.db_path
     }
 }

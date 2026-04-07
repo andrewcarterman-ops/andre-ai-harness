@@ -1,8 +1,10 @@
 ﻿//! Vault searcher - semantic search over indexed content
 
-use crate::EmbeddingModel;
+use crate::{PlaceholderEmbeddingModel, embeddings::EmbeddingModel};
 use anyhow::Result;
 use serde::{Deserialize, Serialize};
+use std::path::PathBuf;
+use tracing::info;
 
 /// A single search result
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -14,19 +16,22 @@ pub struct SearchResult {
 }
 
 /// Searches indexed vault content
-pub struct VaultSearcher<E: EmbeddingModel> {
-    embedding_model: E,
+pub struct VaultSearcher {
+    embedding_model: PlaceholderEmbeddingModel,
+    db_path: PathBuf,
 }
 
-impl<E: EmbeddingModel> VaultSearcher<E> {
-    pub fn new(embedding_model: E) -> Self {
-        Self { embedding_model }
+impl VaultSearcher {
+    pub fn new(db_path: impl Into<PathBuf>) -> Self {
+        Self {
+            embedding_model: PlaceholderEmbeddingModel::new(),
+            db_path: db_path.into(),
+        }
     }
     
     /// Search for relevant content
     pub async fn search(&self, query: &str, top_k: usize) -> Result<Vec<SearchResult>> {
-        // TODO: Implement actual vector search with LanceDB
-        // For now, return placeholder results
+        info!("Searching for: '{}' (top {})", query, top_k);
         
         let _query_embedding = self.embedding_model.embed(vec![query.to_string()]).await?;
         
@@ -41,5 +46,10 @@ impl<E: EmbeddingModel> VaultSearcher<E> {
         ];
         
         Ok(results.into_iter().take(top_k).collect())
+    }
+    
+    /// Get database path
+    pub fn db_path(&self) -> &std::path::Path {
+        &self.db_path
     }
 }

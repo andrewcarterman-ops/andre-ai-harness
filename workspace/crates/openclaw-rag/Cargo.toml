@@ -14,9 +14,12 @@ chrono = { workspace = true, features = ["serde"] }
 tracing = { workspace = true }
 async-trait = "0.1"
 
-# RAG-specific (ohne LanceDB für jetzt)
+# RAG-specific
 regex = "1.10"
 walkdir = "2.5"
+
+# LanceDB kommt in Phase 4 (benötigt protoc)
+# lancedb = { version = "0.18", default-features = false }
 
 [dev-dependencies]
 tokio-test = "0.4"
