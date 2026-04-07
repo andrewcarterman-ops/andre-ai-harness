@@ -1,6 +1,6 @@
-﻿//! Vault indexer - indexes Markdown files into vector database
+﻿//! Vault indexer - indexes Markdown files into LanceDB vector database
 
-use crate::{Chunk, MarkdownChunker, PlaceholderEmbeddingModel};
+use crate::{Chunk, MarkdownChunker, PlaceholderEmbeddingModel, embeddings::EmbeddingModel};
 use anyhow::Result;
 use std::path::{Path, PathBuf};
 use tracing::info;
@@ -23,7 +23,7 @@ impl IndexStats {
     }
 }
 
-/// Indexes a vault of Markdown files
+/// Indexes a vault of Markdown files into LanceDB
 pub struct VaultIndexer {
     chunker: MarkdownChunker,
     embedding_model: PlaceholderEmbeddingModel,
@@ -77,6 +77,7 @@ impl VaultIndexer {
                         stats.files_processed += 1;
                         stats.chunks_created += chunks.len();
                         
+                        // TODO: Store chunks in LanceDB with embeddings (Phase 4.5)
                         for chunk in &chunks {
                             info!("  Chunk: {} lines from {}", 
                                 chunk.line_end - chunk.line_start + 1,
@@ -102,5 +103,15 @@ impl VaultIndexer {
     /// Get database path
     pub fn db_path(&self) -> &Path {
         &self.db_path
+    }
+    
+    /// Initialize LanceDB connection (Phase 4.5)
+    pub async fn init_database(&self) -> Result<()> {
+        info!("Initializing LanceDB at: {}", self.db_path.display());
+        
+        // TODO: Create LanceDB table for chunks with embeddings
+        // This will be implemented in Phase 4.5
+        
+        Ok(())
     }
 }
