@@ -18,10 +18,17 @@ async-trait = "0.1"
 regex = "1.10"
 walkdir = "2.5"
 
-# LanceDB (jetzt mit protoc!)
+# LanceDB
 lancedb = "0.18"
 arrow-array = "54.0"
 arrow-schema = "54.0"
+
+# Python Bridge für BGE-M3
+pyo3 = { version = "0.23", features = ["auto-initialize"], optional = true }
+
+[features]
+default = []
+python-embeddings = ["pyo3"]
 
 [dev-dependencies]
 tokio-test = "0.4"
