@@ -2,14 +2,21 @@
 name = "openclaw-core"
 version = "0.1.0"
 edition = "2021"
+description = "Core library for OpenClaw - Atomic file operations"
+authors = ["andre"]
 
 [dependencies]
 tokio = { workspace = true }
 anyhow = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
-chrono = { workspace = true }
+chrono = { workspace = true, features = ["serde"] }
 tracing = { workspace = true }
+serde_yaml = "0.9"
+
+[[bin]]
+name = "openclaw-core"
+path = "src/main.rs"
 
 [dev-dependencies]
 tempfile = "3.0"
