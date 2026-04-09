@@ -36,7 +36,7 @@
       "name": "session-auto-sync-v2",
       "enabled": true,
       "createdAtMs": 1775690854727,
-      "updatedAtMs": 1775696580653,
+      "updatedAtMs": 1775697838656,
       "schedule": {
         "everyMs": 300000,
         "kind": "every",
@@ -49,11 +49,11 @@
         "text": "Session Auto-Sync: Set-Location 'C:\\Users\\andre\\.openclaw\\workspace\\search-engine'; node auto-sync.js"
       },
       "state": {
-        "nextRunAtMs": 1775696872978,
-        "lastRunAtMs": 1775696572978,
+        "nextRunAtMs": 1775698073053,
+        "lastRunAtMs": 1775697773053,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 7675,
+        "lastDurationMs": 65603,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0
       }

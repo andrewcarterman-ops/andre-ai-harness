@@ -8076,7 +8076,7 @@ Username for 'https://github.com ': andrewcarterman-ops
 Password for 'https://andrewcarterman-ops@github.com ':
 remote: Invalid username or token. Password authentication is not supported for Git operations.
 fatal: Authentication failed for 'https://github.com/andrewcarterman-ops/andre-ai-harness.git/ '
-PS C:\Users\andre\.openclaw> git remote set-url origin https://andrewcarterman-ops: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@github.com/andrewcarterman-ops/andre-ai-harness.git 
+PS C:\Users\andre\.openclaw> git remote set-url origin https://andrewcarterman-ops:[REDACTED - TOKEN WIDERRUFEN]@github.com/andrewcarterman-ops/andre-ai-harness.git 
 PS C:\Users\andre\.openclaw> git push -u origin master
 git: 'credential-manager-core' is not a git command. See 'git --help'.
 Enumerating objects: 1518, done.

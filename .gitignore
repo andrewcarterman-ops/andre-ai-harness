@@ -39,8 +39,14 @@ logs/
 __pycache__/
 *.py[cod]
 
-# Obsidian-System (nicht deine Notizen):
+# === OBSIDIAN (nur System, NICHT die Notizen!) ===
+# Der komplette .obsidian Ordner mit Cache, Workspaces, Plugins:
 .obsidian/
+.obsidian/**/
+
+# Falls .obsidian außerhalb liegt (z.B. in SecondBrain/):
+**/.obsidian/
+**/.obsidian/**/
 
 # Temporäre Dateien:
 *.tmp
