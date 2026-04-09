@@ -1,6 +1,6 @@
 
 # === SYSTEM & SENSITIVE DATEN (ABSOLUT NOTWENDIG) ===
-#agents/                    # Chat-Sessions, Auth-Profile, Logs
+agents/                    # Chat-Sessions, Auth-Profile, Logs
 credentials/               # API-Keys, Tokens, Telegram-Pairing
 browser/                   # Browser-Cache, Cookies, Extension-Daten
 #sandboxes/                 # Sandboxed Agents (duplizierte Skills + Secrets)

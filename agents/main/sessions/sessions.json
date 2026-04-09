@@ -4607,7 +4607,7 @@
   },
   "agent:main:tui-e336aaa0-72bf-4efc-ad26-a919601a21a3": {
     "sessionId": "bc675938-f994-4570-8813-49bdb20765f8",
-    "updatedAt": 1775699051789,
+    "updatedAt": 1775699535259,
     "reasoningLevel": "on",
     "thinkingLevel": "high",
     "systemSent": true,
@@ -4619,8 +4619,8 @@
     },
     "lastChannel": "webchat",
     "origin": {
-      "label": "heartbeat",
-      "provider": "cron-event",
+      "label": "openclaw-tui",
+      "provider": "webchat",
       "surface": "webchat",
       "chatType": "direct",
       "from": "heartbeat",
@@ -4841,7 +4841,7 @@
     "contextTokens": 262144,
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1775698913779,
+      "generatedAt": 1775699518292,
       "sessionId": "bc675938-f994-4570-8813-49bdb20765f8",
       "sessionKey": "agent:main:tui-e336aaa0-72bf-4efc-ad26-a919601a21a3",
       "provider": "kimi-coding",
@@ -5171,11 +5171,11 @@
         ]
       }
     },
-    "inputTokens": 669915,
-    "outputTokens": 1149,
-    "cacheRead": 0,
+    "inputTokens": 13460,
+    "outputTokens": 186,
+    "cacheRead": 136704,
     "cacheWrite": 0,
-    "totalTokens": 136327,
+    "totalTokens": 150164,
     "totalTokensFresh": true,
     "lastTo": "heartbeat",
     "verboseLevel": "off",
