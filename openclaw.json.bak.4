@@ -1,7 +1,7 @@
 {
   "meta": {
     "lastTouchedVersion": "2026.3.13",
-    "lastTouchedAt": "2026-03-23T22:31:21.353Z"
+    "lastTouchedAt": "2026-03-25T20:00:51.546Z"
   },
   "wizard": {
     "lastRunAt": "2026-03-23T17:37:43.643Z",
@@ -47,14 +47,10 @@
   },
   "agents": {
     "defaults": {
-      "model": {
-        "primary": "kimi-coding/kimi-k2-thinking"
-      },
-      "models": {
-        "kimi-coding/k2p5": {
-          "alias": "Kimi for Coding"
-        },
-        "kimi-coding/kimi-k2-thinking": {}
+      "timeoutSeconds": 900,
+      "model": "kimi-coding/k2p5",
+      "sandbox": {
+        "mode": "non-main"
       },
       "workspace": "C:\\Users\\andre\\.openclaw\\workspace",
       "compaction": {
@@ -63,7 +59,19 @@
     }
   },
   "tools": {
-    "profile": "coding",
+    "profile": "full",
+    "exec": {
+      "host": "gateway",
+      "applyPatch": {
+        "enabled": true,
+        "allowModels": [
+          "openai/*",
+          "openai-codex/*",
+          "gpt-*",
+          "claude-code/*"
+        ]
+      }
+    },
     "web": {
       "search": {
         "enabled": true,
@@ -104,14 +112,17 @@
     "mode": "local",
     "bind": "lan",
     "controlUi": {
+      "enabled": false,
       "allowedOrigins": [
         "http://localhost:18789",
         "http://127.0.0.1:18789",
         "http://192.168.178.192:18789",
-        "https://unserrate-le-mellifluous.ngrok-free.dev",
+        "https://unserrate-le-mellifluous.ngrok-free.app",
         "http://192.168.178.186",
-        "http://192.168.178.192:18790"
-      ]
+        "http://192.168.178.192:18790",
+        "http://192.168.178.192:18789"
+      ],
+      "allowInsecureAuth": false
     },
     "auth": {
       "mode": "token",

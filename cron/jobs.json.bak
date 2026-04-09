@@ -8,7 +8,7 @@
       "name": "obsidian-sync-pipeline",
       "enabled": false,
       "createdAtMs": 1775088737721,
-      "updatedAtMs": 1775213718245,
+      "updatedAtMs": 1775213769439,
       "schedule": {
         "kind": "every",
         "everyMs": 300000,
@@ -21,12 +21,42 @@
         "text": "Trigger Obsidian Sync Pipeline - check for new messages to sync to Second Brain"
       },
       "state": {
-        "lastRunAtMs": 1775213241178,
+        "lastRunAtMs": 1775213541195,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 36306,
+        "lastDurationMs": 228244,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0
+      }
+    },
+    {
+      "id": "2b234993-a271-42a6-9ed0-68754fb65495",
+      "agentId": "main",
+      "sessionKey": "agent:main:tui-e336aaa0-72bf-4efc-ad26-a919601a21a3",
+      "name": "session-auto-sync-v2",
+      "enabled": true,
+      "createdAtMs": 1775690854727,
+      "updatedAtMs": 1775696286911,
+      "schedule": {
+        "everyMs": 300000,
+        "kind": "every",
+        "anchorMs": 1775693272588
+      },
+      "sessionTarget": "main",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "systemEvent",
+        "text": "Session Auto-Sync: Set-Location 'C:\\Users\\andre\\.openclaw\\workspace\\search-engine'; node auto-sync.js"
+      },
+      "state": {
+        "nextRunAtMs": 1775696572799,
+        "lastRunAtMs": 1775696272799,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 14112,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0,
+        "runningAtMs": 1775696572971
       }
     }
   ]

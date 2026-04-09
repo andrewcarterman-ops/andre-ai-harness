@@ -1,7 +1,7 @@
 {
   "meta": {
     "lastTouchedVersion": "2026.3.13",
-    "lastTouchedAt": "2026-04-05T15:30:00.007Z"
+    "lastTouchedAt": "2026-04-08T18:53:08.563Z"
   },
   "wizard": {
     "lastRunAt": "2026-03-23T17:37:43.643Z",
@@ -47,7 +47,13 @@
   },
   "agents": {
     "defaults": {
-      "model": "kimi-coding/k2p5",
+      "model": {
+        "primary": "kimi-coding/k2p5",
+        "fallbacks": []
+      },
+      "models": {
+        "kimi-coding/k2p5": {}
+      },
       "workspace": "C:\\Users\\andre\\.openclaw\\workspace",
       "compaction": {
         "mode": "safeguard"
@@ -75,6 +81,13 @@
     },
     "exec": {
       "host": "gateway",
+      "security": "full",
+      "ask": "off",
+      "safeBinTrustedDirs": [
+        "C:\\Users\\andre\\.openclaw",
+        "C:\\Users\\andre\\.openclaw\\workspace",
+        "C:\\Users\\andre\\.openclaw\\workspace\\skills"
+      ],
       "applyPatch": {
         "enabled": true,
         "allowModels": [
@@ -112,7 +125,7 @@
     "mode": "local",
     "bind": "lan",
     "controlUi": {
-      "enabled": false,
+      "enabled": true,
       "allowedOrigins": [
         "http://localhost:18789",
         "http://127.0.0.1:18789",

@@ -1,0 +1,204 @@
+# ============================================================================
+# ECC-CORE Evaluation Template
+# Second-Brain Framework - CI/CD Quality Gates
+# ============================================================================
+# Version: 1.0.0
+# Description: YAML configuration for automated vault quality evaluation
+# ============================================================================
+
+version: "1.0.0"
+name: "SecondBrain Quality Evaluation"
+description: "Automated quality checks for Second-Brain Obsidian vault"
+
+# Evaluation Settings
+eval:
+  # Global timeout for all tests (seconds)
+  timeout: 300
+  
+  # Fail fast - stop on first failure
+  fail_fast: false
+  
+  # Output format: json, junit, markdown
+  output_format: "json"
+  
+  # Test Suites Configuration
+  suites:
+    
+    # Structure Validation
+    structure:
+      enabled: true
+      description: "Validate vault folder structure"
+      weight: 25
+      config:
+        # Required folders that must exist
+        required_folders:
+          - "00 - Inbox"
+          - "01 - Projects"
+          - "02 - Areas"
+          - "03 - Resources"
+          - "04 - Archive"
+          - "05 - Templates"
+          - "06 - Daily"
+        
+        # Maximum allowed folder depth
+        max_folder_depth: 4
+        
+        # Forbidden folder names
+        forbidden_folders:
+          - "temp"
+          - "tmp"
+          - "backup"
+          - "old"
+    
+    # Metadata Validation
+    metadata:
+      enabled: true
+      description: "Validate note metadata and frontmatter"
+      weight: 25
+      config:
+        # Required YAML frontmatter fields
+        required_fields:
+          - "created"
+          - "modified"
+        
+        # Optional but recommended fields
+        recommended_fields:
+          - "tags"
+          - "source"
+          - "author"
+        
+        # Date format validation
+        date_format: "YYYY-MM-DD"
+        
+        # Sample size for metadata checks
+        sample_size: 50
+        
+        # Tag validation
+        tag_validation:
+          enabled: true
+          min_tags: 1
+          max_tags: 10
+          forbidden_patterns:
+            - "^temp-"
+            - "^draft-"
+    
+    # Link Validation
+    links:
+      enabled: true
+      description: "Validate internal and external links"
+      weight: 25
+      config:
+        # Minimum links per note
+        min_links_per_note: 2
+        
+        # Maximum links per note
+        max_links_per_note: 100
+        
+        # Check external links (slow)
+        check_external_links: false
+        
+        # External link timeout (seconds)
+        external_timeout: 10
+        
+        # Allowed external domains
+        allowed_domains:
+          - "github.com"
+          - "obsidian.md"
+          - "wikipedia.org"
+    
+    # Quality Metrics
+    quality:
+      enabled: true
+      description: "Content quality checks"
+      weight: 25
+      config:
+        # Minimum words per note
+        min_words_per_note: 50
+        
+        # Maximum words per note (warn if exceeded)
+        max_words_per_note: 10000
+        
+        # Sample size for quality checks
+        sample_size: 50
+        
+        # Forbidden patterns in content
+        forbidden_patterns:
+          - "TODO:"
+          - "FIXME:"
+          - "XXX:"
+        
+        # Required patterns in content
+        required_patterns:
+          - "## "  # At least one H2 heading
+        
+        # Orphaned notes check
+        orphaned_notes:
+          enabled: true
+          max_orphaned_percent: 10
+
+# CI/CD Integration
+ci:
+  # GitHub Actions configuration
+  github_actions:
+    enabled: true
+    trigger_on:
+      - push
+      - pull_request
+    branches:
+      - main
+      - master
+      - develop
+  
+  # Azure DevOps configuration
+  azure_devops:
+    enabled: false
+    trigger_on:
+      - continuousIntegration
+  
+  # Quality gates
+  quality_gates:
+    # Minimum overall score (0-100)
+    min_score: 80
+    
+    # Maximum allowed failures per suite
+    max_failures_per_suite: 5
+    
+    # Critical suites that must pass
+    critical_suites:
+      - "structure"
+      - "links"
+
+# Notifications
+notifications:
+  # Log file location
+  log_path: ".logs/eval-results.json"
+  
+  # Summary output
+  summary:
+    enabled: true
+    format: "markdown"
+    include_failed_tests: true
+  
+  # Webhook notifications
+  webhooks:
+    enabled: false
+    url: ""
+    on_failure_only: true
+
+# Reporting
+reporting:
+  # Generate trend report
+  trends:
+    enabled: true
+    history_days: 30
+  
+  # Badge generation
+  badges:
+    enabled: true
+    output_path: ".badges/"
+  
+  # Detailed report
+  detailed:
+    enabled: true
+    include_passed_tests: false
+    output_path: ".logs/eval-report.html"

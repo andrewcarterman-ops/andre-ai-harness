@@ -28,6 +28,35 @@
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0
       }
+    },
+    {
+      "id": "2b234993-a271-42a6-9ed0-68754fb65495",
+      "agentId": "main",
+      "sessionKey": "agent:main:tui-e336aaa0-72bf-4efc-ad26-a919601a21a3",
+      "name": "session-auto-sync-v2",
+      "enabled": true,
+      "createdAtMs": 1775690854727,
+      "updatedAtMs": 1775696580653,
+      "schedule": {
+        "everyMs": 300000,
+        "kind": "every",
+        "anchorMs": 1775693272588
+      },
+      "sessionTarget": "main",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "systemEvent",
+        "text": "Session Auto-Sync: Set-Location 'C:\\Users\\andre\\.openclaw\\workspace\\search-engine'; node auto-sync.js"
+      },
+      "state": {
+        "nextRunAtMs": 1775696872978,
+        "lastRunAtMs": 1775696572978,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 7675,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0
+      }
     }
   ]
 }

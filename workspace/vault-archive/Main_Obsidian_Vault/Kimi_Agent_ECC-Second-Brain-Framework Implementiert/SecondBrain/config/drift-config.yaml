@@ -1,0 +1,181 @@
+# ECC Second Brain - Drift Detection Configuration
+# Referenz-Struktur für Vault-Validierung
+
+version: "1.0.0"
+description: "Reference structure for ECC Second Brain Vault"
+
+# Tolerance Settings
+tolerance:
+  # Allow additional files not in reference
+  allow_extra_files: true
+  
+  # Allow missing optional files
+  allow_missing_optional: true
+  
+  # Maximum drift percentage before warning
+  max_drift_percent: 10
+
+# Required Folders (must exist)
+required_folders:
+  - path: "00-Inbox"
+    description: "Quick capture zone for new inputs"
+    optional: false
+  
+  - path: "01-Projects"
+    description: "Active ECC projects"
+    optional: false
+  
+  - path: "02-Areas"
+    description: "Long-term areas of responsibility"
+    optional: false
+  
+  - path: "03-Resources"
+    description: "Reusable knowledge and resources"
+    optional: false
+  
+  - path: "03-Resources/Skills"
+    description: "Skills and competencies"
+    optional: false
+  
+  - path: "03-Resources/Patterns"
+    description: "Code patterns and best practices"
+    optional: false
+  
+  - path: "03-Resources/Snippets"
+    description: "Code snippets"
+    optional: false
+  
+  - path: "04-Archive"
+    description: "Completed sessions"
+    optional: false
+  
+  - path: "05-Daily"
+    description: "Daily session logs"
+    optional: false
+  
+  - path: "scripts"
+    description: "Automation scripts"
+    optional: false
+  
+  - path: "scripts/lib"
+    description: "PowerShell modules"
+    optional: false
+  
+  - path: "config"
+    description: "Configuration files"
+    optional: false
+  
+  - path: ".logs"
+    description: "Log files"
+    optional: true
+  
+  - path: ".backups"
+    description: "Backup files"
+    optional: true
+  
+  - path: ".obsidian"
+    description: "Obsidian configuration"
+    optional: false
+  
+  - path: ".obsidian/plugins/ecc-vault"
+    description: "ECC Vault plugin"
+    optional: false
+  
+  - path: ".obsidian/snippets"
+    description: "CSS snippets"
+    optional: true
+  
+  - path: ".obsidian/templates"
+    description: "Note templates"
+    optional: false
+
+# Required Files (must exist)
+required_files:
+  - path: "README.md"
+    description: "Main documentation"
+    optional: false
+  
+  - path: "Setup-SecondBrain.ps1"
+    description: "Setup script"
+    optional: false
+  
+  - path: "scripts/lib/ErrorHandler.psm1"
+    description: "Error handling module"
+    optional: false
+  
+  - path: "scripts/lib/Logging.psm1"
+    description: "Logging module"
+    optional: false
+  
+  - path: "scripts/lib/MermaidGenerator.psm1"
+    description: "Mermaid diagram generator"
+    optional: false
+  
+  - path: "scripts/lib/DataviewQuery.psm1"
+    description: "Dataview query generator"
+    optional: false
+  
+  - path: "scripts/lib/Encryption.psm1"
+    description: "Encryption module"
+    optional: false
+  
+  - path: "scripts/sync-openclaw-to-obsidian.ps1"
+    description: "Sync script"
+    optional: false
+  
+  - path: ".obsidian/plugins/ecc-vault/manifest.json"
+    description: "Plugin manifest"
+    optional: false
+  
+  - path: ".obsidian/plugins/ecc-vault/data.json"
+    description: "Plugin configuration"
+    optional: false
+  
+  - path: ".obsidian/plugins/ecc-vault/styles.css"
+    description: "Plugin styles"
+    optional: false
+  
+  - path: ".obsidian/templates/daily-note-template.md"
+    description: "Daily note template"
+    optional: false
+  
+  - path: ".obsidian/templates/decision-template.md"
+    description: "Decision template"
+    optional: false
+
+# File Patterns (must match at least one)
+required_patterns:
+  - pattern: "00-Inbox/*.md"
+    description: "Inbox notes"
+    min_count: 0
+    optional: true
+  
+  - pattern: "01-Projects/*.md"
+    description: "Project notes"
+    min_count: 0
+    optional: true
+  
+  - pattern: "05-Daily/*.md"
+    description: "Daily notes"
+    min_count: 0
+    optional: true
+
+# Auto-Fix Settings
+auto_fix:
+  enabled: true
+  actions:
+    - create_missing_folders
+    - create_missing_templates
+    - fix_permissions
+  
+  exclude:
+    - ".obsidian/workspace.json"
+    - ".obsidian/graph.json"
+    - ".logs/*"
+    - ".backups/*"
+
+# Reporting
+report:
+  format: "markdown"
+  output: ".logs/drift-report.md"
+  include_recommendations: true

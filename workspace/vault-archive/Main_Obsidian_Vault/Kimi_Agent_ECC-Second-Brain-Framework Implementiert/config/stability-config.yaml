@@ -1,0 +1,221 @@
+# ═══════════════════════════════════════════════════════════════
+# ECC Second Brain - Stability Konfiguration
+# ═══════════════════════════════════════════════════════════════
+# Version: 1.0.0
+# Beschreibung: Zentrale Konfiguration für Stabilitätsmechanismen
+# ═══════════════════════════════════════════════════════════════
+
+# ═══════════════════════════════════════════════════════════════
+# TOKEN-MANAGEMENT
+# ═══════════════════════════════════════════════════════════════
+context:
+  # Threshold-Einstellungen (in Prozent)
+  thresholds:
+    warning_percent: 70          # Warnung bei 70% Usage
+    critical_percent: 80         # Komprimierung bei 80% Usage
+    emergency_percent: 90        # Notfallmaßnahmen bei 90% Usage
+    compression_target_percent: 50  # Ziel nach Komprimierung
+  
+  # Komprimierungs-Einstellungen
+  compression:
+    strategy: "smart"            # smart, aggressive, summary
+    preserve_recent_files: 5     # Letzte N Dateien nicht komprimieren
+    min_summary_length: 100      # Minimale Zusammenfassungslänge
+    max_summary_length: 500      # Maximale Zusammenfassungslänge
+    compression_ratio_target: 0.5  # Ziel: 50% Größenreduktion
+  
+  # Checkpointing
+  checkpointing:
+    auto_checkpoint_minutes: 10  # Automatisches Checkpoint alle N Minuten
+    max_checkpoints: 10          # Max. Anzahl Checkpoints behalten
+    compress_checkpoints: true   # Checkpoints komprimieren
+    checkpoint_on_threshold: true  # Checkpoint bei Threshold-Überschreitung
+  
+  # Monitoring
+  monitoring:
+    sample_interval_seconds: 30  # Token-Usage prüfen alle N Sekunden
+    log_usage: true              # Token-Usage loggen
+    alert_on_threshold: true     # Alert bei Threshold-Überschreitung
+    track_statistics: true       # Statistiken sammeln
+
+# ═══════════════════════════════════════════════════════════════
+# BACKUP-KONFIGURATION
+# ═══════════════════════════════════════════════════════════════
+backup:
+  # Retention
+  retention_days: 30             # Backups für N Tage aufbewahren
+  retention_count: 50            # Max. Anzahl Backups
+  
+  # Komprimierung
+  compression: "Optimal"         # Optimal, Fastest, NoCompression
+  compression_level: 6           # 0-9 (nur für 7z)
+  
+  # Größenlimits
+  max_size_mb: 1024              # Max. Backup-Größe in MB
+  max_file_size_mb: 100          # Einzeldatei-Limit
+  
+  # Performance
+  parallel_threads: 4            # Parallele Backup-Threads
+  buffer_size_mb: 64             # Puffergröße
+  
+  # Auszuschließende Dateien
+  exclude_patterns:
+    - "*.tmp"
+    - "*.log"
+    - ".git/*"
+    - ".obsidian/workspace*"
+    - ".obsidian/cache/*"
+    - ".backups/*"
+    - "reports/*"
+    - "node_modules/*"
+    - "*.zip"
+    - "*.tar.gz"
+  
+  # Automatisierung
+  auto_backup:
+    enabled: true
+    on_session_start: true       # Backup bei Session-Start
+    on_session_end: true         # Backup bei Session-Ende
+    interval_hours: 4            # Regelmäßiges Backup alle N Stunden
+  
+  # Verifizierung
+  verify_backups: true           # Backups nach Erstellung prüfen
+  checksum_algorithm: "SHA256"   # Prüfsummen-Algorithmus
+
+# ═══════════════════════════════════════════════════════════════
+# RETRY-KONFIGURATION
+# ═══════════════════════════════════════════════════════════════
+retry:
+  # Allgemeine Retry-Einstellungen
+  max_attempts: 3                # Max. Wiederholungsversuche
+  base_delay_seconds: 1          # Basis-Verzögerung
+  max_delay_seconds: 60          # Maximale Verzögerung
+  backoff_strategy: "exponential" # exponential, linear, fixed
+  
+  # Operationsspezifische Einstellungen
+  operations:
+    file_io:
+      max_attempts: 5
+      delay_seconds: 0.5
+    network:
+      max_attempts: 3
+      delay_seconds: 2
+    encryption:
+      max_attempts: 2
+      delay_seconds: 0.1
+    git:
+      max_attempts: 3
+      delay_seconds: 1
+
+# ═══════════════════════════════════════════════════════════════
+# DRIFT-DETECTION
+# ═══════════════════════════════════════════════════════════════
+drift:
+  enabled: true
+  auto_fix: true
+  tolerance_percent: 5
+  
+  # Scan-Modi
+  scan_on_startup: true
+  scan_interval_minutes: 60
+  
+  # Reporting
+  generate_reports: true
+  report_format: "markdown"
+  
+  # Kritische Dateien
+  critical_files:
+    - "README.md"
+    - ".obsidian/app.json"
+  
+  # Struktur-Validierung
+  max_directory_depth: 5
+  max_filename_length: 255
+
+# ═══════════════════════════════════════════════════════════════
+# SYSTEM-INTEGRITÄT
+# ═══════════════════════════════════════════════════════════════
+integrity:
+  # Checksummen
+  enable_checksums: true
+  checksum_algorithm: "SHA256"
+  
+  # Datei-Überwachung
+  monitor_critical_files: true
+  integrity_check_interval: 3600  # Sekunden
+  
+  # Selbst-Heilung
+  auto_restore_corrupted: false
+  notify_on_corruption: true
+
+# ═══════════════════════════════════════════════════════════════
+# LOGGING
+# ═══════════════════════════════════════════════════════════════
+logging:
+  level: "INFO"                  # DEBUG, INFO, WARN, ERROR
+  directory: ".obsidian/logs"
+  max_file_size_mb: 10
+  max_files: 10
+  
+  # Log-Formate
+  console_output: true
+  file_output: true
+  json_format: false
+  
+  # Rotation
+  rotate_daily: true
+  compress_old_logs: true
+  retention_days: 14
+
+# ═══════════════════════════════════════════════════════════════
+# SICHERHEIT
+# ═══════════════════════════════════════════════════════════════
+security:
+  # Verschlüsselung
+  encryption_enabled: true
+  algorithm: "AES-256-GCM"
+  key_derivation: "PBKDF2"
+  pbkdf2_iterations: 100000
+  
+  # API-Key-Management
+  secure_key_storage: true
+  key_rotation_days: 90
+  
+  # Zugriffskontrolle
+  restrict_file_permissions: true
+  audit_access: true
+
+# ═══════════════════════════════════════════════════════════════
+# PERFORMANCE
+# ═══════════════════════════════════════════════════════════════
+performance:
+  # Caching
+  enable_caching: true
+  cache_size_mb: 100
+  cache_ttl_seconds: 300
+  
+  # Parallelisierung
+  max_parallel_operations: 4
+  use_async_io: true
+  
+  # Speicher
+  max_memory_usage_mb: 512
+  garbage_collection_interval: 300
+
+# ═══════════════════════════════════════════════════════════════
+# NOTIFICATIONS
+# ═══════════════════════════════════════════════════════════════
+notifications:
+  enabled: false
+  
+  # Events
+  on_backup_complete: true
+  on_drift_detected: true
+  on_token_threshold: true
+  on_error: true
+  
+  # Kanäle (zukünftige Implementierung)
+  channels:
+    webhook: ""
+    email: ""
+    desktop: true

@@ -1,0 +1,30 @@
+# Test Session mit API Keys
+
+## Konfiguration
+
+Wir haben folgende API Keys:
+- OpenAI: sk-abc123xyz789openaikeyexample123456789012345678901234567890
+- Anthropic: sk-ant-api03-examplekey1234567890123456789012345678901234567890
+
+## Database Connection
+
+```
+postgres://user:secretpassword123@localhost:5432/mydb
+```
+
+## SSH Key
+
+```
+-----BEGIN RSA PRIVATE KEY-----
+MIIEpQIBAAKCAQEA0Z3VS5JJcds3xfn/ygWyF8PbnGy0AHB7MhgwKVPSmwaFkYLv
+FAKEKEYDATA1234567890abcdefEXAMPLE1234567890abcdef
+-----END RSA PRIVATE KEY-----
+```
+
+## Token
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.dozjgNryP4J3jVmNHl0w5N_XgL0n3I9PlFUP0THsR8U
+
+## Passwort
+
+password = "supersecretpassword123"

@@ -1,0 +1,176 @@
+# ECC Second Brain - Stability Configuration
+# Token thresholds, backup settings, and retry configuration
+
+version: "1.0.0"
+description: "Stability configuration for ECC Second Brain Framework"
+
+# Token Usage Thresholds
+token_thresholds:
+  warning: 70
+    # Percentage at which to show warning
+    action: "log"
+    message: "Token usage at 70% - consider context switch soon"
+  
+  compression: 80
+    # Percentage at which to trigger context compression
+    action: "compress"
+    message: "Token usage at 80% - compressing context"
+    compress_ratio: 0.5
+  
+  emergency: 90
+    # Percentage at which to trigger emergency context switch
+    action: "emergency"
+    message: "Token usage at 90% - emergency context switch required"
+    create_checkpoint: true
+
+# Backup Settings
+backup:
+  enabled: true
+  
+  # Auto-backup before each session
+  auto_backup: true
+  
+  # Backup path
+  path: ".backups"
+  
+  # Retention policy (days)
+  retention_days: 30
+  
+  # Compression level (0-9)
+  compression_level: 6
+  
+  # Include patterns
+  include:
+    - "*.md"
+    - ".obsidian/**/*.json"
+    - "scripts/**/*.ps1"
+    - "scripts/**/*.psm1"
+    - "config/**/*.yaml"
+  
+  # Exclude patterns
+  exclude:
+    - ".logs/*"
+    - ".backups/*"
+    - "node_modules/*"
+    - "*.tmp"
+  
+  # Pre-session backup
+  pre_session:
+    enabled: true
+    include_working_files: true
+  
+  # Post-session backup
+  post_session:
+    enabled: true
+    only_on_changes: true
+
+# Retry Configuration
+retry:
+  # Default retry count
+  max_retries: 3
+  
+  # Base delay in seconds
+  base_delay_seconds: 2
+  
+  # Use exponential backoff
+  exponential_backoff: true
+  
+  # Maximum delay in seconds
+  max_delay_seconds: 60
+  
+  # Retryable operations
+  operations:
+    - "sync"
+    - "backup"
+    - "restore"
+    - "encryption"
+    - "decryption"
+
+# Context Switching
+context_switch:
+  enabled: true
+  
+  # Compression settings
+  compression:
+    enabled: true
+    ratio: 0.5
+    preserve_decisions: true
+    preserve_todos: true
+    preserve_insights: true
+  
+  # Checkpointing
+  checkpoint:
+    enabled: true
+    path: ".checkpoints"
+    auto_create: true
+  
+  # Session resumption
+  resume:
+    enabled: true
+    load_last_checkpoint: true
+
+# Drift Detection
+drift_detection:
+  enabled: true
+  
+  # Check interval (minutes)
+  check_interval: 60
+  
+  # Auto-fix enabled
+  auto_fix: false
+  
+  # Config file
+  config_file: "config/drift-config.yaml"
+
+# Logging
+logging:
+  enabled: true
+  
+  # Log level
+  level: "INFO"
+  
+  # Log path
+  path: ".logs"
+  
+  # Log rotation
+  rotation:
+    enabled: true
+    max_size_mb: 10
+    max_files: 10
+  
+  # Console output
+  console:
+    enabled: true
+    colors: true
+
+# Security
+security:
+  # API key encryption
+  encrypt_api_keys: true
+  
+  # Key storage
+  key_storage: ".obsidian/plugins/ecc-vault/secure-keys.json"
+  
+  # Master key protection
+  master_key_protection: true
+  
+  # File permissions
+  file_permissions:
+    enabled: true
+    restrict_to_owner: true
+
+# Performance
+performance:
+  # Parallel processing
+  parallel_processing: true
+  max_threads: 4
+  
+  # Caching
+  caching:
+    enabled: true
+    ttl_seconds: 300
+  
+  # Memory limits
+  memory:
+    max_mb: 512
+    cleanup_threshold: 80

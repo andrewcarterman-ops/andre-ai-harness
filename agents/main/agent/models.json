@@ -22,7 +22,8 @@
             "cacheWrite": 0
           },
           "contextWindow": 262144,
-          "maxTokens": 32768
+          "maxTokens": 32768,
+          "api": "anthropic-messages"
         }
       ],
       "apiKey": "sk-kimi-CZCR2A4JzWdQfkqGz900Ny9kKYprSCFocRv1e0jKFXvgRouoHjwHAx70YEO3Sc1x"

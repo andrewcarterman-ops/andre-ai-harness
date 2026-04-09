@@ -1,0 +1,157 @@
+# ECC Second Brain - Eval Template
+# CI/CD Quality Gates für das Second Brain Framework
+
+version: "1.0.0"
+name: "ECC Second Brain Evaluation"
+description: "Quality gates for Second Brain framework validation"
+
+# Test Suites
+suites:
+  - name: "Structure"
+    description: "Validate folder structure and required files"
+    weight: 25
+    tests:
+      - name: "Vault Structure"
+        description: "Check if all required folders exist"
+        command: "Test-Path"
+        params:
+          paths:
+            - "00-Inbox"
+            - "01-Projects"
+            - "02-Areas"
+            - "03-Resources"
+            - "04-Archive"
+            - "05-Daily"
+            - "scripts"
+            - "config"
+            - ".logs"
+            - ".backups"
+            - ".obsidian"
+        expected: true
+      
+      - name: "PowerShell Modules"
+        description: "Check if all required modules exist"
+        command: "Test-Path"
+        params:
+          paths:
+            - "scripts/lib/ErrorHandler.psm1"
+            - "scripts/lib/Logging.psm1"
+            - "scripts/lib/MermaidGenerator.psm1"
+            - "scripts/lib/DataviewQuery.psm1"
+            - "scripts/lib/Encryption.psm1"
+        expected: true
+      
+      - name: "Obsidian Config"
+        description: "Check if Obsidian configuration exists"
+        command: "Test-Path"
+        params:
+          paths:
+            - ".obsidian/plugins/ecc-vault/manifest.json"
+            - ".obsidian/plugins/ecc-vault/data.json"
+            - ".obsidian/plugins/ecc-vault/styles.css"
+        expected: true
+
+  - name: "Metadata"
+    description: "Validate YAML frontmatter in templates"
+    weight: 25
+    tests:
+      - name: "Daily Note Template"
+        description: "Check if daily note template has required fields"
+        command: "Test-Template"
+        params:
+          file: ".obsidian/templates/daily-note-template.md"
+          required_fields:
+            - "session_id"
+            - "date"
+            - "tokens_used"
+            - "agent_mode"
+            - "key_decisions"
+        expected: true
+      
+      - name: "Decision Template"
+        description: "Check if decision template has required fields"
+        command: "Test-Template"
+        params:
+          file: ".obsidian/templates/decision-template.md"
+          required_fields:
+            - "decision_id"
+            - "date"
+            - "status"
+        expected: true
+
+  - name: "Links"
+    description: "Validate internal links and references"
+    weight: 25
+    tests:
+      - name: "Template Links"
+        description: "Check if templates have valid links"
+        command: "Test-Links"
+        params:
+          files:
+            - ".obsidian/templates/daily-note-template.md"
+            - ".obsidian/templates/decision-template.md"
+        expected: true
+      
+      - name: "Dataview Queries"
+        description: "Check if Dataview queries are valid"
+        command: "Test-Dataview"
+        params:
+          files:
+            - "03-Resources/Dataview/queries.md"
+        expected: true
+
+  - name: "Quality"
+    description: "Code quality and best practices"
+    weight: 25
+    tests:
+      - name: "PowerShell Syntax"
+        description: "Validate PowerShell script syntax"
+        command: "Test-PSSyntax"
+        params:
+          files:
+            - "scripts/*.ps1"
+            - "scripts/lib/*.psm1"
+        expected: true
+      
+      - name: "JSON Validity"
+        description: "Validate JSON configuration files"
+        command: "Test-JSON"
+        params:
+          files:
+            - ".obsidian/plugins/ecc-vault/*.json"
+        expected: true
+      
+      - name: "YAML Validity"
+        description: "Validate YAML configuration files"
+        command: "Test-YAML"
+        params:
+          files:
+            - "config/*.yaml"
+        expected: true
+
+# Quality Gates
+gates:
+  - name: "Minimum Score"
+    threshold: 80
+    fail_on_breach: true
+  
+  - name: "Critical Tests"
+    tests:
+      - "Vault Structure"
+      - "Obsidian Config"
+    fail_on_breach: true
+
+# Reporting
+report:
+  format: "json"
+  output: ".logs/eval-report.json"
+  include_details: true
+  include_recommendations: true
+
+# Notifications
+notifications:
+  on_failure: true
+  on_success: false
+  channels:
+    - "console"
+    - "file"

@@ -1,0 +1,77 @@
+# CONTEXT_SYSTEM.md
+
+## System Architecture
+
+### Overview
+
+The Harness Redesign implements a comprehensive 3-tier context management system with the following key components:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                        USER INTERFACE                        │
+└──────────────────────┬──────────────────────────────────────┘
+                       │
+┌──────────────────────▼──────────────────────────────────────┐
+│                      ORCHESTRATOR LAYER                      │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐  │
+│  │   Request   │  │   Session   │  │  Lifecycle Manager  │  │
+│  │   Router    │  │   Manager   │  │                     │  │
+│  └─────────────┘  └─────────────┘  └─────────────────────┘  │
+└──────────────────────┬──────────────────────────────────────┘
+                       │
+┌──────────────────────▼──────────────────────────────────────┐
+│                     CONTEXT MANAGEMENT                       │
+│  ┌─────────────────────────────────────────────────────────┐ │
+│  │              TOKEN BUDGET MANAGER                        │ │
+│  │  ┌──────────┐  ┌──────────┐  ┌─────────────────────┐   │ │
+│  │  │ Hot Tier │  │ Warm Tier│  │     Cold Tier       │   │ │
+│  │  │  ~2K tok │  │ ~10K tok │  │     Unlimited       │   │ │
+│  │  └──────────┘  └──────────┘  └─────────────────────┘   │ │
+│  └─────────────────────────────────────────────────────────┘ │
+└──────────────────────┬──────────────────────────────────────┘
+                       │
+┌──────────────────────▼──────────────────────────────────────┐
+│                      EXECUTION LAYER                         │
+│  ┌─────────────────────────────────────────────────────────┐ │
+│  │              PARALLEL AGENT ORCHESTRATOR                 │ │
+│  │         Thread Pool with 2-8 Dynamic Workers             │ │
+│  └─────────────────────────────────────────────────────────┘ │
+└──────────────────────┬──────────────────────────────────────┘
+                       │
+┌──────────────────────▼──────────────────────────────────────┐
+│                      KNOWLEDGE LAYER                         │
+│  ┌───────────────────┐  ┌─────────────────────────────────┐ │
+│  │   ChromaDB        │  │      Obsidian Bridge            │ │
+│  │   (Vector DB)     │  │   (Bidirectional Sync)          │ │
+│  └───────────────────┘  └─────────────────────────────────┘ │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Core Components
+
+1. **Token Budget Manager**: 3-tier allocation (Hot/Warm/Cold)
+2. **Context Tier Manager**: Automatic promotion/demotion
+3. **Chroma Knowledge Store**: Vector storage with hybrid search
+4. **Parallel Orchestrator**: Thread pool execution
+5. **Obsidian Bridge**: Bidirectional Second Brain sync
+
+### Data Flow
+
+1. User Request → Orchestrator
+2. Context Preparation → Token Budget Manager
+3. Knowledge Retrieval → ChromaDB
+4. Parallel Execution → Thread Pool
+5. AI Completion → Streaming Response
+6. Post-Processing → Knowledge Store + Obsidian
+
+### Performance Targets
+
+- Token Efficiency: 85%+ (40% improvement)
+- Knowledge Retrieval: <2 seconds
+- Learning Capture: 80%+ sessions
+- Response Latency: -30%
+
+---
+
+*System Architecture Document*
+*Version: 1.0.0*

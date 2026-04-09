@@ -1,0 +1,87 @@
+# ═══════════════════════════════════════════════════════════════
+# ECC Second Brain - Drift Detection Konfiguration
+# ═══════════════════════════════════════════════════════════════
+# Version: 1.0.0
+# Beschreibung: Konfiguration für Vault-Struktur-Überwachung
+# ═══════════════════════════════════════════════════════════════
+
+# Referenz-Manifest (relativer Pfad)
+reference_manifest: "vault-manifest.yaml"
+
+# Toleranz-Einstellungen
+tolerance_percent: 5
+check_orphaned: true
+auto_fix_enabled: true
+
+# Überwachungseinstellungen
+monitoring:
+  # Scan-Intervall in Minuten (0 = nur manuell)
+  scan_interval_minutes: 0
+  
+  # Automatische Reports
+  generate_reports: true
+  report_format: "markdown"
+  
+  # Benachrichtigungen
+  alert_on_critical: true
+  alert_on_high: true
+  alert_on_warning: false
+
+# Zu ignorierende Pfade (Patterns)
+ignore_patterns:
+  - "*.tmp"
+  - "*.log"
+  - ".git/*"
+  - ".obsidian/workspace*"
+  - ".obsidian/cache/*"
+  - ".backups/*"
+  - "reports/*"
+  - "node_modules/*"
+
+# Kritische Dateien (dürfen nicht fehlen)
+critical_files:
+  - "README.md"
+  - ".obsidian/app.json"
+  - ".obsidian/appearance.json"
+
+# Struktur-Validierung
+structure_validation:
+  max_directory_depth: 5
+  max_file_size_mb: 100
+  max_filename_length: 255
+  allowed_characters: "a-zA-Z0-9_-. äöüÄÖÜß"
+
+# Auto-Fix Einstellungen
+auto_fix:
+  create_missing_directories: true
+  create_missing_files: true
+  use_templates: true
+  template_directory: ".obsidian/templates"
+  
+  # Template-Mappings
+  templates:
+    "README.md": "template-readme.md"
+    "index.md": "template-index.md"
+    "*.md": "template-note.md"
+    "*.json": "template-json.json"
+
+# Report-Einstellungen
+reports:
+  output_directory: "reports/drift"
+  keep_history: true
+  history_count: 30
+  include_file_hashes: true
+  include_statistics: true
+
+# Integrationen
+integrations:
+  # Backup vor Drift-Fix
+  backup_before_fix: true
+  
+  # Git-Integration
+  git_auto_commit: false
+  git_commit_message: "Auto-fix: Drift detection corrections"
+  
+  # Notification (zukünftig)
+  webhook_url: ""
+  email_notifications: false
