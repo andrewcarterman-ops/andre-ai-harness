@@ -4607,7 +4607,7 @@
   },
   "agent:main:tui-e336aaa0-72bf-4efc-ad26-a919601a21a3": {
     "sessionId": "bc675938-f994-4570-8813-49bdb20765f8",
-    "updatedAt": 1775698373115,
+    "updatedAt": 1775699051789,
     "reasoningLevel": "on",
     "thinkingLevel": "high",
     "systemSent": true,
@@ -4841,7 +4841,7 @@
     "contextTokens": 262144,
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1775698112067,
+      "generatedAt": 1775698913779,
       "sessionId": "bc675938-f994-4570-8813-49bdb20765f8",
       "sessionKey": "agent:main:tui-e336aaa0-72bf-4efc-ad26-a919601a21a3",
       "provider": "kimi-coding",
@@ -4861,9 +4861,9 @@
         "sandboxed": false
       },
       "systemPrompt": {
-        "chars": 39871,
+        "chars": 40925,
         "projectContextChars": 20823,
-        "nonProjectContextChars": 19048
+        "nonProjectContextChars": 20102
       },
       "injectedWorkspaceFiles": [
         {
@@ -5009,8 +5009,8 @@
         ]
       },
       "tools": {
-        "listChars": 2334,
-        "schemaChars": 16399,
+        "listChars": 2794,
+        "schemaChars": 19374,
         "entries": [
           {
             "name": "read",
@@ -5055,9 +5055,21 @@
             "propertiesCount": 18
           },
           {
+            "name": "nodes",
+            "summaryChars": 122,
+            "schemaChars": 1800,
+            "propertiesCount": 37
+          },
+          {
+            "name": "cron",
+            "summaryChars": 2689,
+            "schemaChars": 690,
+            "propertiesCount": 13
+          },
+          {
             "name": "message",
             "summaryChars": 130,
-            "schemaChars": 5025,
+            "schemaChars": 5013,
             "propertiesCount": 94
           },
           {
@@ -5065,6 +5077,12 @@
             "summaryChars": 152,
             "schemaChars": 223,
             "propertiesCount": 2
+          },
+          {
+            "name": "gateway",
+            "summaryChars": 464,
+            "schemaChars": 497,
+            "propertiesCount": 12
           },
           {
             "name": "agents_list",
@@ -5153,11 +5171,11 @@
         ]
       }
     },
-    "inputTokens": 91383,
-    "outputTokens": 296,
-    "cacheRead": 105472,
+    "inputTokens": 669915,
+    "outputTokens": 1149,
+    "cacheRead": 0,
     "cacheWrite": 0,
-    "totalTokens": 105807,
+    "totalTokens": 136327,
     "totalTokensFresh": true,
     "lastTo": "heartbeat",
     "verboseLevel": "off",
