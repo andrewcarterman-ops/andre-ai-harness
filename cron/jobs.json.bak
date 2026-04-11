@@ -34,9 +34,9 @@
       "agentId": "main",
       "sessionKey": "agent:main:tui-e336aaa0-72bf-4efc-ad26-a919601a21a3",
       "name": "session-auto-sync-v2",
-      "enabled": true,
+      "enabled": false,
       "createdAtMs": 1775690854727,
-      "updatedAtMs": 1775702303887,
+      "updatedAtMs": 1775705607557,
       "schedule": {
         "everyMs": 300000,
         "kind": "every",
@@ -49,14 +49,44 @@
         "text": "Session Auto-Sync: Set-Location 'C:\\Users\\andre\\.openclaw\\workspace\\search-engine'; node auto-sync.js"
       },
       "state": {
-        "nextRunAtMs": 1775702573285,
-        "lastRunAtMs": 1775702273285,
+        "lastRunAtMs": 1775705573520,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 30602,
+        "lastDurationMs": 34037,
         "lastDeliveryStatus": "not-requested",
-        "consecutiveErrors": 0,
-        "runningAtMs": 1775702573300
+        "consecutiveErrors": 0
+      }
+    },
+    {
+      "id": "6f87a771-32f2-42ab-ad8e-fdac9991438f",
+      "agentId": "main",
+      "sessionKey": "agent:main:tui-a6593c1a-6b23-4b89-ace1-0a935ece5b19",
+      "name": "Auto-Sync SecondBrain alle 8h",
+      "enabled": true,
+      "createdAtMs": 1775848972836,
+      "updatedAtMs": 1775877964066,
+      "schedule": {
+        "everyMs": 28800000,
+        "kind": "every",
+        "anchorMs": 1775848972836
+      },
+      "sessionTarget": "main",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "systemEvent",
+        "text": "🔄 Auto-Sync: SecondBrain wird synchronisiert (alle 8h). Führe aus: sync-openclaw-to-obsidian.ps1"
+      },
+      "delivery": {
+        "mode": "none"
+      },
+      "state": {
+        "nextRunAtMs": 1775906572853,
+        "lastRunAtMs": 1775877772853,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 191213,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0
       }
     }
   ]

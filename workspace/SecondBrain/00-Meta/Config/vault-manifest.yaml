@@ -1,0 +1,141 @@
+# SecondBrain Vault Manifest
+# Definiert die erforderliche Struktur für das SecondBrain
+# Version: 1.0.0
+# Erstellt: 11-04-2026
+
+# ═══════════════════════════════════════════════════════════════
+# ERFORDERLICHE VERZEICHNISSE (Müssen existieren)
+# ═══════════════════════════════════════════════════════════════
+required_directories:
+  # Root-Struktur
+  - "00-Meta"
+  - "01-Daily"
+  - "02-Projects"
+  - "03-Knowledge"
+  - "04-Decisions"
+  - "99-Archive"
+  
+  # 00-Meta Unterstruktur
+  - "00-Meta\Backups"
+  - "00-Meta\Config"
+  - "00-Meta\Inbox"
+  - "00-Meta\MOCs"
+  - "00-Meta\Scripts"
+  - "00-Meta\Scripts\ecc-framework"
+  - "00-Meta\Templates"
+  
+  # 02-Projects Unterstruktur
+  - "02-Projects\Active"
+  - "02-Projects\Completed"
+  - "02-Projects\Paused"
+  
+  # 03-Knowledge Unterstruktur
+  - "03-Knowledge\Concepts"
+  - "03-Knowledge\How-To"
+  - "03-Knowledge\People"
+  - "03-Knowledge\References"
+  - "03-Knowledge\Responsibilities"
+
+# ═══════════════════════════════════════════════════════════════
+# KRITISCHE DATEIEN (Dürfen nicht fehlen)
+# ═══════════════════════════════════════════════════════════════
+required_files:
+  # READMEs
+  - "README.md"
+  - "00-Meta\README.md"
+  - "01-Daily\README.md"
+  - "02-Projects\README.md"
+  - "03-Knowledge\README.md"
+  
+  # MOCs (Maps of Content)
+  - "_MOC-Startseite.md"
+  - "00-Meta\MOCs\_MOC-Daily.md"
+  - "00-Meta\MOCs\_MOC-Projects.md"
+  - "00-Meta\MOCs\_MOC-Knowledge.md"
+  
+  # Obsidian Config
+  - ".obsidian\app.json"
+  - ".obsidian\appearance.json"
+  - ".obsidian\community-plugins.json"
+  - ".obsidian\core-plugins.json"
+
+# ═══════════════════════════════════════════════════════════════
+# ERLAUBTE DATEITYPEN
+# ═══════════════════════════════════════════════════════════════
+allowed_extensions:
+  - ".md"        # Markdown (Hauptformat)
+  - ".txt"       # Text-Dateien
+  - ".json"      # JSON-Config
+  - ".yaml"      # YAML-Config
+  - ".yml"       # YAML-Config
+  - ".ps1"       # PowerShell-Skripte
+  - ".psm1"      # PowerShell-Module
+  - ".js"        # JavaScript
+  - ".ts"        # TypeScript
+  - ".css"       # Stylesheets
+  - ".png"       # Bilder
+  - ".jpg"       # Bilder
+  - ".jpeg"      # Bilder
+  - ".gif"       # Bilder
+  - ".svg"       # Vektorgrafiken
+  - ".pdf"       # PDF-Dokumente
+
+# ═══════════════════════════════════════════════════════════════
+# STRUKTUR-REGELN
+# ═══════════════════════════════════════════════════════════════
+max_directory_depth: 5
+max_file_size_mb: 50
+max_filename_length: 100
+
+# ═══════════════════════════════════════════════════════════════
+# KRITISCHE PFADE (Warnung bei Abweichung)
+# ═══════════════════════════════════════════════════════════════
+critical_paths:
+  - "01-Daily\*.md"           # Daily Notes
+  - "02-Projects\Active\*.md"  # Aktive Projekte
+  - "04-Decisions\ADR-*.md"    # Architecture Decisions
+
+# ═══════════════════════════════════════════════════════════════
+# TEMPLATES (Für Auto-Fix)
+# ═══════════════════════════════════════════════════════════════
+templates:
+  "README.md": |
+    # {{folder_name}}
+    
+    > Beschreibung des Ordners
+    
+    ## Inhalt
+    
+    - 
+  
+  "daily.md": |
+    ---
+    date: {{date}}
+    type: daily
+    tags: [daily]
+    ---
+    
+    # {{date}}
+    
+    ## Erledigt
+    
+    - [ ] 
+    
+    ## Notizen
+    
+  
+  "project.md": |
+    ---
+    date: {{date}}
+    type: project
+    status: active
+    tags: [project]
+    ---
+    
+    # {{title}}
+    
+    ## Ziel
+    
+    ## Status
+    
+    - [ ] 

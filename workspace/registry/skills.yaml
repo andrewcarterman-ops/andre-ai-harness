@@ -3,12 +3,12 @@
 # Format: YAML 1.2
 
 version: "2.0"
-last_updated: "2026-04-05T18:05:00+02:00"
+last_updated: "2026-04-11T01:05:00+02:00"
 auto_generated: false
 generator_version: "2.0"
 
 # Gesamtanzahl Skills
-count: 15
+count: 17
 
 skills:
   # ============================================
@@ -25,7 +25,7 @@ skills:
     status: "active"
     source: "matt-pocock-adapted"
     workflow_type: "interactive"
-    
+
   - id: "grill-me"
     name: "grill-me"
     description: "Relentlessly interview the user about a plan or design until reaching shared understanding, resolving each branch of the decision tree. Use when user wants to stress-test a plan, get grilled on their design, mentions 'grill me', or before starting implementation to catch edge cases."
@@ -37,7 +37,7 @@ skills:
     status: "active"
     source: "matt-pocock-adapted"
     workflow_type: "interactive"
-    
+
   - id: "plan-feature"
     name: "plan-feature"
     description: "Turn a feature idea into a phased implementation plan using vertical slices (tracer bullets). Use when user wants to break down a feature, create an implementation plan, plan phases, or mentions 'tracer bullets' or 'vertical slices'."
@@ -49,7 +49,7 @@ skills:
     status: "active"
     source: "matt-pocock-adapted"
     workflow_type: "structured"
-    
+
   # ============================================
   # DEVELOPMENT SKILLS
   # ============================================
@@ -65,7 +65,22 @@ skills:
     source: "matt-pocock-adapted"
     workflow_type: "active-loop"
     related_skills: ["testing-patterns"]
-    
+
+  # ============================================
+  # DATA ANALYSIS SKILLS
+  # ============================================
+  - id: "data-integration-analyst"
+    name: "data-integration-analyst"
+    description: "Forensic data analyst for integrating unstructured, messy, or unclear data into existing OpenClaw systems with 100% precision. Performs systematic archaeology through 5 phases: Data Ingestion, System Archaeology, Comparative Analysis, Integration Decision, and Validation. Never assumes, always verifies against existing implementation. Read-only until Phase 5 approval."
+    path: "skills/data-integration-analyst"
+    skill_file: "skills/data-integration-analyst/SKILL.md"
+    has_frontmatter: true
+    category: "analysis"
+    triggers: ["analyze data for integration", "forensic data analysis", "integrate unstructured data", "data archaeology", "chaotic data analysis", "should i integrate this", "compare with existing system"]
+    status: "active"
+    source: "custom"
+    note: "5-phase forensic analysis: Ingest, Archaeology, Comparison, Decision, Validation"
+
   # ============================================
   # ORIGINAL SKILLS
   # ============================================
@@ -78,7 +93,7 @@ skills:
     category: "external-api"
     triggers: ["weather", "forecast", "temperature"]
     status: "active"
-    
+
   - id: "secure-api-client"
     name: "secure-api-client"
     description: "Secure HTTP API client with built-in security controls"
@@ -88,7 +103,7 @@ skills:
     category: "security"
     triggers: ["api", "http", "security"]
     status: "active"
-    
+
   - id: "self-improving-andrew"
     name: "self-improving-andrew"
     description: "Self-improving agent that learns from corrections"
@@ -98,7 +113,7 @@ skills:
     category: "learning"
     triggers: ["learning", "feedback", "correction"]
     status: "active"
-    
+
   - id: "mission-control"
     name: "mission-control"
     description: "Command center for creating, managing, and deploying tools"
@@ -108,7 +123,7 @@ skills:
     category: "tooling"
     triggers: ["tool", "create", "deploy"]
     status: "active"
-    
+
   - id: "mission-control-v2"
     name: "mission-control-v2"
     description: "Enhanced version of mission-control"
@@ -119,7 +134,7 @@ skills:
     triggers: ["advanced tool"]
     status: "active"
     note: "Contains node_modules"
-    
+
   # ECC Skills
   - id: "python-patterns"
     name: "python-patterns"
@@ -131,7 +146,7 @@ skills:
     triggers: ["python", "pythonic", "py"]
     status: "active"
     source: "adapted-from-ecc"
-    
+
   - id: "security-review"
     name: "security-review"
     description: "Security-focused code review patterns"
@@ -142,7 +157,7 @@ skills:
     triggers: ["security", "vulnerability", "audit"]
     status: "active"
     source: "adapted-from-ecc"
-    
+
   - id: "testing-patterns"
     name: "testing-patterns"
     description: "Testing best practices and TDD patterns (static reference). Use when looking for testing patterns, test structure, or TDD theory. For active TDD workflow, use tdd-loop."
@@ -154,7 +169,7 @@ skills:
     status: "active"
     source: "adapted-from-ecc"
     related_skills: ["tdd-loop"]
-    
+
   - id: "api-design"
     name: "api-design"
     description: "REST API design patterns and OpenAPI"
@@ -165,7 +180,7 @@ skills:
     triggers: ["api", "rest", "endpoint"]
     status: "active"
     source: "adapted-from-ecc"
-    
+
   - id: "documentation"
     name: "documentation"
     description: "Documentation best practices"
@@ -176,7 +191,7 @@ skills:
     triggers: ["document", "readme", "docs"]
     status: "active"
     source: "adapted-from-ecc"
-    
+
   - id: "refactoring"
     name: "refactoring"
     description: "Code refactoring patterns"
@@ -188,6 +203,19 @@ skills:
     status: "active"
     source: "adapted-from-ecc"
     
+  # Safe Migration Skill (NEW - 11-04-2026)
+  - id: "migration-skill"
+    name: "safe-migration"
+    description: "Foolproof migration assistant with safety checks, validation, and quality assurance. Prevents data loss through backups, dry-runs, incremental batches, and automated validation."
+    path: "skills/migration-skill"
+    skill_file: "skills/migration-skill/SKILL.md"
+    has_frontmatter: true
+    category: "tooling"
+    triggers: ["migration", "safe migrate", "backup", "dry-run", "batch migrate"]
+    status: "active"
+    source: "lessons-learned"
+    note: "Based on vault migration failure 11-04-2026"
+
   - id: "second-brain"
     name: "second-brain"
     description: "PARA-based knowledge management for OpenClaw sessions"
@@ -205,10 +233,11 @@ skills:
 categories:
   planning: ["write-a-prd", "grill-me", "plan-feature"]
   development: ["tdd-loop"]
+  analysis: ["data-integration-analyst"]
   external-api: ["example-weather"]
   security: ["secure-api-client", "security-review"]
   learning: ["self-improving-andrew"]
-  tooling: ["mission-control", "mission-control-v2", "second-brain"]
+  tooling: ["mission-control", "mission-control-v2", "migration-skill", "second-brain"]
   language: ["python-patterns"]
   quality: ["testing-patterns", "refactoring"]
   architecture: ["api-design"]
@@ -227,12 +256,18 @@ workflow_chains:
       - tdd-loop
     optional:
       - testing-patterns
-      
+
   quick_feature:
     description: "Fast track for small features"
     steps:
       - plan-feature
       - tdd-loop
+
+  data_integration:
+    description: "Analyze and integrate external data safely"
+    steps:
+      - data-integration-analyst
+      - migration-skill
 
 # ============================================
 # AGENT ASSIGNMENTS
@@ -243,6 +278,7 @@ agent_assignments:
     - grill-me
     - plan-feature
     - tdd-loop
+    - data-integration-analyst
     - example-weather
     - secure-api-client
     - self-improving-andrew
@@ -253,4 +289,5 @@ agent_assignments:
     - api-design
     - documentation
     - refactoring
+    - migration-skill
     - second-brain

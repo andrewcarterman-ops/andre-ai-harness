@@ -1,0 +1,78 @@
+# Vault Struktur - Referenzkonfiguration
+# Version: 1.0.0
+
+version: "1.0.0"
+description: "Reference structure for Second Brain Vault"
+
+# Tolerance Settings
+tolerance:
+  allow_extra_files: true
+  allow_missing_optional: true
+  max_drift_percent: 10
+
+# Required Folders
+required_folders:
+  - path: "00-Meta"
+    description: "Templates, MOCs, Scripts, Config"
+    optional: false
+  - path: "00-Meta/Scripts"
+    description: "Automation scripts"
+    optional: false
+  - path: "00-Meta/Templates"
+    description: "Note templates"
+    optional: false
+  - path: "01-Daily"
+    description: "Daily session logs"
+    optional: false
+  - path: "02-Projects"
+    description: "Active projects"
+    optional: false
+  - path: "02-Projects/Active"
+    description: "Active projects"
+    optional: true
+  - path: "02-Areas"
+    description: "Long-term areas of responsibility"
+    optional: false
+  - path: "03-Knowledge"
+    description: "Reusable knowledge"
+    optional: false
+  - path: "03-Knowledge/Concepts"
+    description: "Concepts"
+    optional: true
+  - path: "03-Knowledge/How-To"
+    description: "How-To guides"
+    optional: true
+  - path: "03-Knowledge/References"
+    description: "References"
+    optional: true
+  - path: "04-Decisions"
+    description: "Architecture decisions"
+    optional: false
+  - path: "99-Archive"
+    description: "Completed items"
+    optional: true
+  - path: "00-Meta/Backups"
+    description: "Backup files"
+    optional: true
+
+# Required Files
+required_files:
+  - path: "_MOC-Startseite.md"
+    description: "Main navigation"
+    optional: false
+  - path: "00-Meta/Capabilities-Index.md"
+    description: "Skills overview"
+    optional: false
+
+# Auto-Fix Settings
+auto_fix:
+  enabled: true
+  actions:
+    - create_missing_folders
+    - create_missing_templates
+
+# Reporting
+report:
+  format: "markdown"
+  output: "00-Meta/Backups/drift-report.md"
+  include_recommendations: true

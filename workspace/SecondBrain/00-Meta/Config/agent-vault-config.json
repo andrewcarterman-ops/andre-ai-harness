@@ -1,0 +1,60 @@
+{
+  "version": "1.0",
+  "last_updated": "10-04-2026",
+  "vault": {
+    "path": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain",
+    "name": "SecondBrain",
+    "type": "obsidian"
+  },
+  "conventions": {
+    "date_format": "DD-MM-YYYY",
+    "filename_case": "snake_case",
+    "language": "de",
+    "link_style": "wikilinks_with_aliases"
+  },
+  "structure": {
+    "00-Meta": {
+      "purpose": "Templates, MOCs, Scripts, Config",
+      "access": "system"
+    },
+    "01-Daily": {
+      "purpose": "Tagesnotizen",
+      "pattern": "DD-MM-YYYY.md",
+      "moc": "_MOC-Daily.md"
+    },
+    "02-Projects": {
+      "purpose": "Projekte",
+      "subdirs": ["Active", "Paused", "Completed", "_Attachments"],
+      "moc": "_MOC-Projects.md"
+    },
+    "03-Knowledge": {
+      "purpose": "Wissens-Base",
+      "subdirs": ["Concepts", "How-To", "References", "People"],
+      "moc": "_MOC-Knowledge.md"
+    },
+    "04-Decisions": {
+      "purpose": "Architektur-Entscheidungen",
+      "pattern": "ADR-XXX-title.md"
+    }
+  },
+  "queries": {
+    "projects": "02-Projects/**/*",
+    "active_projects": "02-Projects/Active/*",
+    "daily_notes": "01-Daily/*",
+    "decisions": "04-Decisions/*",
+    "knowledge": "03-Knowledge/**/*"
+  },
+  "user_preferences": {
+    "language": "de",
+    "design": "linear-dark",
+    "interface": "gui-preferred",
+    "code": "typescript-strict"
+  },
+  "night_agent": {
+    "enabled": false,
+    "schedule": "02:00",
+    "timezone": "Europe/Berlin",
+    "actions": ["index_update", "broken_link_check", "duplicate_detection"],
+    "report_channel": "telegram"
+  }
+}

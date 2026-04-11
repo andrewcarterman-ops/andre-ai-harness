@@ -36,6 +36,25 @@ Each slice is **demoable on its own**.
 
 ## Process
 
+### Phase 0: Redundancy Check (NEW - Critical)
+
+**Before starting any feature, check if it already exists:**
+
+| Check | Location | Command/Method |
+|-------|----------|----------------|
+| Workarounds | `How-To/` | `memory_search "workaround"` |
+| Skills | `skills/` + `registry/skills.yaml` | Read registry/skills.yaml |
+| Scripts | `00-Meta/Scripts/` | List directory |
+| Documentation | `MEMORY.md` + `_MOC-Knowledge.md` | Search memory |
+| Projects | `02-Projects/` | Check _MOC-Projects.md |
+| Tools | `TOOLS.md` | Read TOOLS.md |
+
+**If unsure:** Ask user "Do we already have something for this?"
+
+**Lesson Learned:** 11-04-2026 - Created duplicate SafeEdit.psm1 when edit-tool-workaround.md already existed.
+
+---
+
 ### 1. Confirm Feature Scope
 
 Tell me:
@@ -161,12 +180,28 @@ Does this granularity feel right? Should any phases be merged or split?"
 
 ## Checklist for Me
 
+### Phase 0: Pre-Flight
+- [ ] **Redundancy check performed** - Verified no existing solution
+- [ ] Searched: How-To/, skills/, Scripts/, MEMORY.md
+- [ ] Asked user if unsure about existing solutions
+
+### Phase 1-6: Planning
 - [ ] Feature scope confirmed
 - [ ] Codebase explored (if needed)
 - [ ] Durable decisions identified
 - [ ] Vertical slices drafted
 - [ ] User approved breakdown
 - [ ] Plan written to `./plans/`
+
+## Redundancy Prevention
+
+- [tdd-loop](tdd-loop/SKILL.md) – Execute phases with TDD
+- [grill-me](grill-me/SKILL.md) – Stress-test the plan first
+- Matt Pocock's prd-to-plan inspiration
+te new?"
+3. Document decision
+
+**Example failure:** 11-04-2026 - Created SafeEdit.psm1 when edit-tool-workaround.md already existed in How-To/.
 
 ## See Also
 

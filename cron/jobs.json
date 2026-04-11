@@ -34,9 +34,9 @@
       "agentId": "main",
       "sessionKey": "agent:main:tui-e336aaa0-72bf-4efc-ad26-a919601a21a3",
       "name": "session-auto-sync-v2",
-      "enabled": true,
+      "enabled": false,
       "createdAtMs": 1775690854727,
-      "updatedAtMs": 1775702586133,
+      "updatedAtMs": 1775705607557,
       "schedule": {
         "everyMs": 300000,
         "kind": "every",
@@ -49,13 +49,71 @@
         "text": "Session Auto-Sync: Set-Location 'C:\\Users\\andre\\.openclaw\\workspace\\search-engine'; node auto-sync.js"
       },
       "state": {
-        "nextRunAtMs": 1775702873313,
-        "lastRunAtMs": 1775702573313,
+        "lastRunAtMs": 1775705573520,
         "lastRunStatus": "ok",
         "lastStatus": "ok",
-        "lastDurationMs": 12820,
+        "lastDurationMs": 34037,
         "lastDeliveryStatus": "not-requested",
         "consecutiveErrors": 0
+      }
+    },
+    {
+      "id": "6f87a771-32f2-42ab-ad8e-fdac9991438f",
+      "agentId": "main",
+      "sessionKey": "agent:main:tui-a6593c1a-6b23-4b89-ace1-0a935ece5b19",
+      "name": "Auto-Sync SecondBrain alle 8h",
+      "enabled": true,
+      "createdAtMs": 1775848972836,
+      "updatedAtMs": 1775877964066,
+      "schedule": {
+        "everyMs": 28800000,
+        "kind": "every",
+        "anchorMs": 1775848972836
+      },
+      "sessionTarget": "main",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "systemEvent",
+        "text": "🔄 Auto-Sync: SecondBrain wird synchronisiert (alle 8h). Führe aus: sync-openclaw-to-obsidian.ps1"
+      },
+      "delivery": {
+        "mode": "none"
+      },
+      "state": {
+        "nextRunAtMs": 1775906572853,
+        "lastRunAtMs": 1775877772853,
+        "lastRunStatus": "ok",
+        "lastStatus": "ok",
+        "lastDurationMs": 191213,
+        "lastDeliveryStatus": "not-requested",
+        "consecutiveErrors": 0
+      }
+    },
+    {
+      "id": "cc393bf9-dbf6-4277-8262-6d72f8d3201d",
+      "agentId": "main",
+      "sessionKey": "agent:main:tui-53aa7499-2cfb-4133-b989-0b460797792c",
+      "name": "Daily Drift Detection - SecondBrain",
+      "enabled": true,
+      "createdAtMs": 1775879436688,
+      "updatedAtMs": 1775879436688,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 8 * * *",
+        "tz": "Europe/Berlin"
+      },
+      "sessionTarget": "isolated",
+      "wakeMode": "now",
+      "payload": {
+        "kind": "agentTurn",
+        "message": "Führe Drift Detection für SecondBrain aus: Set-Location 'C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework'; .\\drift-detection.ps1 | Out-String",
+        "timeoutSeconds": 300
+      },
+      "delivery": {
+        "mode": "announce"
+      },
+      "state": {
+        "nextRunAtMs": 1775887200000
       }
     }
   ]

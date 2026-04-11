@@ -3,8 +3,8 @@
 # Format: YAML 1.2
 # Encoding: UTF-8
 
-version: "1.2"
-last_updated: "2026-04-03T00:35:00+01:00"
+version: "1.3"
+last_updated: "2026-04-11T05:55:00+01:00"
 
 # Ausführungsmodus
 # Phase 1: "manual" - Agent führt Hooks explizit aus
@@ -35,6 +35,10 @@ hooks:
     
     # Was dieser Hook tut (für manuelle Implementierung):
     actions:
+      - name: "load_system_status"
+        description: "LADE SecondBrain/00-Meta/SYSTEM-STATUS.md (KRITISCH - Nie vergessen!)"
+        required: true
+        added: "2026-04-11"
       - name: "validate_registry"
         description: "Prüfe ob alle Registry-Dateien vorhanden und gültig"
         required: true
@@ -44,6 +48,10 @@ hooks:
       - name: "load_context"
         description: "Lade SOUL.md, USER.md, MEMORY.md"
         required: true
+      - name: "check_cron_jobs"
+        description: "Liste alle aktiven Cron-Jobs mit 'cron list'"
+        required: true
+        added: "2026-04-11"
       - name: "log_session_start"
         description: "Logge Session-Start in memory/hooks.log"
         required: true
