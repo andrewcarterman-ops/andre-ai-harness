@@ -1,0 +1,28 @@
+{
+  "_comment": "OpenClaw Voice Bridge Konfiguration",
+  
+  "whisper_exe": "whisper/main.exe",
+  "whisper_model": "models/ggml-medium.bin",
+  "llama_server": "llama/llama-server.exe",
+  "llama_model": "models/Llama-3.1-8B-Instruct-Q4_K_M.gguf",
+  "piper_exe": "piper/piper.exe",
+  "piper_model": "models/de_DE-thorsten-high.onnx",
+  
+  "sample_rate": 16000,
+  "channels": 1,
+  "chunk_size": 1024,
+  
+  "ptt_key": "f12",
+  "exit_key": "esc",
+  
+  "toggle_mode": true,
+  "save_recordings": false,
+  
+  "llama_host": "localhost",
+  "llama_port": 8080,
+  "max_tokens": 512,
+  "temperature": 0.7,
+  
+  "language": "de",
+  "show_overlay": true
+}

@@ -1,0 +1,56 @@
+## Task Description
+{{ task_description }}
+
+## Current Program (Base Code to Modify)
+```python
+{{ base_code }}
+```
+
+{% if context_nodes %}
+## Context from Previous Experiments
+{% for node in context_nodes %}
+### {{ node.name }}
+**Score**: {{ node.score }}
+**Motivation**: {{ node.motivation }}
+{% if node.code %}
+**Code Diff**:
+```python
+{{ node.code }}
+```
+{% endif %}
+{% if node.results %}
+**Results**: {{ node.results | tojson(indent=2) }}
+{% endif %}
+{% if node.analysis %}
+**Analysis**: {{ node.analysis }}
+{% endif %}
+{% endfor %}
+{% endif %}
+
+## Instructions
+You need to make **incremental modifications** to the current program. Use the SEARCH/REPLACE format below to specify your changes:
+
+```
+<<<<<<< SEARCH
+# Original code to find and replace (must match exactly)
+=======
+# New replacement code
+>>>>>>> REPLACE
+```
+
+**IMPORTANT:**
+1. Do not rewrite the entire program - focus on targeted improvements
+2. SEARCH blocks must match exactly with content in the base code (including indentation and whitespace)
+3. Be thoughtful about your changes and explain your reasoning thoroughly
+4. Make sure your modifications maintain the same inputs and outputs as the original program
+5. Only suggest 1-3 focused changes per iteration
+
+**Response Format:**
+You MUST respond in TWO parts:
+
+**Part 1: XML Tags (required)**
+<name>approach_name</name>
+<motivation>why these changes and expected improvements</motivation>
+
+**Part 2: SEARCH/REPLACE blocks (required)**
+Then provide your SEARCH/REPLACE diff blocks.

@@ -12,7 +12,7 @@ from pathlib import Path
 from typing import Optional
 
 # Konfiguration
-CONFIG_DIR = Path.home() / ".openclaw" / "skills" / "whisper-local-stt"
+CONFIG_DIR = Path.home() / ".openclaw" / "workspace" / "skills" / "whisper-local-stt"
 CONFIG_FILE = CONFIG_DIR / "config.json"
 
 
@@ -37,14 +37,14 @@ def get_audio_from_telegram() -> Optional[Path]:
     """
     # Methode 1: Datei-Pfad als Argument
     if len(sys.argv) >= 2:
-        audio_path = Path(sys.argv[1])
+        audio_path = Path(sys.argv[1]).expanduser()
         if audio_path.exists():
             return audio_path
     
     # Methode 2: Datei-Pfad als Env-Variable
     audio_path_env = os.environ.get("TELEGRAM_AUDIO_FILE")
     if audio_path_env:
-        audio_path = Path(audio_path_env)
+        audio_path = Path(audio_path_env).expanduser()
         if audio_path.exists():
             return audio_path
     
@@ -75,7 +75,7 @@ def check_duration(audio_path: Path) -> bool:
         duration = float(result.stdout.strip())
         
         if duration > max_duration:
-            print(f"⚠️  Audio zu lang: {duration:.0f}s (Maximum: {max_duration}s)")
+            print(f"[WARNUNG] Audio zu lang: {duration:.0f}s (Maximum: {max_duration}s)")
             return False
         
         return True
@@ -93,7 +93,7 @@ def process_voice_message(audio_path: Path, user_id: str):
     transcribe_script = script_dir / "transcribe.py"
     
     if not transcribe_script.exists():
-        print(f"❌ Transkriptions-Skript nicht gefunden: {transcribe_script}")
+        print(f"[FEHLER] Transkriptions-Skript nicht gefunden: {transcribe_script}")
         return
     
     # Umgebungsvariablen setzen
@@ -114,11 +114,11 @@ def process_voice_message(audio_path: Path, user_id: str):
             print(result.stdout)
         else:
             # Fehler
-            print(f"❌ Transkription fehlgeschlagen:")
+            print(f"[FEHLER] Transkription fehlgeschlagen:")
             print(result.stderr)
             
     except Exception as e:
-        print(f"❌ Fehler bei der Verarbeitung: {e}")
+        print(f"[FEHLER] Fehler bei der Verarbeitung: {e}")
 
 
 def main():
@@ -127,11 +127,11 @@ def main():
     audio_path = get_audio_from_telegram()
     
     if not audio_path:
-        print("❌ Keine Audio-Datei gefunden.")
+        print("[FEHLER] Keine Audio-Datei gefunden.")
         print("Verwendung: telegram_handler.py <audio-datei.ogg>")
         sys.exit(1)
     
-    print(f"🎙️  Verarbeite Audio: {audio_path.name}", file=sys.stderr)
+    print(f"[INFO] Verarbeite Audio: {audio_path.name}", file=sys.stderr)
     
     # Dauer prüfen
     if not check_duration(audio_path):

@@ -1,0 +1,7 @@
+# Graphify ignore patterns
+.obsidian/
+node_modules/
+00-Meta/Graphify-Output/
+99-Archive/
+*.tmp
+*.cache

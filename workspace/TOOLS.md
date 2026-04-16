@@ -31,6 +31,13 @@ Things like:
 - Default speaker: Kitchen HomePod
 ```
 
+## Shell & Scripting Preferences
+
+- **Default shell: PowerShell**
+- **Preferred scripting language: PowerShell (.ps1)**
+- **Bash / Git Bash:** Only when explicitly necessary. If Git Bash is required, provide very detailed instructions.
+- **Python scripts:** Acceptable for cross-platform utilities
+
 ## Why Separate?
 
 Skills are shared. Your setup is yours. Keeping them apart means you can update skills without losing your notes, and share skills without leaking your infrastructure.

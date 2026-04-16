@@ -1,0 +1,1647 @@
+{
+  "nodes": [
+    {
+      "id": "c_users_andre_openclaw_workspace_secondbrain_graphify_extract_ast_py",
+      "label": "graphify_extract_ast.py",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\graphify_extract_ast.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_check_vault_health_ps1",
+      "label": "check-vault-health.ps1",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\check-vault-health.ps1",
+      "source_location": "L1"
+    },
+    {
+      "id": "check_vault_health_write_header",
+      "label": "Write-Header()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\check-vault-health.ps1",
+      "source_location": "L41"
+    },
+    {
+      "id": "check_vault_health_test_symlinkhealth",
+      "label": "Test-SymlinkHealth()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\check-vault-health.ps1",
+      "source_location": "L49"
+    },
+    {
+      "id": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_migrate_obsidian_vault_ps1",
+      "label": "migrate-obsidian-vault.ps1",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\migrate-obsidian-vault.ps1",
+      "source_location": "L1"
+    },
+    {
+      "id": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_setup_symlinks_ps1",
+      "label": "setup-symlinks.ps1",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\setup-symlinks.ps1",
+      "source_location": "L1"
+    },
+    {
+      "id": "setup_symlinks_test_adminrights",
+      "label": "Test-AdminRights()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\setup-symlinks.ps1",
+      "source_location": "L46"
+    },
+    {
+      "id": "setup_symlinks_test_symlinkexists",
+      "label": "Test-SymlinkExists()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\setup-symlinks.ps1",
+      "source_location": "L51"
+    },
+    {
+      "id": "setup_symlinks_test_symlinkhealthy",
+      "label": "Test-SymlinkHealthy()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\setup-symlinks.ps1",
+      "source_location": "L65"
+    },
+    {
+      "id": "setup_symlinks_new_vaultsymlink",
+      "label": "New-VaultSymlink()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\setup-symlinks.ps1",
+      "source_location": "L85"
+    },
+    {
+      "id": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_ecc_framework_cmd_backup_ps1",
+      "label": "cmd-backup.ps1",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\cmd-backup.ps1",
+      "source_location": "L1"
+    },
+    {
+      "id": "cmd_backup_write_backuplog",
+      "label": "Write-BackupLog()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\cmd-backup.ps1",
+      "source_location": "L66"
+    },
+    {
+      "id": "cmd_backup_invoke_backup",
+      "label": "Invoke-Backup()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\cmd-backup.ps1",
+      "source_location": "L84"
+    },
+    {
+      "id": "cmd_backup_invoke_restore",
+      "label": "Invoke-Restore()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\cmd-backup.ps1",
+      "source_location": "L145"
+    },
+    {
+      "id": "cmd_backup_get_backuplist",
+      "label": "Get-BackupList()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\cmd-backup.ps1",
+      "source_location": "L189"
+    },
+    {
+      "id": "cmd_backup_clear_oldbackups",
+      "label": "Clear-OldBackups()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\cmd-backup.ps1",
+      "source_location": "L209"
+    },
+    {
+      "id": "cmd_backup_test_backupintegrity",
+      "label": "Test-BackupIntegrity()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\cmd-backup.ps1",
+      "source_location": "L226"
+    },
+    {
+      "id": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_ecc_framework_context_switch_ps1",
+      "label": "context-switch.ps1",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\context-switch.ps1",
+      "source_location": "L1"
+    },
+    {
+      "id": "context_switch_write_contextlog",
+      "label": "Write-ContextLog()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\context-switch.ps1",
+      "source_location": "L43"
+    },
+    {
+      "id": "context_switch_get_recentsessions",
+      "label": "Get-RecentSessions()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\context-switch.ps1",
+      "source_location": "L61"
+    },
+    {
+      "id": "context_switch_extract_keyinfo",
+      "label": "Extract-KeyInfo()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\context-switch.ps1",
+      "source_location": "L73"
+    },
+    {
+      "id": "context_switch_new_contextsummary",
+      "label": "New-ContextSummary()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\context-switch.ps1",
+      "source_location": "L108"
+    },
+    {
+      "id": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_ecc_framework_drift_detection_ps1",
+      "label": "drift-detection.ps1",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\drift-detection.ps1",
+      "source_location": "L1"
+    },
+    {
+      "id": "drift_detection_write_driftlog",
+      "label": "Write-DriftLog()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\drift-detection.ps1",
+      "source_location": "L28"
+    },
+    {
+      "id": "drift_detection_get_vaultstructure",
+      "label": "Get-VaultStructure()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\drift-detection.ps1",
+      "source_location": "L59"
+    },
+    {
+      "id": "drift_detection_test_drift",
+      "label": "Test-Drift()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\drift-detection.ps1",
+      "source_location": "L106"
+    },
+    {
+      "id": "drift_detection_repair_drift",
+      "label": "Repair-Drift()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\drift-detection.ps1",
+      "source_location": "L149"
+    },
+    {
+      "id": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_ecc_framework_eval_runner_ps1",
+      "label": "eval-runner.ps1",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\eval-runner.ps1",
+      "source_location": "L1"
+    },
+    {
+      "id": "eval_runner_write_evallog",
+      "label": "Write-EvalLog()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\eval-runner.ps1",
+      "source_location": "L60"
+    },
+    {
+      "id": "eval_runner_import_evalconfig",
+      "label": "Import-EvalConfig()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\eval-runner.ps1",
+      "source_location": "L79"
+    },
+    {
+      "id": "eval_runner_test_vaultstructure",
+      "label": "Test-VaultStructure()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\eval-runner.ps1",
+      "source_location": "L112"
+    },
+    {
+      "id": "eval_runner_test_templates",
+      "label": "Test-Templates()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\eval-runner.ps1",
+      "source_location": "L139"
+    },
+    {
+      "id": "eval_runner_test_scripts",
+      "label": "Test-Scripts()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\eval-runner.ps1",
+      "source_location": "L161"
+    },
+    {
+      "id": "eval_runner_invoke_evalsuite",
+      "label": "Invoke-EvalSuite()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\eval-runner.ps1",
+      "source_location": "L186"
+    },
+    {
+      "id": "eval_runner_export_evalreport",
+      "label": "Export-EvalReport()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\eval-runner.ps1",
+      "source_location": "L218"
+    },
+    {
+      "id": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_legacy_analyze_vault_ps1",
+      "label": "analyze-vault.ps1",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\legacy\\analyze-vault.ps1",
+      "source_location": "L1"
+    },
+    {
+      "id": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_legacy_sync_openclaw_to_secondbrain_20260406_234527_ps1",
+      "label": "sync-openclaw-to-secondbrain.20260406-234527.ps1",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\legacy\\sync-openclaw-to-secondbrain.20260406-234527.ps1",
+      "source_location": "L1"
+    },
+    {
+      "id": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_legacy_sync_openclaw_to_secondbrain_ps1",
+      "label": "sync-openclaw-to-secondbrain.ps1",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\legacy\\sync-openclaw-to-secondbrain.ps1",
+      "source_location": "L1"
+    },
+    {
+      "id": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_legacy_vault_reorganize_simple_ps1",
+      "label": "vault-reorganize-simple.ps1",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\legacy\\vault-reorganize-simple.ps1",
+      "source_location": "L1"
+    },
+    {
+      "id": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_legacy_vault_reorganize_ps1",
+      "label": "vault-reorganize.ps1",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\legacy\\vault-reorganize.ps1",
+      "source_location": "L1"
+    },
+    {
+      "id": "vault_reorganize_test_uuidfilename",
+      "label": "Test-UUIDFileName()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\legacy\\vault-reorganize.ps1",
+      "source_location": "L50"
+    },
+    {
+      "id": "vault_reorganize_get_yamlfrontmatter",
+      "label": "Get-YamlFrontMatter()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\legacy\\vault-reorganize.ps1",
+      "source_location": "L56"
+    },
+    {
+      "id": "vault_reorganize_extract_decisions",
+      "label": "Extract-Decisions()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\legacy\\vault-reorganize.ps1",
+      "source_location": "L75"
+    },
+    {
+      "id": "vault_reorganize_new_compactnote",
+      "label": "New-CompactNote()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\legacy\\vault-reorganize.ps1",
+      "source_location": "L111"
+    },
+    {
+      "id": "vault_reorganize_start_vaultmigration",
+      "label": "Start-VaultMigration()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\legacy\\vault-reorganize.ps1",
+      "source_location": "L182"
+    },
+    {
+      "id": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_modules_example_usage_ps1",
+      "label": "example-usage.ps1",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\modules\\example-usage.ps1",
+      "source_location": "L1"
+    },
+    {
+      "id": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_auto_backup_ps1",
+      "label": "auto-backup.ps1",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\auto-backup.ps1",
+      "source_location": "L1"
+    },
+    {
+      "id": "auto_backup_write_backuplog",
+      "label": "Write-BackupLog()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\auto-backup.ps1",
+      "source_location": "L37"
+    },
+    {
+      "id": "auto_backup_convertfrom_yaml",
+      "label": "ConvertFrom-Yaml()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\auto-backup.ps1",
+      "source_location": "L67"
+    },
+    {
+      "id": "auto_backup_get_backupconfig",
+      "label": "Get-BackupConfig()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\auto-backup.ps1",
+      "source_location": "L110"
+    },
+    {
+      "id": "auto_backup_get_backupmetadata",
+      "label": "Get-BackupMetadata()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\auto-backup.ps1",
+      "source_location": "L134"
+    },
+    {
+      "id": "auto_backup_new_vaultbackup",
+      "label": "New-VaultBackup()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\auto-backup.ps1",
+      "source_location": "L159"
+    },
+    {
+      "id": "auto_backup_invoke_retentioncleanup",
+      "label": "Invoke-RetentionCleanup()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\auto-backup.ps1",
+      "source_location": "L283"
+    },
+    {
+      "id": "auto_backup_restore_vaultbackup",
+      "label": "Restore-VaultBackup()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\auto-backup.ps1",
+      "source_location": "L322"
+    },
+    {
+      "id": "auto_backup_get_backuplist",
+      "label": "Get-BackupList()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\auto-backup.ps1",
+      "source_location": "L395"
+    },
+    {
+      "id": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_drift_detection_ps1",
+      "label": "drift-detection.ps1",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\drift-detection.ps1",
+      "source_location": "L1"
+    },
+    {
+      "id": "drift_detection_write_driftlog",
+      "label": "Write-DriftLog()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\drift-detection.ps1",
+      "source_location": "L28"
+    },
+    {
+      "id": "drift_detection_convertfrom_yaml",
+      "label": "ConvertFrom-Yaml()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\drift-detection.ps1",
+      "source_location": "L59"
+    },
+    {
+      "id": "drift_detection_get_vaultstructure",
+      "label": "Get-VaultStructure()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\drift-detection.ps1",
+      "source_location": "L98"
+    },
+    {
+      "id": "drift_detection_test_drift",
+      "label": "Test-Drift()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\drift-detection.ps1",
+      "source_location": "L141"
+    },
+    {
+      "id": "drift_detection_repair_drift",
+      "label": "Repair-Drift()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\drift-detection.ps1",
+      "source_location": "L221"
+    },
+    {
+      "id": "drift_detection_get_templateforfile",
+      "label": "Get-TemplateForFile()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\drift-detection.ps1",
+      "source_location": "L259"
+    },
+    {
+      "id": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_ecc_stability_ps1",
+      "label": "ecc-stability.ps1",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\ecc-stability.ps1",
+      "source_location": "L1"
+    },
+    {
+      "id": "ecc_stability_write_ecclog",
+      "label": "Write-EccLog()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\ecc-stability.ps1",
+      "source_location": "L44"
+    },
+    {
+      "id": "ecc_stability_test_prerequisites",
+      "label": "Test-Prerequisites()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\ecc-stability.ps1",
+      "source_location": "L76"
+    },
+    {
+      "id": "ecc_stability_show_help",
+      "label": "Show-Help()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\ecc-stability.ps1",
+      "source_location": "L100"
+    },
+    {
+      "id": "ecc_stability_show_status",
+      "label": "Show-Status()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\ecc-stability.ps1",
+      "source_location": "L148"
+    },
+    {
+      "id": "ecc_stability_invoke_fullcheck",
+      "label": "Invoke-FullCheck()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\ecc-stability.ps1",
+      "source_location": "L200"
+    },
+    {
+      "id": "ecc_stability_invoke_driftmode",
+      "label": "Invoke-DriftMode()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\ecc-stability.ps1",
+      "source_location": "L265"
+    },
+    {
+      "id": "ecc_stability_invoke_backupmode",
+      "label": "Invoke-BackupMode()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\ecc-stability.ps1",
+      "source_location": "L276"
+    },
+    {
+      "id": "ecc_stability_invoke_contextmode",
+      "label": "Invoke-ContextMode()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\ecc-stability.ps1",
+      "source_location": "L289"
+    },
+    {
+      "id": "ecc_stability_invoke_encryptmode",
+      "label": "Invoke-EncryptMode()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\ecc-stability.ps1",
+      "source_location": "L294"
+    },
+    {
+      "id": "ecc_stability_initialize_eccenvironment",
+      "label": "Initialize-EccEnvironment()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\ecc-stability.ps1",
+      "source_location": "L325"
+    },
+    {
+      "id": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_sync_openclaw_to_obsidian_ps1",
+      "label": "sync-openclaw-to-obsidian.ps1",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L1"
+    },
+    {
+      "id": "sync_openclaw_to_obsidian_write_synclog",
+      "label": "Write-SyncLog()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L69"
+    },
+    {
+      "id": "sync_openclaw_to_obsidian_invoke_withretry",
+      "label": "Invoke-WithRetry()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L104"
+    },
+    {
+      "id": "sync_openclaw_to_obsidian_get_openclawsessionsfromregistry",
+      "label": "Get-OpenClawSessionsFromRegistry()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L148"
+    },
+    {
+      "id": "sync_openclaw_to_obsidian_convertto_yamlfrontmatter",
+      "label": "ConvertTo-YamlFrontmatter()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L206"
+    },
+    {
+      "id": "sync_openclaw_to_obsidian_get_backlinkssection",
+      "label": "Get-BacklinksSection()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L310"
+    },
+    {
+      "id": "sync_openclaw_to_obsidian_new_decisionnote",
+      "label": "New-DecisionNote()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L363"
+    },
+    {
+      "id": "sync_openclaw_to_obsidian_new_sessionnote",
+      "label": "New-SessionNote()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L432"
+    },
+    {
+      "id": "sync_openclaw_to_obsidian_get_syncstatus",
+      "label": "Get-SyncStatus()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L581"
+    },
+    {
+      "id": "sync_openclaw_to_obsidian_save_syncstatus",
+      "label": "Save-SyncStatus()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L602"
+    },
+    {
+      "id": "sync_openclaw_to_obsidian_start_sync",
+      "label": "Start-Sync()",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L623"
+    },
+    {
+      "id": "c_users_andre_openclaw_workspace_secondbrain_99_archive_vault_archive_misc_create_dirs_ps1",
+      "label": "create-dirs.ps1",
+      "file_type": "code",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\vault-archive-misc\\create-dirs.ps1",
+      "source_location": "L1"
+    }
+  ],
+  "edges": [
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_graphify_extract_ast_py",
+      "target": "json",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\graphify_extract_ast.py",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_graphify_extract_ast_py",
+      "target": "pathlib",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\graphify_extract_ast.py",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_graphify_extract_ast_py",
+      "target": "graphify_extract",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\graphify_extract_ast.py",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_graphify_extract_ast_py",
+      "target": "graphify_detect",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\graphify_extract_ast.py",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_check_vault_health_ps1",
+      "target": "check_vault_health_write_header",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\check-vault-health.ps1",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_check_vault_health_ps1",
+      "target": "check_vault_health_test_symlinkhealth",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\check-vault-health.ps1",
+      "source_location": "L49",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_setup_symlinks_ps1",
+      "target": "setup_symlinks_test_adminrights",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\setup-symlinks.ps1",
+      "source_location": "L46",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_setup_symlinks_ps1",
+      "target": "setup_symlinks_test_symlinkexists",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\setup-symlinks.ps1",
+      "source_location": "L51",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_setup_symlinks_ps1",
+      "target": "setup_symlinks_test_symlinkhealthy",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\setup-symlinks.ps1",
+      "source_location": "L65",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_setup_symlinks_ps1",
+      "target": "setup_symlinks_new_vaultsymlink",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\setup-symlinks.ps1",
+      "source_location": "L85",
+      "weight": 1.0
+    },
+    {
+      "source": "setup_symlinks_test_symlinkhealthy",
+      "target": "setup_symlinks_test_symlinkexists",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\setup-symlinks.ps1",
+      "source_location": "L68",
+      "weight": 1.0
+    },
+    {
+      "source": "setup_symlinks_new_vaultsymlink",
+      "target": "setup_symlinks_test_symlinkexists",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\setup-symlinks.ps1",
+      "source_location": "L106",
+      "weight": 1.0
+    },
+    {
+      "source": "setup_symlinks_new_vaultsymlink",
+      "target": "setup_symlinks_test_symlinkhealthy",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\setup-symlinks.ps1",
+      "source_location": "L107",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_ecc_framework_cmd_backup_ps1",
+      "target": "cmd_backup_write_backuplog",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\cmd-backup.ps1",
+      "source_location": "L66",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_ecc_framework_cmd_backup_ps1",
+      "target": "cmd_backup_invoke_backup",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\cmd-backup.ps1",
+      "source_location": "L84",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_ecc_framework_cmd_backup_ps1",
+      "target": "cmd_backup_invoke_restore",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\cmd-backup.ps1",
+      "source_location": "L145",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_ecc_framework_cmd_backup_ps1",
+      "target": "cmd_backup_get_backuplist",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\cmd-backup.ps1",
+      "source_location": "L189",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_ecc_framework_cmd_backup_ps1",
+      "target": "cmd_backup_clear_oldbackups",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\cmd-backup.ps1",
+      "source_location": "L209",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_ecc_framework_cmd_backup_ps1",
+      "target": "cmd_backup_test_backupintegrity",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\cmd-backup.ps1",
+      "source_location": "L226",
+      "weight": 1.0
+    },
+    {
+      "source": "cmd_backup_invoke_backup",
+      "target": "cmd_backup_write_backuplog",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\cmd-backup.ps1",
+      "source_location": "L94",
+      "weight": 1.0
+    },
+    {
+      "source": "cmd_backup_invoke_restore",
+      "target": "cmd_backup_write_backuplog",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\cmd-backup.ps1",
+      "source_location": "L151",
+      "weight": 1.0
+    },
+    {
+      "source": "cmd_backup_invoke_restore",
+      "target": "cmd_backup_invoke_backup",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\cmd-backup.ps1",
+      "source_location": "L159",
+      "weight": 1.0
+    },
+    {
+      "source": "cmd_backup_clear_oldbackups",
+      "target": "cmd_backup_write_backuplog",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\cmd-backup.ps1",
+      "source_location": "L223",
+      "weight": 1.0
+    },
+    {
+      "source": "cmd_backup_test_backupintegrity",
+      "target": "cmd_backup_write_backuplog",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\cmd-backup.ps1",
+      "source_location": "L232",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_ecc_framework_context_switch_ps1",
+      "target": "context_switch_write_contextlog",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\context-switch.ps1",
+      "source_location": "L43",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_ecc_framework_context_switch_ps1",
+      "target": "context_switch_get_recentsessions",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\context-switch.ps1",
+      "source_location": "L61",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_ecc_framework_context_switch_ps1",
+      "target": "context_switch_extract_keyinfo",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\context-switch.ps1",
+      "source_location": "L73",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_ecc_framework_context_switch_ps1",
+      "target": "context_switch_new_contextsummary",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\context-switch.ps1",
+      "source_location": "L108",
+      "weight": 1.0
+    },
+    {
+      "source": "context_switch_new_contextsummary",
+      "target": "context_switch_write_contextlog",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\context-switch.ps1",
+      "source_location": "L112",
+      "weight": 1.0
+    },
+    {
+      "source": "context_switch_new_contextsummary",
+      "target": "context_switch_get_recentsessions",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\context-switch.ps1",
+      "source_location": "L115",
+      "weight": 1.0
+    },
+    {
+      "source": "context_switch_new_contextsummary",
+      "target": "context_switch_extract_keyinfo",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\context-switch.ps1",
+      "source_location": "L116",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_ecc_framework_drift_detection_ps1",
+      "target": "drift_detection_write_driftlog",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\drift-detection.ps1",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_ecc_framework_drift_detection_ps1",
+      "target": "drift_detection_get_vaultstructure",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\drift-detection.ps1",
+      "source_location": "L59",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_ecc_framework_drift_detection_ps1",
+      "target": "drift_detection_test_drift",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\drift-detection.ps1",
+      "source_location": "L106",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_ecc_framework_drift_detection_ps1",
+      "target": "drift_detection_repair_drift",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\drift-detection.ps1",
+      "source_location": "L149",
+      "weight": 1.0
+    },
+    {
+      "source": "drift_detection_repair_drift",
+      "target": "drift_detection_write_driftlog",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\drift-detection.ps1",
+      "source_location": "L165",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_ecc_framework_eval_runner_ps1",
+      "target": "eval_runner_write_evallog",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\eval-runner.ps1",
+      "source_location": "L60",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_ecc_framework_eval_runner_ps1",
+      "target": "eval_runner_import_evalconfig",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\eval-runner.ps1",
+      "source_location": "L79",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_ecc_framework_eval_runner_ps1",
+      "target": "eval_runner_test_vaultstructure",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\eval-runner.ps1",
+      "source_location": "L112",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_ecc_framework_eval_runner_ps1",
+      "target": "eval_runner_test_templates",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\eval-runner.ps1",
+      "source_location": "L139",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_ecc_framework_eval_runner_ps1",
+      "target": "eval_runner_test_scripts",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\eval-runner.ps1",
+      "source_location": "L161",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_ecc_framework_eval_runner_ps1",
+      "target": "eval_runner_invoke_evalsuite",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\eval-runner.ps1",
+      "source_location": "L186",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_ecc_framework_eval_runner_ps1",
+      "target": "eval_runner_export_evalreport",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\eval-runner.ps1",
+      "source_location": "L218",
+      "weight": 1.0
+    },
+    {
+      "source": "eval_runner_import_evalconfig",
+      "target": "eval_runner_write_evallog",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\eval-runner.ps1",
+      "source_location": "L83",
+      "weight": 1.0
+    },
+    {
+      "source": "eval_runner_invoke_evalsuite",
+      "target": "eval_runner_write_evallog",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\eval-runner.ps1",
+      "source_location": "L192",
+      "weight": 1.0
+    },
+    {
+      "source": "eval_runner_export_evalreport",
+      "target": "eval_runner_write_evallog",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\ecc-framework\\eval-runner.ps1",
+      "source_location": "L230",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_legacy_vault_reorganize_ps1",
+      "target": "vault_reorganize_test_uuidfilename",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\legacy\\vault-reorganize.ps1",
+      "source_location": "L50",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_legacy_vault_reorganize_ps1",
+      "target": "vault_reorganize_get_yamlfrontmatter",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\legacy\\vault-reorganize.ps1",
+      "source_location": "L56",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_legacy_vault_reorganize_ps1",
+      "target": "vault_reorganize_extract_decisions",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\legacy\\vault-reorganize.ps1",
+      "source_location": "L75",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_legacy_vault_reorganize_ps1",
+      "target": "vault_reorganize_new_compactnote",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\legacy\\vault-reorganize.ps1",
+      "source_location": "L111",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_legacy_vault_reorganize_ps1",
+      "target": "vault_reorganize_start_vaultmigration",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\legacy\\vault-reorganize.ps1",
+      "source_location": "L182",
+      "weight": 1.0
+    },
+    {
+      "source": "vault_reorganize_start_vaultmigration",
+      "target": "vault_reorganize_test_uuidfilename",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\legacy\\vault-reorganize.ps1",
+      "source_location": "L196",
+      "weight": 1.0
+    },
+    {
+      "source": "vault_reorganize_start_vaultmigration",
+      "target": "vault_reorganize_get_yamlfrontmatter",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\legacy\\vault-reorganize.ps1",
+      "source_location": "L231",
+      "weight": 1.0
+    },
+    {
+      "source": "vault_reorganize_start_vaultmigration",
+      "target": "vault_reorganize_extract_decisions",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\legacy\\vault-reorganize.ps1",
+      "source_location": "L232",
+      "weight": 1.0
+    },
+    {
+      "source": "vault_reorganize_start_vaultmigration",
+      "target": "vault_reorganize_new_compactnote",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\00-Meta\\Scripts\\legacy\\vault-reorganize.ps1",
+      "source_location": "L235",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_auto_backup_ps1",
+      "target": "auto_backup_write_backuplog",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\auto-backup.ps1",
+      "source_location": "L37",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_auto_backup_ps1",
+      "target": "auto_backup_convertfrom_yaml",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\auto-backup.ps1",
+      "source_location": "L67",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_auto_backup_ps1",
+      "target": "auto_backup_get_backupconfig",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\auto-backup.ps1",
+      "source_location": "L110",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_auto_backup_ps1",
+      "target": "auto_backup_get_backupmetadata",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\auto-backup.ps1",
+      "source_location": "L134",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_auto_backup_ps1",
+      "target": "auto_backup_new_vaultbackup",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\auto-backup.ps1",
+      "source_location": "L159",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_auto_backup_ps1",
+      "target": "auto_backup_invoke_retentioncleanup",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\auto-backup.ps1",
+      "source_location": "L283",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_auto_backup_ps1",
+      "target": "auto_backup_restore_vaultbackup",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\auto-backup.ps1",
+      "source_location": "L322",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_auto_backup_ps1",
+      "target": "auto_backup_get_backuplist",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\auto-backup.ps1",
+      "source_location": "L395",
+      "weight": 1.0
+    },
+    {
+      "source": "auto_backup_get_backupconfig",
+      "target": "auto_backup_convertfrom_yaml",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\auto-backup.ps1",
+      "source_location": "L122",
+      "weight": 1.0
+    },
+    {
+      "source": "auto_backup_new_vaultbackup",
+      "target": "auto_backup_write_backuplog",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\auto-backup.ps1",
+      "source_location": "L167",
+      "weight": 1.0
+    },
+    {
+      "source": "auto_backup_new_vaultbackup",
+      "target": "auto_backup_get_backupmetadata",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\auto-backup.ps1",
+      "source_location": "L181",
+      "weight": 1.0
+    },
+    {
+      "source": "auto_backup_invoke_retentioncleanup",
+      "target": "auto_backup_write_backuplog",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\auto-backup.ps1",
+      "source_location": "L289",
+      "weight": 1.0
+    },
+    {
+      "source": "auto_backup_restore_vaultbackup",
+      "target": "auto_backup_write_backuplog",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\auto-backup.ps1",
+      "source_location": "L329",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_drift_detection_ps1",
+      "target": "drift_detection_write_driftlog",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\drift-detection.ps1",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_drift_detection_ps1",
+      "target": "drift_detection_convertfrom_yaml",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\drift-detection.ps1",
+      "source_location": "L59",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_drift_detection_ps1",
+      "target": "drift_detection_get_vaultstructure",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\drift-detection.ps1",
+      "source_location": "L98",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_drift_detection_ps1",
+      "target": "drift_detection_test_drift",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\drift-detection.ps1",
+      "source_location": "L141",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_drift_detection_ps1",
+      "target": "drift_detection_repair_drift",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\drift-detection.ps1",
+      "source_location": "L221",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_drift_detection_ps1",
+      "target": "drift_detection_get_templateforfile",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\drift-detection.ps1",
+      "source_location": "L259",
+      "weight": 1.0
+    },
+    {
+      "source": "drift_detection_repair_drift",
+      "target": "drift_detection_write_driftlog",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\drift-detection.ps1",
+      "source_location": "L237",
+      "weight": 1.0
+    },
+    {
+      "source": "drift_detection_repair_drift",
+      "target": "drift_detection_get_templateforfile",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\drift-detection.ps1",
+      "source_location": "L242",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_ecc_stability_ps1",
+      "target": "ecc_stability_write_ecclog",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\ecc-stability.ps1",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_ecc_stability_ps1",
+      "target": "ecc_stability_test_prerequisites",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\ecc-stability.ps1",
+      "source_location": "L76",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_ecc_stability_ps1",
+      "target": "ecc_stability_show_help",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\ecc-stability.ps1",
+      "source_location": "L100",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_ecc_stability_ps1",
+      "target": "ecc_stability_show_status",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\ecc-stability.ps1",
+      "source_location": "L148",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_ecc_stability_ps1",
+      "target": "ecc_stability_invoke_fullcheck",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\ecc-stability.ps1",
+      "source_location": "L200",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_ecc_stability_ps1",
+      "target": "ecc_stability_invoke_driftmode",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\ecc-stability.ps1",
+      "source_location": "L265",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_ecc_stability_ps1",
+      "target": "ecc_stability_invoke_backupmode",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\ecc-stability.ps1",
+      "source_location": "L276",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_ecc_stability_ps1",
+      "target": "ecc_stability_invoke_contextmode",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\ecc-stability.ps1",
+      "source_location": "L289",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_ecc_stability_ps1",
+      "target": "ecc_stability_invoke_encryptmode",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\ecc-stability.ps1",
+      "source_location": "L294",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_ecc_stability_ps1",
+      "target": "ecc_stability_initialize_eccenvironment",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\ecc-stability.ps1",
+      "source_location": "L325",
+      "weight": 1.0
+    },
+    {
+      "source": "ecc_stability_test_prerequisites",
+      "target": "ecc_stability_write_ecclog",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\ecc-stability.ps1",
+      "source_location": "L77",
+      "weight": 1.0
+    },
+    {
+      "source": "ecc_stability_show_status",
+      "target": "ecc_stability_write_ecclog",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\ecc-stability.ps1",
+      "source_location": "L149",
+      "weight": 1.0
+    },
+    {
+      "source": "ecc_stability_invoke_fullcheck",
+      "target": "ecc_stability_write_ecclog",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\ecc-stability.ps1",
+      "source_location": "L201",
+      "weight": 1.0
+    },
+    {
+      "source": "ecc_stability_invoke_encryptmode",
+      "target": "ecc_stability_write_ecclog",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\ecc-stability.ps1",
+      "source_location": "L314",
+      "weight": 1.0
+    },
+    {
+      "source": "ecc_stability_initialize_eccenvironment",
+      "target": "ecc_stability_write_ecclog",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\ecc-stability.ps1",
+      "source_location": "L326",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_sync_openclaw_to_obsidian_ps1",
+      "target": "sync_openclaw_to_obsidian_write_synclog",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L69",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_sync_openclaw_to_obsidian_ps1",
+      "target": "sync_openclaw_to_obsidian_invoke_withretry",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L104",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_sync_openclaw_to_obsidian_ps1",
+      "target": "sync_openclaw_to_obsidian_get_openclawsessionsfromregistry",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L148",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_sync_openclaw_to_obsidian_ps1",
+      "target": "sync_openclaw_to_obsidian_convertto_yamlfrontmatter",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L206",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_sync_openclaw_to_obsidian_ps1",
+      "target": "sync_openclaw_to_obsidian_get_backlinkssection",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L310",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_sync_openclaw_to_obsidian_ps1",
+      "target": "sync_openclaw_to_obsidian_new_decisionnote",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L363",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_sync_openclaw_to_obsidian_ps1",
+      "target": "sync_openclaw_to_obsidian_new_sessionnote",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L432",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_sync_openclaw_to_obsidian_ps1",
+      "target": "sync_openclaw_to_obsidian_get_syncstatus",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L581",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_sync_openclaw_to_obsidian_ps1",
+      "target": "sync_openclaw_to_obsidian_save_syncstatus",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L602",
+      "weight": 1.0
+    },
+    {
+      "source": "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_sync_openclaw_to_obsidian_ps1",
+      "target": "sync_openclaw_to_obsidian_start_sync",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L623",
+      "weight": 1.0
+    },
+    {
+      "source": "sync_openclaw_to_obsidian_invoke_withretry",
+      "target": "sync_openclaw_to_obsidian_write_synclog",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L121",
+      "weight": 1.0
+    },
+    {
+      "source": "sync_openclaw_to_obsidian_get_openclawsessionsfromregistry",
+      "target": "sync_openclaw_to_obsidian_invoke_withretry",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L154",
+      "weight": 1.0
+    },
+    {
+      "source": "sync_openclaw_to_obsidian_get_openclawsessionsfromregistry",
+      "target": "sync_openclaw_to_obsidian_write_synclog",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L156",
+      "weight": 1.0
+    },
+    {
+      "source": "sync_openclaw_to_obsidian_new_decisionnote",
+      "target": "sync_openclaw_to_obsidian_invoke_withretry",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L372",
+      "weight": 1.0
+    },
+    {
+      "source": "sync_openclaw_to_obsidian_new_sessionnote",
+      "target": "sync_openclaw_to_obsidian_invoke_withretry",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L438",
+      "weight": 1.0
+    },
+    {
+      "source": "sync_openclaw_to_obsidian_new_sessionnote",
+      "target": "sync_openclaw_to_obsidian_write_synclog",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L444",
+      "weight": 1.0
+    },
+    {
+      "source": "sync_openclaw_to_obsidian_new_sessionnote",
+      "target": "sync_openclaw_to_obsidian_convertto_yamlfrontmatter",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L455",
+      "weight": 1.0
+    },
+    {
+      "source": "sync_openclaw_to_obsidian_new_sessionnote",
+      "target": "sync_openclaw_to_obsidian_new_decisionnote",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L501",
+      "weight": 1.0
+    },
+    {
+      "source": "sync_openclaw_to_obsidian_new_sessionnote",
+      "target": "sync_openclaw_to_obsidian_get_backlinkssection",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L517",
+      "weight": 1.0
+    },
+    {
+      "source": "sync_openclaw_to_obsidian_get_syncstatus",
+      "target": "sync_openclaw_to_obsidian_write_synclog",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L590",
+      "weight": 1.0
+    },
+    {
+      "source": "sync_openclaw_to_obsidian_start_sync",
+      "target": "sync_openclaw_to_obsidian_write_synclog",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L624",
+      "weight": 1.0
+    },
+    {
+      "source": "sync_openclaw_to_obsidian_start_sync",
+      "target": "sync_openclaw_to_obsidian_get_syncstatus",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L632",
+      "weight": 1.0
+    },
+    {
+      "source": "sync_openclaw_to_obsidian_start_sync",
+      "target": "sync_openclaw_to_obsidian_get_openclawsessionsfromregistry",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L636",
+      "weight": 1.0
+    },
+    {
+      "source": "sync_openclaw_to_obsidian_start_sync",
+      "target": "sync_openclaw_to_obsidian_new_sessionnote",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L659",
+      "weight": 1.0
+    },
+    {
+      "source": "sync_openclaw_to_obsidian_start_sync",
+      "target": "sync_openclaw_to_obsidian_save_syncstatus",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\Users\\andre\\.openclaw\\workspace\\SecondBrain\\99-Archive\\ecc-framework-reference\\scripts\\sync-openclaw-to-obsidian.ps1",
+      "source_location": "L686",
+      "weight": 1.0
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

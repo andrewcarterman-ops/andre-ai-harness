@@ -1,0 +1,656 @@
+{
+  "version": 1,
+  "updatedAt": "2026-04-16T21:58:45.312Z",
+  "entries": {
+    "memory:memory/2026-03-23.md:1:40": {
+      "key": "memory:memory/2026-03-23.md:1:40",
+      "path": "memory/2026-03-23.md",
+      "startLine": 1,
+      "endLine": 40,
+      "source": "memory",
+      "snippet": "## Security Analysis: Obsidian Second-Brain Setup Prompt **Date:** 2026-03-23 **Context:** User shared a comprehensive Obsidian vault setup prompt for Claude Code ### Key Security Concerns Identified: 1. **Global npm Installs (`npm install -g`)** - Risk: System-wide installation with potential admin privileges - Supply chain attack vector through npm dependencies - Difficult to uninstall completely, version conflicts possible - Recommendation: Use local installation or npx instead 2. **External Downloads Without Verification (`curl | bash`)** - Risk: No integrity checking (SHA256, GPG signatures) - Man-in-the-middle attack possible - Trust-on-first-use problem",
+      "recallCount": 4,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 3.597844394317967,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-13T00:13:04.159Z",
+      "lastRecalledAt": "2026-04-14T09:22:31.250Z",
+      "queryHashes": [
+        "4a6ad3d8e4a1",
+        "a41f537f9f56",
+        "2df8375f6ea6",
+        "6c2203af5acc"
+      ],
+      "recallDays": [
+        "2026-04-13",
+        "2026-04-14"
+      ],
+      "conceptTags": [
+        "second-brain",
+        "system-wide",
+        "man-in-the-middle",
+        "trust-on-first-use",
+        "security",
+        "analysis",
+        "obsidian",
+        "second"
+      ]
+    },
+    "memory:memory/2026-03-28.md:1:40": {
+      "key": "memory:memory/2026-03-28.md:1:40",
+      "path": "memory/2026-03-28.md",
+      "startLine": 1,
+      "endLine": 40,
+      "source": "memory",
+      "snippet": "# 2026-03-28 ## Offene Tasks / TODO ### 🎙️ Whisper Local STT - Installation & Integration **Status:** Skill erstellt, Installation ausstehend **Priorität:** Mittel **Dateien:** `skills/whisper-local-stt/` **Schritte:** - [ ] FFmpeg installieren: `winget install Gyan.FFmpeg` - [ ] Python-Deps: `pip install faster-whisper pydub` - [ ] Modelle downloaden: `python scripts/install.py` (~2GB, dauert 10-30 Min) - [ ] Testen: Sprachnachricht in Telegram senden - [ ] In OpenClaw registrieren ### 🏗️ ECC Framework Extraktion (Phase 1) **Status:** Analyse komplett, Freigabefragen offen **Priorität:** Niedrig (auf Eis gelegt) **Offene Entscheidungen:** - [ ] Architektur bestätigen (JSON-Regi",
+      "recallCount": 8,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 7.6925625803871736,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-13T00:13:04.159Z",
+      "lastRecalledAt": "2026-04-16T21:51:11.732Z",
+      "queryHashes": [
+        "4a6ad3d8e4a1",
+        "a41f537f9f56",
+        "ae37dffe6743",
+        "2df8375f6ea6",
+        "5c552ca87dc2",
+        "6c2203af5acc",
+        "b993d82b8960",
+        "b83472affb53"
+      ],
+      "recallDays": [
+        "2026-04-13",
+        "2026-04-14",
+        "2026-04-16"
+      ],
+      "conceptTags": [
+        "skills/whisper-local-stt",
+        "gyan.ffmpeg",
+        "python-deps",
+        "faster-whisper",
+        "scripts/install.py",
+        "10-30",
+        "json-regi",
+        "offene"
+      ]
+    },
+    "memory:memory/2026-03-23.md:32:46": {
+      "key": "memory:memory/2026-03-23.md:32:46",
+      "path": "memory/2026-03-23.md",
+      "startLine": 32,
+      "endLine": 46,
+      "source": "memory",
+      "snippet": "- `~/.claude/CLAUDE.md` → Kimi has no equivalent global config - `launchctl` → Windows Task Scheduler or manual scripts - MCP servers → Not available in Kimi - Claude Vault → No Kimi equivalent, needs custom solution - zsh/bash → PowerShell ### Safe Alternatives Proposed: 1. Local npm installation (no `-g` flag) 2. Manual plugin installation with instructions 3. PowerShell scripts instead of LaunchAgents 4. Git submodules instead of blind curl downloads 5. User maintains control over all installations **Next Step:** Create adapted PowerShell version of the setup workflow with security-conscious defaults.",
+      "recallCount": 3,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 2.8221668248546123,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-13T00:13:04.159Z",
+      "lastRecalledAt": "2026-04-14T09:22:31.250Z",
+      "queryHashes": [
+        "4a6ad3d8e4a1",
+        "2df8375f6ea6",
+        "6c2203af5acc"
+      ],
+      "recallDays": [
+        "2026-04-13",
+        "2026-04-14"
+      ],
+      "conceptTags": [
+        "claude/claude.md",
+        "zsh/bash",
+        "security-conscious",
+        "claude",
+        "claude.md",
+        "kimi",
+        "has",
+        "equivalent"
+      ]
+    },
+    "memory:memory/2026-03-31.md:1:44": {
+      "key": "memory:memory/2026-03-31.md:1:44",
+      "path": "memory/2026-03-31.md",
+      "startLine": 1,
+      "endLine": 44,
+      "source": "memory",
+      "snippet": "--- ## Project Status: karpathy/autoresearch on Windows with GTX 980M **Last Updated:** 2026-04-01 01:27 **Status:** PAUSED - Ready for overnight runs **Hardware:** GTX 980M (4GB VRAM) - IMPORTANT: Not H100! ### ✅ Completed Setup #### 1. Fort Knox Security Infrastructure - **Isolated User:** `autoresearch` created with restricted permissions - **Directory:** `C:\\Autoresearch\\` with proper ACLs - **Firewall:** Configured (HuggingFace, PyTorch, PyPI whitelisted) - **Guardian V2:** Active with network monitoring (paranoid mode) - **Telegram Bot:** Configured and tested (@andre_autoresearch_bot) #### 2. Software Stack - **Git:** Installed and functional - **Python:** 3.10+ via uv - **",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1.6760510252256764,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-13T02:41:15.552Z",
+      "lastRecalledAt": "2026-04-16T21:51:11.732Z",
+      "queryHashes": [
+        "a41f537f9f56",
+        "b83472affb53"
+      ],
+      "recallDays": [
+        "2026-04-13",
+        "2026-04-16"
+      ],
+      "conceptTags": [
+        "network",
+        "karpathy/autoresearch",
+        "andre-autoresearch-bot",
+        "3.10",
+        "project",
+        "status",
+        "karpathy",
+        "autoresearch"
+      ]
+    },
+    "memory:memory/2026-04-08.md:1:44": {
+      "key": "memory:memory/2026-04-08.md:1:44",
+      "path": "memory/2026-04-08.md",
+      "startLine": 1,
+      "endLine": 44,
+      "source": "memory",
+      "snippet": "# Session Log - 2026-04-08 ## Zusammenfassung Umfassende Diagnose und Behebung von OpenClaw TUI-Problemen. Gateway-Konfiguration optimiert und Web-Oberfläche aktiviert. ## Durchgeführte Arbeiten ### 1. TUI-Probleme analysiert und gelöst - **Problem**: `exec denied: allowlist miss` bei Befehlsausführung - **Ursache**: Gateway hatte alte Config im Cache, neue/umbenannte Ordner nicht in Allowlist - **Lösung**: Vollständiger Gateway-Neustart (nicht nur Config-Reload) ```powershell openclaw gateway stop openclaw gateway start ``` ### 2. Gateway-Konfiguration angepasst - `security: \"full\"` - Keine Pfad-Restriktionen - `ask: \"off\"` - Keine Genehmigungsnachfragen für Befehle - `safeBinTr",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-13T21:19:46.737Z",
+      "lastRecalledAt": "2026-04-13T21:19:46.737Z",
+      "queryHashes": [
+        "ae37dffe6743"
+      ],
+      "recallDays": [
+        "2026-04-13"
+      ],
+      "conceptTags": [
+        "gateway",
+        "konfiguration",
+        "tui-problemen",
+        "gateway-konfiguration",
+        "web-oberfläche",
+        "tui-probleme",
+        "neue/umbenannte",
+        "gateway-neustart"
+      ]
+    },
+    "memory:memory/2026-04-11.md:66:109": {
+      "key": "memory:memory/2026-04-11.md:66:109",
+      "path": "memory/2026-04-11.md",
+      "startLine": 66,
+      "endLine": 109,
+      "source": "memory",
+      "snippet": "- 4 Dateien aktualisiert - 2 Dateien unverändert (identisch) - **Vault-Health:** OK (1 Symlink, 6 Ordner) - **Timestamp aktualisiert:** 2026-04-11 05:24:45 ## Auto-Sync: SecondBrain (23:59) - **Trigger:** Cron (alle 8h) - **Status:** Erfolgreich - **Ergebnis:** - 21 Memory-Dateien synchronisiert - 0 neue Dateien - 4 Dateien aktualisiert - 17 Dateien unverändert (identisch) - **Vault-Health:** OK - **Timestamp aktualisiert:** 2026-04-11 23:59:21 ## Discoveries ### High-Value Files in Old Vault - **MASTERPLAN**: 800-line integration spec for claw-code + OpenClaw - **COMPACTION_SPEC**: Session compaction with ECC memory sync - **RUNTIME_SPEC**: Agent loop with Fort Knox safety -",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-13T21:19:46.737Z",
+      "lastRecalledAt": "2026-04-13T21:19:46.737Z",
+      "queryHashes": [
+        "ae37dffe6743"
+      ],
+      "recallDays": [
+        "2026-04-13"
+      ],
+      "conceptTags": [
+        "vault-health",
+        "auto-sync",
+        "memory-dateien",
+        "high-value",
+        "800-line",
+        "claw-code",
+        "compaction-spec",
+        "runtime-spec"
+      ]
+    },
+    "memory:memory/2026-04-02.md:1:33": {
+      "key": "memory:memory/2026-04-02.md:1:33",
+      "path": "memory/2026-04-02.md",
+      "startLine": 1,
+      "endLine": 33,
+      "source": "memory",
+      "snippet": "# Session Log - 2026-04-02 ## Major Accomplishments ### 1. Fixed Critical Compilation Errors - Resolved E0502 borrow checker errors in `mcp_stdio.rs` by using standalone functions - Fixed zyklische Abhängigkeit (circular dependency) between memory-compaction and ecc-runtime - Corrected string concatenation in format!() macros (using \\ continuation instead of +) - Added missing exports (SimpleSummarizer, MessageSummary) to lib.rs ### 2. All 4 Core Components Implemented ✅ | Component | Location | Tests | Status | |-----------|----------|-------|--------| | SSE Streaming | `skills/secure-api-client/src/streaming.rs` | 8 passed | ✅ Complete | | Conversation Runtime | `crates/ecc-runtime/src/",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 2,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-14T08:02:21.565Z",
+      "lastRecalledAt": "2026-04-16T21:51:11.732Z",
+      "queryHashes": [
+        "5c552ca87dc2",
+        "b83472affb53"
+      ],
+      "recallDays": [
+        "2026-04-14",
+        "2026-04-16"
+      ],
+      "conceptTags": [
+        "mcp-stdio.rs",
+        "memory-compaction",
+        "ecc-runtime",
+        "lib.rs",
+        "crates/ecc-runtime/src",
+        "log",
+        "major",
+        "accomplishments"
+      ]
+    },
+    "memory:memory/2026-03-26.md:37:96": {
+      "key": "memory:memory/2026-03-26.md:37:96",
+      "path": "memory/2026-03-26.md",
+      "startLine": 37,
+      "endLine": 96,
+      "source": "memory",
+      "snippet": "5. **Error handling library** - Centralized ErrorHandler.psm1 and Logging.psm1 --- ## Important Files Created ### Core Registry - `registry/agents.yaml` - 6 agent definitions - `registry/skills.yaml` - 11 skills - `registry/commands.yaml` - 22 commands - `registry/contexts.yaml` - 3 behavioral contexts - `registry/instincts.yaml` - Auto-pattern recognition ### Operations - `scripts/lib/ErrorHandler.psm1` - Robust error handling - `scripts/lib/Logging.psm1` - Structured logging - `scripts/cmd-backup.ps1` - Backup/restore - `tests/ci-eval-runner.ps1` - CI integration ### GitHub Integration - `.github/workflows/ci.yml` - Automated testing - `.github/workflows/health-check.yml` - Daily chec",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-14T09:21:08.853Z",
+      "lastRecalledAt": "2026-04-14T09:21:08.853Z",
+      "queryHashes": [
+        "deeef8197062"
+      ],
+      "recallDays": [
+        "2026-04-14"
+      ],
+      "conceptTags": [
+        "backup",
+        "errorhandler.psm1",
+        "logging.psm1",
+        "registry/agents.yaml",
+        "registry/skills.yaml",
+        "registry/commands.yaml",
+        "registry/contexts.yaml",
+        "registry/instincts.yaml"
+      ]
+    },
+    "memory:memory/2026-03-26.md:1:50": {
+      "key": "memory:memory/2026-03-26.md:1:50",
+      "path": "memory/2026-03-26.md",
+      "startLine": 1,
+      "endLine": 50,
+      "source": "memory",
+      "snippet": "# Memory Log - 2026-03-26 ## Session: Modular Agent Framework Implementation **Time:** 2026-03-25 ~20:00 to 2026-03-26 00:24 **Duration:** ~4.5 hours **Agent:** Andrew (andrew-main) **Status:** ✅ COMPLETED --- ## Major Achievement Successfully built a **production-ready modular agent framework** for OpenClaw, adapted from ECC (Everything Claude Code) with strict quality controls. ### Framework Version: 1.3.0 ### Statistics - **90+ files created** - **4 phases implemented** (Registry, Cognitive, Persistence, Operations) - **27/27 validation checks passing** (100%) - **22 commands available** - **6 specialized agents** (architect, planner, code-reviewer, security-reviewer, python-",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-14T09:21:08.853Z",
+      "lastRecalledAt": "2026-04-14T09:21:08.853Z",
+      "queryHashes": [
+        "deeef8197062"
+      ],
+      "recallDays": [
+        "2026-04-14"
+      ],
+      "conceptTags": [
+        "4.5",
+        "andrew-main",
+        "production-ready",
+        "1.3.0",
+        "27/27",
+        "code-reviewer",
+        "security-reviewer",
+        "log"
+      ]
+    },
+    "memory:memory/2026-03-22.md:1:37": {
+      "key": "memory:memory/2026-03-22.md:1:37",
+      "path": "memory/2026-03-22.md",
+      "startLine": 1,
+      "endLine": 37,
+      "source": "memory",
+      "snippet": "## 2026-03-22 — Mission Control v2 Development (Continued) ### Evening Session — Complete Integration **4. Full Integration of User's Original Files** Integrated all 19 files provided by the user, adapted with Linear dark theme styling: **Original Files Integrated:** - ✅ Complete TypeScript Types (Task, Project, Memory, Doc, Agent, Activity, Calendar, Office) - ✅ Full taskStore with all CRUD operations + reordering + AI task claiming - ✅ Full activityStore with filtering, unread counts, connection status - ✅ Complete KanbanBoard with 5 columns (added 'todo' column) - ✅ KanbanColumn with stats (estimated hours, high priority count) - ✅ TaskCard with full feature set - ✅ CreateTaskDialog w",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-14T09:21:08.853Z",
+      "lastRecalledAt": "2026-04-14T09:21:08.853Z",
+      "queryHashes": [
+        "deeef8197062"
+      ],
+      "recallDays": [
+        "2026-04-14"
+      ],
+      "conceptTags": [
+        "mission",
+        "control",
+        "development",
+        "continued",
+        "evening",
+        "complete",
+        "integration",
+        "full"
+      ]
+    },
+    "memory:memory/2026-04-14.md:14:33": {
+      "key": "memory:memory/2026-04-14.md:14:33",
+      "path": "memory/2026-04-14.md",
+      "startLine": 14,
+      "endLine": 33,
+      "source": "memory",
+      "snippet": "- `llm_router.py` — provider-agnostic LLM router supporting Ollama, Kimi, Codex, OpenRouter - `evolve.py` — diff-based evolution loop (5 steps, sequential, temporary files only) - `prompts/researcher_diff.jinja2` + `prompts/analyzer.jinja2` - `run-evolve.ps1` — PowerShell launcher with dependency and API-key checks - Loop outputs proposals to `05-Research/pending/` without auto-implementing. ### Key Decisions - **PowerShell preferred over Bash/Git Bash** for all future scripting. Documented in `TOOLS.md` and `MEMORY.md`. - **Local LLM reality check**: GTX 980M (4GB effective) cannot reliably run 14B models for code evolution with long contexts. 7B/8B models (Qwen2.5 Coder 7B, Llama",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-14T09:22:31.250Z",
+      "lastRecalledAt": "2026-04-14T09:22:31.250Z",
+      "queryHashes": [
+        "6c2203af5acc"
+      ],
+      "recallDays": [
+        "2026-04-14"
+      ],
+      "conceptTags": [
+        "router",
+        "llm-router.py",
+        "provider-agnostic",
+        "evolve.py",
+        "diff-based",
+        "prompts/researcher-diff.jinja2",
+        "prompts/analyzer.jinja2",
+        "run-evolve.ps1"
+      ]
+    },
+    "memory:memory/2026-04-14.md:1:17": {
+      "key": "memory:memory/2026-04-14.md:1:17",
+      "path": "memory/2026-04-14.md",
+      "startLine": 1,
+      "endLine": 17,
+      "source": "memory",
+      "snippet": "# Memory Log: 14-04-2026 ## ASI-Evolve Deep Analysis & Mini-Evolve-Loop Build ### Completed Work - **ASI-Evolve Architecture Analysis**: Extensively analyzed the GAIR-NLP/ASI-Evolve repository locally (cloned to `asi-evolve-analysis/`). Key insights documented in `SecondBrain/02-Projects/Active/asi-evolve-deep-architecture-analysis.md`. - **05-Research Staging Area**: Created `SecondBrain/05-Research/` with `pending/`, `validated/`, `rejected/` directories and a README defining the workflow: AI proposes improvements, nothing is implemented without explicit GO. - **Semantic Memory PoC (A)**: Built and tested `SecondBrain/00-Meta/Scripts/semantic-memory-poc.py`. Successfully indexed 329 Seco",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-14T09:22:31.250Z",
+      "lastRecalledAt": "2026-04-14T09:22:31.250Z",
+      "queryHashes": [
+        "6c2203af5acc"
+      ],
+      "recallDays": [
+        "2026-04-14"
+      ],
+      "conceptTags": [
+        "14-04-2026",
+        "asi-evolve",
+        "mini-evolve-loop",
+        "gair-nlp/asi-evolve",
+        "asi-evolve-analysis",
+        "05-research",
+        "secondbrain/05-research",
+        "log"
+      ]
+    },
+    "memory:memory/2026-03-30.md:38:63": {
+      "key": "memory:memory/2026-03-30.md:38:63",
+      "path": "memory/2026-03-30.md",
+      "startLine": 38,
+      "endLine": 63,
+      "source": "memory",
+      "snippet": "- [ ] Auto-Summary bei Session-Ende implementieren (technisch noch nicht möglich) ## 🔧 Tools verwendet - `file_write` - Spezifikation, Templates, MEMORY.md ## 📊 Stats - **Dauer:** ~2 Minuten - **Themen:** Memory-System, claude-mem - **Entscheidungen:** 1 - **Neue Dateien:** 4 --- ## 📝 Vollständiger Kontext <private> Keine sensitiven Informationen in dieser Session. </private> ### Details Das Memory-System v2.0 orientiert sich an claude-mem (20K+ Stars), aber ist an OpenClaw + Kimi Code angepasst. Keine Abhängigkeit von Claude-spezifischen Features. ### Referenzen - MEMORY_SPEC_V2.md (Spezifikation) - memory/templates/ (Templates)",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-14T09:22:31.250Z",
+      "lastRecalledAt": "2026-04-14T09:22:31.250Z",
+      "queryHashes": [
+        "6c2203af5acc"
+      ],
+      "recallDays": [
+        "2026-04-14"
+      ],
+      "conceptTags": [
+        "auto-summary",
+        "session-ende",
+        "file-write",
+        "memory.md",
+        "memory-system",
+        "claude-mem",
+        "v2.0",
+        "claude-spezifischen"
+      ]
+    },
+    "memory:memory/2026-04-10.md:134:185": {
+      "key": "memory:memory/2026-04-10.md:134:185",
+      "path": "memory/2026-04-10.md",
+      "startLine": 134,
+      "endLine": 185,
+      "source": "memory",
+      "snippet": "- Offene Projekte checken - \"Letzte Session Zusammenfassung\" reviewen 2. **Pr�zision bei \"Fertig\":** - NIE \"100%\" ohne VERIFIKATION - Immer: \"X von Y Dateien (Z%)\" - Differenzierung: \"Inhaltlich relevant\" vs. \"Technisch/Plugin\" 3. **Verlinkungen & Auffindbarkeit:** - Neue Features in MEMORY.md verankern - Symlinks testen vor Session-Ende - Projekt-Status regelm��ig aktualisieren 4. **Retrospektive:** - Automatisch am Ende anbieten (nicht vergessen!) ### Selbstverpflichtung f�r n�chste Sessions - [ ] Session-Start: Was haben wir letzte Woche gemacht? - [ ] Zahlen belegen bei \"Fertig\"-Meldungen - [ ] Retrospektive automatisch anbieten --- ## OFFENE MIGRATIONSPU",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 2,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-15T22:25:38.082Z",
+      "lastRecalledAt": "2026-04-16T20:50:16.079Z",
+      "queryHashes": [
+        "e23548656ba6",
+        "b30e4296c186"
+      ],
+      "recallDays": [
+        "2026-04-16"
+      ],
+      "conceptTags": [
+        "technisch/plugin",
+        "memory.md",
+        "session-ende",
+        "projekt-status",
+        "session-start",
+        "offene",
+        "projekte",
+        "checken"
+      ]
+    },
+    "memory:memory/2026-04-14.md:44:94": {
+      "key": "memory:memory/2026-04-14.md:44:94",
+      "path": "memory/2026-04-14.md",
+      "startLine": 44,
+      "endLine": 94,
+      "source": "memory",
+      "snippet": "| **medium** | ⭐⭐⭐⭐⭐ | 20-40s | **BESTE WAHL** | **Parzivals Feedback:** medium funktioniert sehr gut, besser als small **Transkription-Test erfolgreich:** \"Hallo, das ist ein schwerer Test, du wirst das nicht verstanden, ich schwöre drauf\" → Vollständig erkannt mit medium Modell --- ### Technische Details **Verfügbare Scripts:** - `voice_bridge.py` - Hauptscript (medium) - `voice_bridge_medium.py` - Medium-Version - `voice_bridge_small.py` - Small-Version - `voice_bridge_clean.py` - Base-Version (schnell) - `voice_bridge_ptt.py` - F12-Handler (funktioniert nicht stabil) - `voice_bridge_phase2.py` - Mit intelligenter Modell-Auswahl - `voice_bridge_dashboard.py` - GUI-Version (hat",
+      "recallCount": 4,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 4,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-15T22:41:36.422Z",
+      "lastRecalledAt": "2026-04-16T21:58:45.312Z",
+      "queryHashes": [
+        "938d4a5e028d",
+        "b993d82b8960",
+        "b83472affb53",
+        "18ff0fe6c7ad"
+      ],
+      "recallDays": [
+        "2026-04-16"
+      ],
+      "conceptTags": [
+        "20-40s",
+        "transkription-test",
+        "voice-bridge.py",
+        "voice-bridge-medium.py",
+        "medium-version",
+        "voice-bridge-small.py",
+        "small-version",
+        "voice-bridge-clean.py"
+      ]
+    },
+    "memory:memory/2026-04-14.md:83:132": {
+      "key": "memory:memory/2026-04-14.md:83:132",
+      "path": "memory/2026-04-14.md",
+      "startLine": 83,
+      "endLine": 132,
+      "source": "memory",
+      "snippet": "- Erfordert stabiles Gateway für sessions_send 4. **F12-Hotkey** - Hat technische Probleme - ENTER-to-Talk ist zuverlässiger Alternative - Optional: F12 später fixen mit Delays --- ### Nächste Schritte (nach Neustart) 1. ✅ PC neustarten (23:44 geplant) 2. ⏳ OpenClaw Update installieren: `npm install -g openclaw@latest` 3. ⏳ Gateway testen: `openclaw gateway status` 4. ⏳ Wenn stabil: Integration Voice Bridge ↔ OpenClaw bauen 5. ⏳ Vollautomatischer Loop: Sprache → Andrew-Antwort als TTS --- ### Files erstellt/modifiziert **Neue Scripts:** - `voice_bridge_clean.py` - Finale ENTER-to-Talk Version - `voice_bridge_medium.py` - Medium-Modell Version - `voice_bridge_small.py` - Small",
+      "recallCount": 4,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 4,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-15T22:41:36.422Z",
+      "lastRecalledAt": "2026-04-16T21:58:45.312Z",
+      "queryHashes": [
+        "938d4a5e028d",
+        "b993d82b8960",
+        "b83472affb53",
+        "18ff0fe6c7ad"
+      ],
+      "recallDays": [
+        "2026-04-16"
+      ],
+      "conceptTags": [
+        "gateway",
+        "sessions-send",
+        "f12-hotkey",
+        "enter-to-talk",
+        "andrew-antwort",
+        "erstellt/modifiziert",
+        "voice-bridge-clean.py",
+        "voice-bridge-medium.py"
+      ]
+    },
+    "memory:memory/2026-04-14.md:1:56": {
+      "key": "memory:memory/2026-04-14.md:1:56",
+      "path": "memory/2026-04-14.md",
+      "startLine": 1,
+      "endLine": 56,
+      "source": "memory",
+      "snippet": "## Voice Conversation Project - 14.04.2026 - COMPLETE SESSION **Zeitraum:** 09:30 - 23:44 (14+ Stunden) **Agent:** andrew-main **Status:** 4 Phasen abgeschlossen, System-Neustart für OpenClaw Update geplant --- ### Was erreicht wurde #### Phase 1: MVP Telegram Loop ✅ - Whisper.cpp konsolidiert (faster-whisper → whisper.cpp) - Piper TTS installiert (de_DE-thorsten-high, ~110MB) - Voice Bridge Simple gebaut - Timeout korrigiert (30s → 120s) #### Phase 2: Intelligente Modell-Auswahl ✅ - base (75 MB) für <30s Audio - small (465 MB) für <2min Audio - medium (1.5 GB) für >2min Audio - Automatische Auswahl basierend auf Audio-Länge - Alle 3 Modelle heruntergeladen und getestet #### Ph",
+      "recallCount": 3,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 3,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-16T20:51:09.715Z",
+      "lastRecalledAt": "2026-04-16T21:58:45.312Z",
+      "queryHashes": [
+        "b993d82b8960",
+        "b83472affb53",
+        "18ff0fe6c7ad"
+      ],
+      "recallDays": [
+        "2026-04-16"
+      ],
+      "conceptTags": [
+        "14.04.2026",
+        "andrew-main",
+        "system-neustart",
+        "whisper.cpp",
+        "faster-whisper",
+        "de-de-thorsten-high",
+        "modell-auswahl",
+        "1.5"
+      ]
+    },
+    "memory:memory/2026-04-14.md:123:149": {
+      "key": "memory:memory/2026-04-14.md:123:149",
+      "path": "memory/2026-04-14.md",
+      "startLine": 123,
+      "endLine": 149,
+      "source": "memory",
+      "snippet": "3. **Modell-Auswahl:** medium ist deutlich besser als base/small 4. **F12 vs ENTER:** ENTER ist zuverlässiger (keine Race Conditions) 5. **System-Ressourcen:** Nach 14h ist RAM erschöpft → Neustart nötig 6. **Piper TTS:** Braucht `input=bytes` nicht `string` 7. **Windows-Terminal:** Keine Unicode-Emojis (✅❌ → [OK] [MISSING]) --- ### Status: Erfolgreich ✅ Alle 4 Phasen funktionsfähig. Voice Bridge standalone arbeitet perfekt mit medium Modell. Integration mit OpenClaw wartet auf stabiles Gateway nach Update. **Verfügbarer Befehl für sofortigen Einsatz:** ```powershell python \"C:\\Users\\andre\\.openclaw\\workspace\\skills\\whisper-local-stt\\scripts\\voice_bridge_medium.py\" ``` **Oder für beste",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 2,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-16T20:51:09.715Z",
+      "lastRecalledAt": "2026-04-16T21:51:11.732Z",
+      "queryHashes": [
+        "b993d82b8960",
+        "b83472affb53"
+      ],
+      "recallDays": [
+        "2026-04-16"
+      ],
+      "conceptTags": [
+        "gateway",
+        "modell-auswahl",
+        "base/small",
+        "system-ressourcen",
+        "windows-terminal",
+        "unicode-emojis",
+        "whisper-local-stt",
+        "voice-bridge-medium.py"
+      ]
+    },
+    "memory:memory/2026-04-14.md:163:204": {
+      "key": "memory:memory/2026-04-14.md:163:204",
+      "path": "memory/2026-04-14.md",
+      "startLine": 163,
+      "endLine": 204,
+      "source": "memory",
+      "snippet": "- **Status:** Verworfen #### Versuch 2: Proxy + Client Architektur ⚠️ - `voice_proxy.py` in OpenClaw TUI - `voice_bridge_client.py` in CMD - Datei-basierte Kommunikation via `~/.openclaw/voice_comm/` - **Problem:** - Proxy blockiert TUI mit `input()` - Fenster-Wechsel notwendig - TTS spielt nicht zuverlässig ab #### Versuch 3: Direct Bridge (aktuell) ⚠️ - `voice_direct_bridge.py` - Vereinfachte Version - `voice_responder_tui.py` - Antwort-Tool - **Ergebnis:** Funktioniert prinzipiell, aber: - Manuelle Eingabe in TUI nötig - TTS Abspielen funktioniert nicht (sounddevice Probleme) ### Erstellte Scripts (16.04.2026) ``` skills/whisper-local-stt/scripts/ ├── voice_direct_bridge.py",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-16T21:58:45.312Z",
+      "lastRecalledAt": "2026-04-16T21:58:45.312Z",
+      "queryHashes": [
+        "18ff0fe6c7ad"
+      ],
+      "recallDays": [
+        "2026-04-16"
+      ],
+      "conceptTags": [
+        "voice-proxy.py",
+        "voice-bridge-client.py",
+        "datei-basierte",
+        "openclaw/voice-comm",
+        "fenster-wechsel",
+        "voice-direct-bridge.py",
+        "voice-responder-tui.py",
+        "antwort-tool"
+      ]
+    },
+    "memory:memory/2026-04-14.md:123:173": {
+      "key": "memory:memory/2026-04-14.md:123:173",
+      "path": "memory/2026-04-14.md",
+      "startLine": 123,
+      "endLine": 173,
+      "source": "memory",
+      "snippet": "3. **Modell-Auswahl:** medium ist deutlich besser als base/small 4. **F12 vs ENTER:** ENTER ist zuverlässiger (keine Race Conditions) 5. **System-Ressourcen:** Nach 14h ist RAM erschöpft → Neustart nötig 6. **Piper TTS:** Braucht `input=bytes` nicht `string` 7. **Windows-Terminal:** Keine Unicode-Emojis (✅❌ → [OK] [MISSING]) --- ### Status: Erfolgreich ✅ Alle 4 Phasen funktionsfähig. Voice Bridge standalone arbeitet perfekt mit medium Modell. Integration mit OpenClaw wartet auf stabiles Gateway nach Update. **Verfügbarer Befehl für sofortigen Einsatz:** ```powershell python \"C:\\Users\\andre\\.openclaw\\workspace\\skills\\whisper-local-stt\\scripts\\voice_bridge_medium.py\" ``` **Oder für beste",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1,
+      "maxScore": 1,
+      "firstRecalledAt": "2026-04-16T21:58:45.312Z",
+      "lastRecalledAt": "2026-04-16T21:58:45.312Z",
+      "queryHashes": [
+        "18ff0fe6c7ad"
+      ],
+      "recallDays": [
+        "2026-04-16"
+      ],
+      "conceptTags": [
+        "gateway",
+        "modell-auswahl",
+        "base/small",
+        "system-ressourcen",
+        "windows-terminal",
+        "unicode-emojis",
+        "whisper-local-stt",
+        "voice-bridge-medium.py"
+      ]
+    }
+  }
+}

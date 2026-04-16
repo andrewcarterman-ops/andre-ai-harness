@@ -118,7 +118,7 @@ function Test-Drift {
         if (-not (Test-Path $expectedPath)) {
             $drifts += @{
                 Type = "MISSING_DIRECTORY"
-                Severity = "HIGH"
+                Severity = "WARN"
                 Path = $dir
                 Expected = "Directory exists"
                 Actual = "Not found"
@@ -133,7 +133,7 @@ function Test-Drift {
         if (-not (Test-Path $expectedPath)) {
             $drifts += @{
                 Type = "MISSING_FILE"
-                Severity = if ($file -match 'README|_MOC') { "CRITICAL" } else { "MEDIUM" }
+                Severity = if ($file -match 'README|_MOC') { "ERROR" } else { "WARN" }
                 Path = $file
                 Expected = "File exists"
                 Actual = "Not found"
@@ -319,8 +319,14 @@ if ($drifts.Count -eq 0) {
 }
 
 Write-DriftLog -Level "WARN" -Message "$($drifts.Count) Drift(s) gefunden:"
-$drifts | Group-Object Severity | ForEach-Object {
-    Write-DriftLog -Level $_.Name -Message "  - $($_.Name): $($_.Count)"
+$severityCounts = @{}
+foreach ($drift in $drifts) {
+    $sev = $drift.Severity
+    if (-not $severityCounts[$sev]) { $severityCounts[$sev] = 0 }
+    $severityCounts[$sev]++
+}
+foreach ($sev in $severityCounts.Keys) {
+    Write-DriftLog -Level $sev -Message "  - $sev`: $($severityCounts[$sev])"
 }
 
 # Report generieren
@@ -334,9 +340,9 @@ if ($AutoFix) {
 }
 
 # Exit-Code basierend auf Severity
-$criticalCount = ($drifts | Where-Object { $_.Severity -eq 'CRITICAL' }).Count
-$highCount = ($drifts | Where-Object { $_.Severity -eq 'HIGH' }).Count
+$errorCount = ($drifts | Where-Object { $_.Severity -eq 'ERROR' }).Count
+$warnCount = ($drifts | Where-Object { $_.Severity -eq 'WARN' }).Count
 
-if ($criticalCount -gt 0) { exit 3 }
-elseif ($highCount -gt 0) { exit 2 }
+if ($errorCount -gt 0) { exit 3 }
+elseif ($warnCount -gt 0) { exit 2 }
 else { exit 1 }

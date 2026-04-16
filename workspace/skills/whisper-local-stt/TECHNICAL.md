@@ -15,8 +15,15 @@
 │  │  ┌──────────────┐  ┌──────────────┐  ┌───────────┐ │   │
 │  │  │   Commands   │  │ Transcribe   │  │  Telegram │ │   │
 │  │  │   Handler    │  │   Engine     │  │  Handler  │ │   │
+│  │  │command_han...│  │transcribe.py │  │telegram_..│ │   │
 │  │  └──────────────┘  └──────────────┘  └───────────┘ │   │
 │  └─────────────────────────────────────────────────────┘   │
+└───────────────────────────┬─────────────────────────────────┘
+                            │ WAV file
+                            ▼
+┌─────────────────────────────────────────────────────────────┐
+│                   whisper.cpp (main.exe)                    │
+│                      CPU-based STT                          │
 └───────────────────────────┬─────────────────────────────────┘
                             │ Text
                             ▼
@@ -33,16 +40,16 @@ Verarbeitet `/whisper` Befehle und verwaltet User-Preferences.
 
 **Ablauf:**
 1. Empfängt Befehl (`schnell`, `mittel`, `langsam`, `status`)
-2. Lädt aktuelle Konfiguration
+2. Lädt aktuelle Konfiguration aus `config.json`
 3. Aktualisiert User-Preference
 4. Gibt Bestätigung aus
 
 **Datenstruktur:**
 ```json
 {
+  "default_model": "base",
   "user_preferences": {
-    "user_123": "base",
-    "user_456": "medium"
+    "user_123": "small"
   }
 }
 ```
@@ -52,15 +59,24 @@ Verarbeitet `/whisper` Befehle und verwaltet User-Preferences.
 Kernkomponente für Speech-to-Text.
 
 **Features:**
-- Modell-Caching (Singleton-Pattern)
 - Automatische Audio-Konvertierung (FFmpeg)
-- VAD (Voice Activity Detection)
-- GPU/CPU Auto-Detection
+- Whisper.cpp Integration via Subprocess
+- Keine Python-ML-Dependencies nötig
+- Temp-Datei Cleanup nach jeder Transkription
 
-**Performance:**
-- Modell wird einmal geladen und im RAM gehalten
-- Audio-Konvertierung in temporäre WAV-Datei
-- Cleanup nach jeder Transkription
+**Ablauf:**
+1. Ermittelt User-Modell aus `config.json`
+2. Prüft ob `ggml-{model}.bin` existiert
+3. Konvertiert Input zu WAV (16kHz, mono) via FFmpeg
+4. Ruft `~/.openclaw/whisper/main.exe` mit passenden Argumenten
+5. Parsed den stderr-Output von whisper.cpp
+6. Gibt reinen Text zurück
+7. Löscht temporäre WAV-Datei
+
+**whisper.cpp Aufruf:**
+```bash
+main.exe -m models/ggml-base.bin -f temp.wav -l de -nt -t 8
+```
 
 ### 3. Telegram Handler (`telegram_handler.py`)
 
@@ -69,7 +85,7 @@ Interface zwischen Telegram und Transcription Engine.
 **Input-Methoden:**
 1. Datei als Kommandozeilen-Argument
 2. Env-Variable `TELEGRAM_AUDIO_FILE`
-3. Automatische Suche in OpenClaw-Media-Ordner
+3. Automatische Suche in `~/.openclaw/media/inbound`
 
 **Output:**
 - Reiner Text (stdout)
@@ -100,7 +116,7 @@ Ermittelt User-ID → Lädt bevorzugtes Modell
   ↓
 convert_audio() → FFmpeg → WAV (16kHz, mono)
   ↓
-transcribe_audio() → faster-whisper → Text
+transcribe_audio() → main.exe → Text
   ↓
 Cleanup → Ausgabe an Agent
 ```
@@ -111,17 +127,16 @@ Cleanup → Ausgabe an Agent
 
 ```json
 {
-  "default_model": "small",          // Fallback-Modell
-  "models": {                         // Verfügbare Modelle
-    "base": {...},
-    "small": {...},
-    "medium": {...}
+  "default_model": "base",
+  "models": {
+    "base": {"size": "base"},
+    "small": {"size": "small"},
+    "medium": {"size": "medium"}
   },
-  "telegram": {                       // Telegram-spezifisch
-    "delete_after_transcribe": true,  // Privacy
-    "max_duration": 600               // 10 Min Limit
-  },
-  "user_preferences": {}              // Pro-User Einstellungen
+  "telegram": {
+    "delete_after_transcribe": true,
+    "max_duration": 600
+  }
 }
 ```
 
@@ -136,15 +151,14 @@ Cleanup → Ausgabe an Agent
 ## Modell-Speicherung
 
 ```
-~/.cache/whisper/
-├── models--Systran/
-│   └── faster-whisper-base/
-│       └── snapshots/
-│           └── .../
-│               └── model.bin
-├── faster-whisper-base/
-├── faster-whisper-small/
-└── faster-whisper-medium/
+~/.openclaw/whisper/
+├── main.exe
+├── whisper.dll
+├── SDL2.dll
+└── models/
+    ├── ggml-base.bin      (~147 MB)
+    ├── ggml-small.bin     (~466 MB)
+    └── ggml-medium.bin    (~1.5 GB)
 ```
 
 ## Fehlerbehandlung
@@ -154,42 +168,26 @@ Cleanup → Ausgabe an Agent
 | Fehler | Ursache | Lösung |
 |--------|---------|--------|
 | `FFmpeg not found` | Nicht installiert | `winget install Gyan.FFmpeg` |
-| `CUDA out of memory` | VRAM voll | `/whisper schnell` oder CPU-Modus |
 | `Model not found` | Download fehlgeschlagen | `python scripts/install.py` |
+| `main.exe fehlt` | Binary verschoben/gelöscht | whisper.zip extrahieren |
 | `Audio too long` | >10 Minuten | Audio kürzen oder Limit erhöhen |
 
 ### Fallback-Strategien
 
-1. **GPU-OOM** → Automatischer Fallback auf CPU
-2. **Modell fehlt** → Automatischer Download bei erstem Zugriff
-3. **FFmpeg fehlt** → Klare Fehlermeldung mit Installationsanweisung
-4. **Transkription fehlgeschlagen** → Retry mit kleinerem Modell
+1. **Modell fehlt** → Klare Fehlermeldung mit Hinweis auf `install.py`
+2. **FFmpeg fehlt** → Klare Fehlermeldung mit Installationsanweisung
+3. **Transkription fehlgeschlagen** → whisper.cpp stderr wird weitergegeben
 
-## Performance-Optimierung
+## Performance
 
-### Modell-Caching
-```python
-_model_cache = {}
+### CPU-Modus
+- Keine GPU-Dependencies
+- whisper.cpp ist hochoptimiert für CPU (AVX, AVX2, FMA)
+- Base-Modell läuft in Echtzeit auf i7-6820HK
 
-def get_model(name):
-    if name in _model_cache:
-        return _model_cache[name]
-    model = WhisperModel(...)
-    _model_cache[name] = model
-    return model
-```
-
-### Quantisierung
-- GPU: `float16` (schnell)
-- CPU: `int8` (kompakt)
-
-### VAD (Voice Activity Detection)
-```python
-vad_parameters = dict(
-    min_silence_duration_ms=500
-)
-```
-Überspringt Stille am Anfang/Ende.
+### Threads
+- Standard: 8 Threads (entsprechend i7-6820HK)
+- whisper.cpp skaliert gut mit mehr Threads
 
 ## Sicherheit & Privacy
 
@@ -203,19 +201,10 @@ vad_parameters = dict(
 ### Mögliche Verbesserungen
 
 1. **Speaker Diarization**: "Wer hat was gesagt?"
-2. **Realtime-Streaming**: Live-Transkription
+2. **Realtime-Streaming**: Live-Transkription via stream.exe
 3. **Batch-Processing**: Mehrere Audios parallel
-4. **Custom Vocabulary**: Domänenspezifische Begriffe
+4. **Custom Vocabulary**: Domänenspezifische Begriffe via Prompt
 5. **Post-Processing**: Autokorrektur, Formatierung
-
-### Integration mit Mission Control
-
-```python
-# Voice Command für Tasks
-if text.startswith("Erstelle Task:"):
-    task_name = text.replace("Erstelle Task:", "").strip()
-    create_task(task_name)
-```
 
 ## Testing
 
@@ -227,9 +216,10 @@ python scripts/install.py
 
 # 2. Modell-Wechsel testen
 python scripts/command_handler.py langsam
+python scripts/command_handler.py status
 
 # 3. Transkription testen
-python scripts/transcribe.py test-audio.ogg
+python scripts/transcribe.py test-audio.wav
 
 # 4. Telegram-Flow testen
 python scripts/telegram_handler.py test-audio.ogg
@@ -243,9 +233,8 @@ def test_model_switching():
     assert get_user_model("test_user") == "base"
 
 def test_transcription():
-    text, meta = transcribe_audio("test.ogg", "base")
+    text, meta = transcribe_audio("test.wav", "base")
     assert len(text) > 0
-    assert meta["language"] == "de"
 ```
 
 ## Troubleshooting
@@ -253,21 +242,19 @@ def test_transcription():
 ### Debug-Modus aktivieren
 
 ```bash
-export WHISPER_DEBUG=1
-python scripts/transcribe.py audio.ogg
+set WHISPER_DEBUG=1
+python scripts/transcribe.py audio.wav
 ```
 
-### Log-Dateien
+### whisper.cpp direkt testen
 
-```
-~/.openclaw/skills/whisper-local-stt/logs/
-├── transcribe.log
-├── telegram_handler.log
-└── command_handler.log
+```bash
+cd ~/.openclaw/whisper
+main.exe -m models/ggml-base.bin -f test.wav -l de -nt
 ```
 
 ## Lizenz & Credits
 
-- **faster-whisper**: MIT License (https://github.com/SYSTRAN/faster-whisper)
+- **whisper.cpp**: MIT License (https://github.com/ggerganov/whisper.cpp)
 - **OpenAI Whisper**: MIT License
 - **Dieser Skill**: MIT License

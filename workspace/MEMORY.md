@@ -25,6 +25,11 @@
 ### PowerShell / Exec-Zugriff
 **Status:** ✅ AKTIV (ask: off)
 
+**Präferenz (kritisch):**
+- **Immer PowerShell bevorzugen** gegenüber Bash/Git Bash
+- Wenn Git Bash unbedingt nötig ist: **sehr genaue Instruktionen** geben
+- Coding/Scripting: PowerShell oder Python (cross-platform)
+
 Ich habe Zugriff auf PowerShell für:
 - Datei-Operationen (read, write, edit)
 - Skript-Ausführung (.
@@ -40,6 +45,13 @@ Ich habe Zugriff auf PowerShell für:
 **Wichtige Skripte:**
 - `SecondBrain/00-Meta/Scripts/setup-symlinks.ps1` - Symlink-Setup
 - `SecondBrain/00-Meta/Scripts/check-vault-health.ps1` - Health-Check
+- `SecondBrain/00-Meta/Scripts/semantic-memory-poc.py` - Semantische Vault-Suche
+- `SecondBrain/00-Meta/Scripts/auto-retrospective.py` - Automatische Retrospektiven
+
+### Active Projects & Capabilities
+- **Mini-Evolve-Loop:** Lokaler Code-Evolution-Loop via Ollama (Qwen2.5 Coder 7B). Siehe `03-Knowledge/How-To/mini-evolve-loop.md`
+- **Semantic Memory:** FAISS-basierte semantische Suche über SecondBrain Vault. Siehe `03-Knowledge/References/semantic-memory-poc.md`
+- **05-Research Staging:** AI-generierte Vorschläge landen in `05-Research/pending/` und warten auf GO
 
 ### Coding-Skills
 - **TypeScript/JavaScript** - Primäre Sprache
@@ -219,6 +231,7 @@ Wenn Parzival nach folgendem fragt:
 | **10. Content-Check bei migrated** | Bei `migrated` Tag immer prüfen: "Hat diese Datei wirklich Inhalt?" Platzhalter wie "*Inhalt nicht migriert*" = FEHLER. |
 | **11. Dry-Run vor Migration** | Bei Migrationen erst simulieren (1-2 Dateien Testlauf), dann GO holen, dann restliche Dateien. |
 | **12. Keine leeren Templates** | Nie Dateien mit leeren Platzhaltern erstellen. Entweder vollständiger Inhalt oder gar nicht. |
+| **13. Große Downloads evaluieren** | Bei Downloads >100MB oder langen Laufzeiten: Manuelle Alternative prüfen (Browser, vorherige Downloads). Automatisierung ist nicht immer optimal. |
 
 **Parzivals Präferenzen (Priorisiert):**
 - Qualität > Geschwindigkeit
@@ -268,10 +281,17 @@ Wenn Parzival nach folgendem fragt:
 ---
 
 ### Wichtige Projekte im Vault
+
+**HINWEIS:** Bei Fragen nach TODOs, offenen Tasks oder aktiven Projekten → **immer `SecondBrain/02-Projects/Active/` prüfen!**
+
+Dort liegen alle aktiven Projekte mit Status, Tasks und Deliverables.
+
 - **OpenClaw Renovierung** - 12-Wochen-Plan für System-Transformation
   - Siehe: `02-Projects/Active/openclaw-renovation.md`
   - Architektur-ADR: `04-Decisions/ADR-004-openclaw-architecture.md`
   - Implementations-Plan: `03-Knowledge/How-To/openclaw-implementations-plan.md`
+- **OpenClaw Google API Key Setup** - API Key für Web-Search
+  - Siehe: `02-Projects/Active/OpenClaw-Google-API-Key.md`
 
 ### Night Agent
 Geplant: Automatische Indexierung, Duplicate Detection, Broken Link Detection.

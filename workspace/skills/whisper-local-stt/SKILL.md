@@ -1,130 +1,119 @@
-# Whisper Local STT Skill
+---
+name: whisper-local-stt
+description: Lokale Speech-to-Text Transkription mit whisper.cpp (offline, privacy-first). Use when receiving voice messages, audio transcription needed, or user mentions "transcribe", "voice to text".
+triggers: ["voice message", "transcribe", "audio", "sprachnachricht", "voice"]
+---
 
-Lokale Speech-to-Text Transkription mit OpenAI's Whisper (offline, privacy-first).
+# Whisper Local STT
 
-## Features
+Lokale Spracherkennung mit **whisper.cpp** (C++ Implementation). Schnell, offline, CPU-basiert.
 
-- **Lokale Verarbeitung**: Keine Daten verlassen deinen PC
-- **Drei Modelle**: `schnell` (base), `mittel` (small), `langsam` (medium)
-- **Persistente Einstellungen**: Modell-Wahl wird gespeichert
-- **Telegram-Integration**: Sprachnachrichten direkt transkribieren
-
-## Commands
-
-| Befehl | Beschreibung |
-|--------|--------------|
-| `/whisper schnell` | Schnelles Modell (base, ~150MB) |
-| `/whisper mittel` | Balanced Modell (small, ~500MB) |
-| `/whisper langsam` | Genaues Modell (medium, ~1.5GB) |
-| `/whisper status` | Aktuelles Modell anzeigen |
-| `/whisper help` | Hilfe anzeigen |
-
-## Verwendung
-
-1. **Modell wählen**:
-   ```
-   /whisper langsam
-   ```
-
-2. **Sprachnachricht senden**:
-   - Sende eine Voice Message in Telegram
-   - Automatische Transkription mit gewähltem Modell
-
-3. **Status prüfen**:
-   ```
-   /whisper status
-   ```
-
-## Modelle im Vergleich
-
-| Modell | Größe | Geschwindigkeit* | Qualität |
-|--------|-------|------------------|----------|
-| base | 150 MB | ~5s pro Minute | Gut |
-| small | 500 MB | ~15s pro Minute | Sehr gut |
-| medium | 1.5 GB | ~30s pro Minute | Ausgezeichnet |
-
-\* Mit NVIDIA GPU (RTX 3060). CPU ist 3-5x langsamer.
-
-## Setup
-
-### Automatische Installation
+## Quick Start
 
 ```bash
-python scripts/install.py
+# Audio transkribieren (automatisch bei Voice Messages)
+python scripts/transcribe.py audio.wav
 ```
 
-Lädt automatisch alle Modelle herunter (~2GB).
+## Setup-Status
 
-### Manuelle Installation
+| Komponente | Status | Pfad |
+|------------|--------|------|
+| whisper.cpp (main.exe) | ✅ | `~/.openclaw/whisper/main.exe` |
+| ggml-base.bin | ✅ | `~/.openclaw/whisper/models/ggml-base.bin` |
+| FFmpeg | ✅ | Systemweit installiert |
+| transcribe.py | ✅ | `~/.openclaw/skills/whisper-local-stt/scripts/transcribe.py` |
+| config.json | ✅ | `~/.openclaw/skills/whisper-local-stt/config.json` |
 
-1. Python-Abhängigkeiten installieren:
-   ```bash
-   pip install faster-whisper pydub
-   ```
+## Workflow
 
-2. FFmpeg installieren (für Audio-Konvertierung):
-   - Windows: `winget install Gyan.FFmpeg`
-   - macOS: `brew install ffmpeg`
-   - Linux: `sudo apt install ffmpeg`
+### Automatisch (Voice Messages)
 
-3. Modelle herunterladen (erfolgt beim ersten Start automatisch).
+1. Voice Message wird empfangen (.ogg)
+2. FFmpeg konvertiert zu WAV (16kHz, mono)
+3. whisper.cpp transkribiert
+4. Transkript wird ausgegeben
+5. Temp-Dateien werden gelöscht
 
-## Konfiguration
+### Manuell
 
-Die Konfiguration wird in `~/.openclaw/skills/whisper-local-stt/config.json` gespeichert:
+```bash
+# Mit base Modell (schnell, ~147MB)
+python scripts/transcribe.py audio.wav
 
-```json
-{
-  "default_model": "small",
-  "models": {
-    "base": {"size": "base", "device": "auto", "compute_type": "int8"},
-    "small": {"size": "small", "device": "auto", "compute_type": "int8"},
-    "medium": {"size": "medium", "device": "auto", "compute_type": "int8"}
-  },
-  "telegram": {
-    "delete_after_transcribe": true,
-    "max_duration": 600
-  }
-}
+# Mit small Modell (bessere Qualität, ~466MB)
+python scripts/command_handler.py small
+python scripts/transcribe.py audio.wav
+
+# Mit medium Modell (beste Qualität, ~1.5GB)
+python scripts/command_handler.py langsam
+python scripts/transcribe.py audio.wav
 ```
 
-## Hardware-Anforderungen
+## Befehle
 
-### Minimum
-- 4 GB RAM (8 GB empfohlen)
-- 2 GB freier Speicherplatz
-- CPU mit 4 Kernen
+```
+/whisper schnell   → base Modell
+/whisper mittel    → small Modell
+/whisper langsam   → medium Modell
+/whisper status    → Aktuelles Modell anzeigen
+/whisper help      → Hilfe
+```
 
-### Empfohlen (mit GPU)
-- NVIDIA GPU mit 4 GB VRAM
-- 8 GB RAM
-- SSD für Modell-Dateien
+## Technische Details
 
-## Datenschutz
+### Konvertierung
+```bash
+ffmpeg -i input.ogg -ar 16000 -ac 1 -c:a pcm_s16le output.wav
+```
 
-- ✅ Alle Daten bleiben lokal
-- ✅ Keine Verbindung zu OpenAI oder anderen APIs
-- ✅ Temporäre Audio-Dateien werden sofort gelöscht
-- ✅ Kein Logging von Audio-Inhalten
+### whisper.cpp Parameter
+| Parameter | Bedeutung |
+|-----------|-----------|
+| `-m` | Modell-Pfad |
+| `-f` | Audio-Datei |
+| `-l de` | Sprache (de=Deutsch) |
+| `-t 8` | Threads (8 für i7-6820HK) |
+| `-nt` | Keine Timestamps |
 
 ## Fehlerbehebung
 
-### "CUDA out of memory"
-→ Wechsle zu kleinerem Modell oder nutze CPU:
+| Fehler | Lösung |
+|--------|--------|
+| "Modell nicht gefunden" | `python scripts/install.py` ausführen |
+| "FFmpeg not found" | `winget install Gyan.FFmpeg` |
+| "main.exe fehlt" | whisper.cpp Binary neu herunterladen |
+
+## Performance
+
+| Modell | Größe | i7-6820HK | Qualität |
+|--------|-------|-----------|----------|
+| base | 147MB | ~2x Echtzeit | Gut |
+| small | 466MB | ~5x Echtzeit | Sehr gut |
+| medium | 1.5GB | ~15x Echtzeit | Ausgezeichnet |
+
+## Integration mit OpenClaw
+
+Bei Voice Messages:
 ```
-/whisper schnell
+User: [Voice Message]
+Agent: → Convert OGG → WAV
+       → Run whisper.cpp via transcribe.py
+       → Return transcript
 ```
 
-### "FFmpeg not found"
-→ FFmpeg installieren:
+## Datenschutz
+
+- 100% lokale Verarbeitung
+- Keine Daten verlassen den PC
+- Keine Cloud-APIs
+- Offline-fähig
+
+## Modell-Download
+
 ```bash
-winget install Gyan.FFmpeg  # Windows
+cd ~/.openclaw/workspace/skills/whisper-local-stt
+python scripts/install.py
 ```
 
-### Langsame Transkription
-- GPU wird empfohlen für medium-Modell
-- Mit CPU: base-Modell verwenden (`/whisper schnell`)
-
-## Lizenz
-
-MIT - Siehe LICENSE
+Dies lädt `ggml-base.bin`, `ggml-small.bin` und `ggml-medium.bin` aus dem HuggingFace-Repo von ggerganov.

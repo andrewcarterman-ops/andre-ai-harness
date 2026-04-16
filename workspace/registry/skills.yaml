@@ -3,12 +3,12 @@
 # Format: YAML 1.2
 
 version: "2.0"
-last_updated: "2026-04-11T01:05:00+02:00"
+last_updated: "2026-04-14T12:00:00+02:00"
 auto_generated: false
 generator_version: "2.0"
 
 # Gesamtanzahl Skills
-count: 17
+count: 18
 
 skills:
   # ============================================
@@ -227,6 +227,18 @@ skills:
     status: "active"
     source: "custom"
 
+  - id: "whisper-local-stt"
+    name: "whisper-local-stt"
+    description: "Lokale Speech-to-Text Transkription mit whisper.cpp (offline, privacy-first). Use when receiving voice messages, audio transcription needed, or user mentions 'transcribe', 'voice to text'."
+    path: "skills/whisper-local-stt"
+    skill_file: "skills/whisper-local-stt/SKILL.md"
+    has_frontmatter: true
+    category: "tooling"
+    triggers: ["voice message", "transcribe", "audio", "sprachnachricht", "voice"]
+    status: "active"
+    source: "custom"
+    note: "whisper.cpp main.exe CPU-based, 100% local"
+
 # ============================================
 # CATEGORY INDEX
 # ============================================
@@ -237,7 +249,7 @@ categories:
   external-api: ["example-weather"]
   security: ["secure-api-client", "security-review"]
   learning: ["self-improving-andrew"]
-  tooling: ["mission-control", "mission-control-v2", "migration-skill", "second-brain"]
+  tooling: ["mission-control", "mission-control-v2", "migration-skill", "second-brain", "whisper-local-stt"]
   language: ["python-patterns"]
   quality: ["testing-patterns", "refactoring"]
   architecture: ["api-design"]

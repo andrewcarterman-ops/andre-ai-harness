@@ -5,11 +5,12 @@ Verarbeitet /whisper Befehle und verwaltet Modell-Einstellungen.
 """
 
 import json
+import os
 import sys
 from pathlib import Path
 from typing import Optional, Dict, Any
 
-CONFIG_DIR = Path.home() / ".openclaw" / "skills" / "whisper-local-stt"
+CONFIG_DIR = Path.home() / ".openclaw" / "workspace" / "skills" / "whisper-local-stt"
 CONFIG_FILE = CONFIG_DIR / "config.json"
 
 MODEL_ALIASES = {
@@ -26,24 +27,21 @@ MODEL_ALIASES = {
 MODEL_INFO = {
     "base": {
         "name": "base",
-        "size": "~150 MB",
-        "speed": "Sehr schnell (~5s/Min)",
-        "quality": "Gut",
-        "vram": "~1 GB"
+        "size": "~147 MB",
+        "speed": "Sehr schnell (~2x Echtzeit)",
+        "quality": "Gut"
     },
     "small": {
         "name": "small",
-        "size": "~500 MB",
-        "speed": "Mittel (~15s/Min)",
-        "quality": "Sehr gut",
-        "vram": "~2 GB"
+        "size": "~466 MB",
+        "speed": "Mittel (~5x Echtzeit)",
+        "quality": "Sehr gut"
     },
     "medium": {
         "name": "medium",
         "size": "~1.5 GB",
-        "speed": "Langsam (~30s/Min)",
-        "quality": "Ausgezeichnet",
-        "vram": "~5 GB"
+        "speed": "Langsam (~15x Echtzeit)",
+        "quality": "Ausgezeichnet"
     }
 }
 
@@ -65,7 +63,6 @@ def save_config(config: Dict[str, Any]):
 
 def get_user_id() -> str:
     """Ermittelt User-ID aus Umgebung oder Standard"""
-    # In OpenClaw wird die User-ID normalerweise als Env-Variable übergeben
     return os.environ.get("OPENCLAW_USER_ID", "default")
 
 
@@ -90,11 +87,9 @@ def normalize_model(model_name: str) -> Optional[str]:
     """Normalisiert Modell-Namen"""
     model_lower = model_name.lower().strip()
     
-    # Direkte Übereinstimmung
     if model_lower in ["base", "small", "medium"]:
         return model_lower
     
-    # Alias-Übersetzung
     if model_lower in MODEL_ALIASES:
         return MODEL_ALIASES[model_lower]
     
@@ -105,33 +100,33 @@ def handle_schnell(user_id: str):
     """Wechselt zu schnellem Modell"""
     set_user_model(user_id, "base")
     info = MODEL_INFO["base"]
-    print(f"✅ Modell auf 'schnell' (base) gesetzt")
-    print(f"   Geschwindigkeit: {info['speed']}")
-    print(f"   Qualität: {info['quality']}")
-    print(f"   Speicherbedarf: {info['vram']}")
-    print(f"\n💡 Alle folgenden Sprachnachrichten nutzen dieses Modell.")
+    print(f"[OK] Modell auf 'schnell' (base) gesetzt")
+    print(f"     Geschwindigkeit: {info['speed']}")
+    print(f"     Qualitaet: {info['quality']}")
+    print(f"     Dateigroesse: {info['size']}")
+    print(f"\nHinweis: Alle folgenden Sprachnachrichten nutzen dieses Modell.")
 
 
 def handle_mittel(user_id: str):
     """Wechselt zu mittlerem Modell"""
     set_user_model(user_id, "small")
     info = MODEL_INFO["small"]
-    print(f"✅ Modell auf 'mittel' (small) gesetzt")
-    print(f"   Geschwindigkeit: {info['speed']}")
-    print(f"   Qualität: {info['quality']}")
-    print(f"   Speicherbedarf: {info['vram']}")
-    print(f"\n💡 Alle folgenden Sprachnachrichten nutzen dieses Modell.")
+    print(f"[OK] Modell auf 'mittel' (small) gesetzt")
+    print(f"     Geschwindigkeit: {info['speed']}")
+    print(f"     Qualitaet: {info['quality']}")
+    print(f"     Dateigroesse: {info['size']}")
+    print(f"\nHinweis: Alle folgenden Sprachnachrichten nutzen dieses Modell.")
 
 
 def handle_langsam(user_id: str):
     """Wechselt zu langsamem/genauem Modell"""
     set_user_model(user_id, "medium")
     info = MODEL_INFO["medium"]
-    print(f"✅ Modell auf 'langsam' (medium) gesetzt")
-    print(f"   Geschwindigkeit: {info['speed']}")
-    print(f"   Qualität: {info['quality']}")
-    print(f"   Speicherbedarf: {info['vram']}")
-    print(f"\n💡 Alle folgenden Sprachnachrichten nutzen dieses Modell.")
+    print(f"[OK] Modell auf 'langsam' (medium) gesetzt")
+    print(f"     Geschwindigkeit: {info['speed']}")
+    print(f"     Qualitaet: {info['quality']}")
+    print(f"     Dateigroesse: {info['size']}")
+    print(f"\nHinweis: Alle folgenden Sprachnachrichten nutzen dieses Modell.")
 
 
 def handle_status(user_id: str):
@@ -139,43 +134,41 @@ def handle_status(user_id: str):
     current_model = get_user_model(user_id)
     info = MODEL_INFO.get(current_model, MODEL_INFO["small"])
     
-    print(f"🎙️  Whisper Local STT Status")
+    print(f"Whisper Local STT Status")
     print(f"\nAktives Modell: {current_model}")
-    print(f"   Geschwindigkeit: {info['speed']}")
-    print(f"   Qualität: {info['quality']}")
-    print(f"   Speicherbedarf: {info['vram']}")
+    print(f"     Geschwindigkeit: {info['speed']}")
+    print(f"     Qualitaet: {info['quality']}")
+    print(f"     Dateigroesse: {info['size']}")
     
-    print(f"\n📊 Verfügbare Modelle:")
+    print(f"\nVerfuegbare Modelle:")
     for key, alias in [("base", "schnell"), ("small", "mittel"), ("medium", "langsam")]:
-        marker = "▸" if key == current_model else " "
-        print(f"   {marker} /whisper {alias:8} → {MODEL_INFO[key]['speed']}")
+        marker = ">" if key == current_model else " "
+        print(f"   {marker} /whisper {alias:8} -> {MODEL_INFO[key]['speed']}")
 
 
 def handle_help():
     """Zeigt Hilfe an"""
-    print("🎙️  Whisper Local STT - Hilfe")
+    print("Whisper Local STT - Hilfe")
     print("\nBefehle:")
-    print("  /whisper schnell   → Schnelles Modell (base, ~150MB)")
-    print("  /whisper mittel    → Mittleres Modell (small, ~500MB)")
-    print("  /whisper langsam   → Genaues Modell (medium, ~1.5GB)")
-    print("  /whisper status    → Aktuelles Modell anzeigen")
-    print("  /whisper help      → Diese Hilfe")
+    print("  /whisper schnell   -> Schnelles Modell (base, ~147MB)")
+    print("  /whisper mittel    -> Mittleres Modell (small, ~466MB)")
+    print("  /whisper langsam   -> Genaues Modell (medium, ~1.5GB)")
+    print("  /whisper status    -> Aktuelles Modell anzeigen")
+    print("  /whisper help      -> Diese Hilfe")
     
     print("\nVerwendung:")
-    print("  1. Wähle ein Modell mit einem der Befehle oben")
-    print("  2. Sende eine Sprachnachricht in Telegram")
-    print("  3. Die Transkription erfolgt automatisch mit dem gewählten Modell")
+    print("  1. Waehle ein Modell mit einem der Befehle oben")
+    print("  2. Sende eine Sprachnachricht")
+    print("  3. Die Transkription erfolgt automatisch mit dem gewaehlten Modell")
     
     print("\nEmpfehlungen:")
-    print("  • /whisper schnell  → Kurze Nachrichten, schnelle Antworten")
-    print("  • /whisper mittel   → Standard (Balance aus Speed/Qualität)")
-    print("  • /whisper langsam  → Lange Nachrichten, wichtige Inhalte")
+    print("  - /whisper schnell  -> Kurze Nachrichten, schnelle Antworten")
+    print("  - /whisper mittel   -> Standard (Balance aus Speed/Qualitaet)")
+    print("  - /whisper langsam  -> Lange Nachrichten, wichtige Inhalte")
 
 
 def main():
     """Hauptfunktion"""
-    import os
-    
     if len(sys.argv) < 2:
         handle_help()
         return
@@ -203,7 +196,7 @@ def main():
         else:
             handlers[command](user_id)
     else:
-        print(f"❌ Unbekannter Befehl: '{command}'")
+        print(f"[FEHLER] Unbekannter Befehl: '{command}'")
         print(f"\nVerwende einen dieser Befehle:")
         print(f"  /whisper schnell | mittel | langsam | status | help")
 

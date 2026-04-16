@@ -1,0 +1,78 @@
+#!/usr/bin/env python3
+"""
+Mikrofon Test mit SMALL Modell (bessere Erkennung)
+"""
+
+import numpy as np
+import sounddevice as sd
+import wave
+import tempfile
+from pathlib import Path
+import subprocess
+
+WHISPER_DIR = Path.home() / ".openclaw" / "whisper"
+WHISPER_EXE = WHISPER_DIR / "main.exe"
+MODELS_DIR = WHISPER_DIR / "models"
+DEFAULT_MODEL = MODELS_DIR / "ggml-small.bin"  # <-- SMALL statt BASE
+
+print("="*60)
+print("MIKROFON TEST - MIT SMALL MODELL")
+print("="*60)
+print("\nDas small-Modell ist langsamer aber erkennt besser!")
+print("Du wirst gleich 3 Sekunden aufgenommen.")
+print("Sprich LAUT, DEUTLICH und LANGSAM!")
+print("\nDrücke ENTER zum Starten...")
+input()
+
+print("\n[AUFNAHME STARTET...]")
+print("Sprech jetzt langsam!")
+
+recording = sd.rec(int(3 * 16000), samplerate=16000, channels=1, dtype=np.int16)
+sd.wait()
+
+print("[AUFNAHME BEENDET]")
+
+max_amp = np.max(np.abs(recording))
+print(f"\n[ANALYSE] Lautstaerke (max): {max_amp}")
+
+if max_amp < 1000:
+    print("[!!] Zu leise!\n")
+    exit()
+
+wav_path = Path(tempfile.gettempdir()) / "test_small.wav"
+with wave.open(str(wav_path), 'wb') as wf:
+    wf.setnchannels(1)
+    wf.setsampwidth(2)
+    wf.setframerate(16000)
+    wf.writeframes(recording.tobytes())
+
+print(f"\n[TRANSKRIBTION MIT SMALL...]")
+print("Dauert ca. 10-20 Sekunden...")
+
+result = subprocess.run(
+    [str(WHISPER_EXE), "-m", str(DEFAULT_MODEL), "-f", str(wav_path),
+     "-l", "de", "--no-timestamps", "-t", "4"],
+    capture_output=True, text=True, timeout=120
+)
+
+lines = result.stderr.split('\n')
+text_lines = []
+capture = False
+for line in lines:
+    if "main: processing" in line:
+        capture = True
+        continue
+    if capture and line.strip() and not line.startswith('whisper_'):
+        if not any(line.startswith(p) for p in ['system_info:', 'main:', 'size=']):
+            text_lines.append(line.strip())
+
+text = ' '.join(text_lines).strip()
+
+print(f"\n{'='*60}")
+if text:
+    print(f"[ERKANNT]: {text}")
+else:
+    print("[KEIN TEXT]")
+print("="*60)
+
+input("\nENTER zum Beenden...")

@@ -1,0 +1,291 @@
+{
+  "communities": {
+    "0": [
+      "00-meta_graphify-output_00 meta",
+      "00-meta_graphify-output_01 daily",
+      "00-meta_graphify-output_02 04 2026",
+      "00-meta_graphify-output_02 04 2026 final",
+      "00-meta_graphify-output_02 04 2026 session log",
+      "00-meta_graphify-output_03 04 2026",
+      "00-meta_graphify-output_04 04 2026",
+      "00-meta_graphify-output_05 04 2026 v1",
+      "00-meta_graphify-output_06 04 2026",
+      "00-meta_graphify-output_08 04 2026",
+      "00-meta_graphify-output_09 04 2026 test session",
+      "00-meta_graphify-output_10 04 2026",
+      "00-meta_graphify-output_10 04 2026 retrospektive",
+      "00-meta_graphify-output_10 04 2026 v2",
+      "00-meta_graphify-output_11 04 2026",
+      "00-meta_graphify-output_2026 04 10 beispiel quick capture",
+      "00-meta_graphify-output_2026-04-12",
+      "00-meta_graphify-output_20260410 203552",
+      "00-meta_graphify-output_20260410 213852",
+      "00-meta_graphify-output_22 03 2026",
+      "00-meta_graphify-output_23 03 2026",
+      "00-meta_graphify-output_26 03 2026",
+      "00-meta_graphify-output_28 03 2026",
+      "00-meta_graphify-output_30 03 2026",
+      "00-meta_graphify-output_analyze-vault.ps1",
+      "00-meta_graphify-output_auto-backup.ps1",
+      "00-meta_graphify-output_backups",
+      "00-meta_graphify-output_batch1 20260411 013011",
+      "00-meta_graphify-output_capabilities index",
+      "00-meta_graphify-output_check-vault-health.ps1",
+      "00-meta_graphify-output_clear-oldbackups()",
+      "00-meta_graphify-output_cmd-backup.ps1",
+      "folder_graphify-output"
+    ],
+    "1": [
+      "00-meta_backups_20260410-213852__moc-startseite",
+      "00-meta_backups_batch1_20260411_013011_kimi_agent_openclaw github_openclaw_clawcode_integration_masterplan",
+      "00-meta_backups_batch1_20260411_013011_kimi_agent_openclaw github_subagent_compaction_spec",
+      "00-meta_backups_batch1_20260411_013011_kimi_agent_openclaw github_subagent_conversation_runtime_spec",
+      "00-meta_backups_batch1_20260411_013011_kimi_agent_openclaw github_subagent_permissions_spec",
+      "00-meta_backups_batch1_20260411_013011_kimi_agent_openclaw github_subagent_sse_streaming_spec",
+      "00-meta_backups_drift-reports_drift-report_20260411_155836",
+      "00-meta_backups_drift-reports_drift-report_20260412_080754",
+      "00-meta_capabilities-index",
+      "00-meta_system-status",
+      "00-meta_vault-config",
+      "folder_00-meta",
+      "folder_20260410-203552",
+      "folder_20260410-213852",
+      "folder_backups",
+      "folder_batch1_20260411_013011",
+      "folder_drift-reports"
+    ],
+    "2": [
+      "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_ecc_stability_ps1",
+      "ecc_stability_initialize_eccenvironment",
+      "ecc_stability_invoke_backupmode",
+      "ecc_stability_invoke_contextmode",
+      "ecc_stability_invoke_driftmode",
+      "ecc_stability_invoke_encryptmode",
+      "ecc_stability_invoke_fullcheck",
+      "ecc_stability_show_help",
+      "ecc_stability_show_status",
+      "ecc_stability_test_prerequisites",
+      "ecc_stability_write_ecclog"
+    ],
+    "3": [
+      "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_sync_openclaw_to_obsidian_ps1",
+      "sync_openclaw_to_obsidian_convertto_yamlfrontmatter",
+      "sync_openclaw_to_obsidian_get_backlinkssection",
+      "sync_openclaw_to_obsidian_get_openclawsessionsfromregistry",
+      "sync_openclaw_to_obsidian_get_syncstatus",
+      "sync_openclaw_to_obsidian_invoke_withretry",
+      "sync_openclaw_to_obsidian_new_decisionnote",
+      "sync_openclaw_to_obsidian_new_sessionnote",
+      "sync_openclaw_to_obsidian_save_syncstatus",
+      "sync_openclaw_to_obsidian_start_sync",
+      "sync_openclaw_to_obsidian_write_synclog"
+    ],
+    "4": [
+      "auto_backup_convertfrom_yaml",
+      "auto_backup_get_backupconfig",
+      "auto_backup_get_backuplist",
+      "auto_backup_get_backupmetadata",
+      "auto_backup_invoke_retentioncleanup",
+      "auto_backup_new_vaultbackup",
+      "auto_backup_restore_vaultbackup",
+      "auto_backup_write_backuplog",
+      "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_auto_backup_ps1"
+    ],
+    "5": [
+      "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_ecc_framework_drift_detection_ps1",
+      "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_scripts_drift_detection_ps1",
+      "drift_detection_convertfrom_yaml",
+      "drift_detection_get_templateforfile",
+      "drift_detection_get_vaultstructure",
+      "drift_detection_repair_drift",
+      "drift_detection_test_drift",
+      "drift_detection_write_driftlog"
+    ],
+    "6": [
+      "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_ecc_framework_eval_runner_ps1",
+      "eval_runner_export_evalreport",
+      "eval_runner_import_evalconfig",
+      "eval_runner_invoke_evalsuite",
+      "eval_runner_test_scripts",
+      "eval_runner_test_templates",
+      "eval_runner_test_vaultstructure",
+      "eval_runner_write_evallog"
+    ],
+    "7": [
+      "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_ecc_framework_cmd_backup_ps1",
+      "cmd_backup_clear_oldbackups",
+      "cmd_backup_get_backuplist",
+      "cmd_backup_invoke_backup",
+      "cmd_backup_invoke_restore",
+      "cmd_backup_test_backupintegrity",
+      "cmd_backup_write_backuplog"
+    ],
+    "8": [
+      "00-meta_backups_20260410-203552_templates_daily",
+      "00-meta_backups_20260410-203552_templates_decision",
+      "00-meta_backups_20260410-203552_templates_knowledge",
+      "00-meta_backups_20260410-203552_templates_meeting",
+      "00-meta_backups_20260410-203552_templates_project",
+      "00-meta_backups_20260410-203552_templates_session-retrospektive",
+      "folder_templates"
+    ],
+    "9": [
+      "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_legacy_vault_reorganize_ps1",
+      "vault_reorganize_extract_decisions",
+      "vault_reorganize_get_yamlfrontmatter",
+      "vault_reorganize_new_compactnote",
+      "vault_reorganize_start_vaultmigration",
+      "vault_reorganize_test_uuidfilename"
+    ],
+    "10": [
+      "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_setup_symlinks_ps1",
+      "setup_symlinks_new_vaultsymlink",
+      "setup_symlinks_test_adminrights",
+      "setup_symlinks_test_symlinkexists",
+      "setup_symlinks_test_symlinkhealthy"
+    ],
+    "11": [
+      "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_ecc_framework_context_switch_ps1",
+      "context_switch_extract_keyinfo",
+      "context_switch_get_recentsessions",
+      "context_switch_new_contextsummary",
+      "context_switch_write_contextlog"
+    ],
+    "12": [
+      "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_check_vault_health_ps1",
+      "check_vault_health_test_symlinkhealth",
+      "check_vault_health_write_header"
+    ],
+    "13": [
+      "c_users_andre_openclaw_workspace_secondbrain_graphify_extract_ast_py"
+    ],
+    "14": [
+      "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_migrate_obsidian_vault_ps1"
+    ],
+    "15": [
+      "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_legacy_analyze_vault_ps1"
+    ],
+    "16": [
+      "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_legacy_sync_openclaw_to_secondbrain_20260406_234527_ps1"
+    ],
+    "17": [
+      "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_legacy_sync_openclaw_to_secondbrain_ps1"
+    ],
+    "18": [
+      "c_users_andre_openclaw_workspace_secondbrain_00_meta_scripts_legacy_vault_reorganize_simple_ps1"
+    ],
+    "19": [
+      "c_users_andre_openclaw_workspace_secondbrain_99_archive_ecc_framework_reference_modules_example_usage_ps1"
+    ],
+    "20": [
+      "c_users_andre_openclaw_workspace_secondbrain_99_archive_vault_archive_misc_create_dirs_ps1"
+    ],
+    "21": [
+      "_moc-startseite"
+    ]
+  },
+  "cohesion": {
+    "0": 0.06,
+    "1": 0.12,
+    "2": 0.27,
+    "3": 0.45,
+    "4": 0.36,
+    "5": 0.43,
+    "6": 0.36,
+    "7": 0.52,
+    "8": 0.29,
+    "9": 0.6,
+    "10": 0.7,
+    "11": 0.7,
+    "12": 0.67,
+    "13": 1.0,
+    "14": 1.0,
+    "15": 1.0,
+    "16": 1.0,
+    "17": 1.0,
+    "18": 1.0,
+    "19": 1.0,
+    "20": 1.0,
+    "21": 1.0
+  },
+  "gods": [
+    {
+      "id": "folder_graphify-output",
+      "label": "Graphify Output",
+      "edges": 33
+    },
+    {
+      "id": "sync_openclaw_to_obsidian_new_sessionnote",
+      "label": "New-SessionNote()",
+      "edges": 7
+    },
+    {
+      "id": "folder_templates",
+      "label": "Templates",
+      "edges": 7
+    },
+    {
+      "id": "ecc_stability_write_ecclog",
+      "label": "Write-EccLog()",
+      "edges": 6
+    },
+    {
+      "id": "sync_openclaw_to_obsidian_write_synclog",
+      "label": "Write-SyncLog()",
+      "edges": 6
+    },
+    {
+      "id": "sync_openclaw_to_obsidian_start_sync",
+      "label": "Start-Sync()",
+      "edges": 6
+    },
+    {
+      "id": "folder_batch1_20260411_013011",
+      "label": "BATCH1 20260411 013011",
+      "edges": 6
+    },
+    {
+      "id": "cmd_backup_write_backuplog",
+      "label": "Write-BackupLog()",
+      "edges": 5
+    },
+    {
+      "id": "vault_reorganize_start_vaultmigration",
+      "label": "Start-VaultMigration()",
+      "edges": 5
+    },
+    {
+      "id": "sync_openclaw_to_obsidian_invoke_withretry",
+      "label": "Invoke-WithRetry()",
+      "edges": 5
+    }
+  ],
+  "surprises": [],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `Graphify Output` connect `00 Meta 01 Daily` to ` MOC Startseite Kimi Agent OpenClaw GitHub OPENCLAW CLAWCODE INTEGRATION MASTERPLAN`?",
+      "why": "High betweenness centrality (0.134) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `00 Meta` connect ` MOC Startseite Kimi Agent OpenClaw GitHub OPENCLAW CLAWCODE INTEGRATION MASTERPLAN` to `00 Meta 01 Daily`?",
+      "why": "High betweenness centrality (0.087) - this node is a cross-community bridge."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects ` MOC Startseite`, `Capabilities Index`, `SYSTEM STATUS` to the rest of the system?",
+      "why": "49 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `00 Meta 01 Daily` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.06 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should ` MOC Startseite Kimi Agent OpenClaw GitHub OPENCLAW CLAWCODE INTEGRATION MASTERPLAN` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.12 - nodes in this community are weakly interconnected."
+    }
+  ]
+}

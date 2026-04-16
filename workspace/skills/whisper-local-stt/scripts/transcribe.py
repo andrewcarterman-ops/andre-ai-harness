@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Whisper Transcription Engine
-Transkribiert Audio-Dateien mit faster-whisper.
+Whisper Transcription Engine (whisper.cpp)
+Transkribiert Audio-Dateien mit whisper.cpp main.exe.
 """
 
 import os
@@ -10,15 +10,14 @@ import json
 import tempfile
 import subprocess
 from pathlib import Path
-from typing import Optional, Tuple, List
+from typing import Optional, Tuple
 
-# Konfiguration
-CACHE_DIR = Path.home() / ".cache" / "whisper"
-CONFIG_DIR = Path.home() / ".openclaw" / "skills" / "whisper-local-stt"
+# Pfade
+WHISPER_DIR = Path.home() / ".openclaw" / "whisper"
+MAIN_EXE = WHISPER_DIR / "main.exe"
+MODELS_DIR = WHISPER_DIR / "models"
+CONFIG_DIR = Path.home() / ".openclaw" / "workspace" / "skills" / "whisper-local-stt"
 CONFIG_FILE = CONFIG_DIR / "config.json"
-
-# Globaler Model-Cache (für Performance)
-_model_cache = {}
 
 
 def load_config() -> dict:
@@ -26,7 +25,7 @@ def load_config() -> dict:
     if CONFIG_FILE.exists():
         with open(CONFIG_FILE, "r", encoding="utf-8") as f:
             return json.load(f)
-    return {"default_model": "small", "models": {}}
+    return {"default_model": "base", "models": {}}
 
 
 def get_user_id() -> str:
@@ -37,7 +36,15 @@ def get_user_id() -> str:
 def get_user_model(user_id: str) -> str:
     """Ermittelt bevorzugtes Modell für User"""
     config = load_config()
-    return config.get("user_preferences", {}).get(user_id, config.get("default_model", "small"))
+    return config.get("user_preferences", {}).get(user_id, config.get("default_model", "base"))
+
+
+def get_model_path(model_name: str) -> Optional[Path]:
+    """Ermittelt Pfad zum Modell-File"""
+    model_file = MODELS_DIR / f"ggml-{model_name}.bin"
+    if model_file.exists():
+        return model_file
+    return None
 
 
 def convert_audio(input_path: Path, output_path: Path) -> bool:
@@ -60,52 +67,16 @@ def convert_audio(input_path: Path, output_path: Path) -> bool:
     except FileNotFoundError:
         print("FFmpeg nicht gefunden. Installiere FFmpeg:", file=sys.stderr)
         print("  Windows: winget install Gyan.FFmpeg", file=sys.stderr)
-        print("  macOS: brew install ffmpeg", file=sys.stderr)
         return False
-
-
-def get_model(model_name: str):
-    """Lädt Whisper-Modell (mit Caching)"""
-    global _model_cache
-    
-    if model_name in _model_cache:
-        return _model_cache[model_name]
-    
-    try:
-        from faster_whisper import WhisperModel
-        
-        # Gerät und Compute-Type ermitteln
-        import torch
-        device = "cuda" if torch.cuda.is_available() else "cpu"
-        compute_type = "float16" if device == "cuda" else "int8"
-        
-        print(f"Lade Modell '{model_name}' auf {device}...", file=sys.stderr)
-        
-        model = WhisperModel(
-            model_name,
-            device=device,
-            compute_type=compute_type,
-            download_root=str(CACHE_DIR)
-        )
-        
-        _model_cache[model_name] = model
-        return model
-        
-    except Exception as e:
-        print(f"Fehler beim Laden des Modells: {e}", file=sys.stderr)
-        return None
 
 
 def transcribe_audio(audio_path: Path, model_name: str) -> Tuple[str, dict]:
     """
-    Transkribiert Audio-Datei.
-    
-    Returns:
-        (transkription_text, metadata)
+    Transkribiert Audio-Datei mit whisper.cpp main.exe.
     """
-    model = get_model(model_name)
-    if not model:
-        return "", {"error": "Modell konnte nicht geladen werden"}
+    model_path = get_model_path(model_name)
+    if not model_path:
+        return "", {"error": f"Modell '{model_name}' nicht gefunden. Führe install.py aus."}
     
     # Konvertierung
     with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as tmp:
@@ -115,34 +86,62 @@ def transcribe_audio(audio_path: Path, model_name: str) -> Tuple[str, dict]:
         if not convert_audio(audio_path, wav_path):
             return "", {"error": "Audio-Konvertierung fehlgeschlagen"}
         
-        # Transkription
-        segments, info = model.transcribe(
-            str(wav_path),
-            beam_size=5,
-            best_of=5,
-            condition_on_previous_text=True,
-            vad_filter=True,
-            vad_parameters=dict(min_silence_duration_ms=500)
-        )
+        # whisper.cpp aufrufen
+        cmd = [
+            str(MAIN_EXE),
+            "-m", str(model_path),
+            "-f", str(wav_path),
+            "-l", "de",
+            "-nt",              # keine Timestamps
+            "--no-timestamps",
+            "-t", "8"           # 8 Threads
+        ]
         
-        # Segmente zu Text zusammenfügen
-        text_parts = []
-        for segment in segments:
-            text_parts.append(segment.text.strip())
+        result = subprocess.run(cmd, capture_output=True, text=True)
         
-        full_text = " ".join(text_parts)
+        if result.returncode != 0:
+            print(f"whisper.cpp stderr: {result.stderr}", file=sys.stderr)
+            return "", {"error": f"Transkription fehlgeschlagen (Code {result.returncode})"}
+        
+        # whisper.cpp gibt viel Debug-Output + die Transkription
+        # Wir extrahieren nur die letzten nicht-leeren Zeilen nach "main: processing ..."
+        lines = result.stderr.splitlines()
+        
+        # Suche nach der Transkription im stderr (whisper.cpp gibt Text oft nach "main: processing" aus)
+        text = ""
+        capture = False
+        text_lines = []
+        
+        for line in lines:
+            if "main: processing" in line:
+                capture = True
+                continue
+            if capture and line.strip() and not line.startswith("whisper_") and not line.startswith("system_info:"):
+                text_lines.append(line.strip())
+        
+        text = " ".join(text_lines).strip()
+        
+        # Fallback: Manchmal ist der Text in stdout
+        if not text and result.stdout.strip():
+            text = result.stdout.strip()
+        
+        # Noch ein Fallback: Suche nach "[" Zeilen (Timestamps falls -nt nicht funktioniert hat)
+        if not text:
+            for line in lines:
+                stripped = line.strip()
+                if stripped and not stripped.startswith("[") and not any(stripped.startswith(p) for p in ["whisper_", "system_info:", "main:", "size=", "load time="]):
+                    if "CUDA" not in stripped and "AVX" not in stripped and "F16C" not in stripped:
+                        text = stripped
+                        break
         
         metadata = {
-            "language": info.language,
-            "language_probability": info.language_probability,
-            "duration": info.duration,
-            "model": model_name
+            "model": model_name,
+            "duration_sec": None  # Könnte man später aus FFmpeg ermitteln
         }
         
-        return full_text, metadata
+        return text, metadata
         
     finally:
-        # Aufräumen
         if wav_path.exists():
             wav_path.unlink()
 
@@ -150,17 +149,9 @@ def transcribe_audio(audio_path: Path, model_name: str) -> Tuple[str, dict]:
 def format_output(text: str, metadata: dict) -> str:
     """Formatiert Ausgabe für OpenClaw"""
     if not text:
-        return "⚠️  Konnte keine Transkription erstellen."
+        return "Konnte keine Transkription erstellen."
     
-    output = []
-    
-    # Optional: Metadaten anzeigen (kann deaktiviert werden)
-    # output.append(f"🎙️  Transkription ({metadata['model']}, {metadata['language']})")
-    # output.append("")
-    
-    output.append(text)
-    
-    return "\n".join(output)
+    return text
 
 
 def main():
@@ -169,26 +160,22 @@ def main():
         print("Verwendung: transcribe.py <audio-datei>", file=sys.stderr)
         sys.exit(1)
     
-    audio_path = Path(sys.argv[1])
+    audio_path = Path(sys.argv[1]).expanduser()
     
     if not audio_path.exists():
         print(f"Datei nicht gefunden: {audio_path}", file=sys.stderr)
         sys.exit(1)
     
-    # User-spezifisches Modell ermitteln
     user_id = get_user_id()
     model_name = get_user_model(user_id)
     
     print(f"Transkribiere mit Modell '{model_name}'...", file=sys.stderr)
     
-    # Transkription
     text, metadata = transcribe_audio(audio_path, model_name)
-    
-    # Ausgabe
     output = format_output(text, metadata)
     print(output)
     
-    # Aufräumen (Original-Audio löschen falls konfiguriert)
+    # Aufräumen
     config = load_config()
     if config.get("telegram", {}).get("delete_after_transcribe", True):
         if audio_path.exists():

@@ -1,0 +1,57 @@
+# Mini-Evolve-Loop Configuration
+# Target: semantic-memory-poc.py improvements
+# Backend: Kimi (Moonshot) via OpenAI-compatible API
+
+experiment_name: "semantic-memory-evolve"
+
+# LLM Backends
+# Supports multiple models keyed by role.
+# Each role can point to a different provider (Ollama, Kimi, Codex, etc.)
+models:
+  coding:
+    provider: "ollama"
+    base_url: "http://localhost:11434/v1"
+    api_key: "EMPTY"
+    model: "qwen2.5-coder:7b"
+    timeout: 900
+    max_tokens: 8192
+    temperature: 0.4
+    retry_times: 3
+    retry_delay: 5
+    extra_body:
+      num_ctx: 8192
+
+  reasoning:
+    provider: "ollama"
+    base_url: "http://localhost:11434/v1"
+    api_key: "EMPTY"
+    model: "qwen2.5-coder:7b"
+    timeout: 900
+    max_tokens: 4096
+    temperature: 0.6
+    retry_times: 3
+    retry_delay: 5
+    extra_body:
+      num_ctx: 8192
+
+# Target file to evolve
+target:
+  script_path: "../SecondBrain/00-Meta/Scripts/semantic-memory-poc.py"
+  test_command: 'python "../SecondBrain/00-Meta/Scripts/semantic-memory-poc.py"'
+  eval_timeout: 300
+
+# Pipeline settings
+pipeline:
+  max_steps: 2
+  sample_n: 1
+  diff_based_evolution: true
+
+# Output staging area
+output:
+  pending_dir: "../SecondBrain/05-Research/pending"
+  archive_dir: "../SecondBrain/05-Research/validated"
+
+# Logging
+logging:
+  level: "INFO"
+  step_dir: "./steps"

@@ -1,0 +1,37 @@
+You are an experiment analyst. Analyze the following code evolution result.
+
+## Task Description
+{{ task_description }}
+
+## Current Experiment
+
+### Code Diff
+```python
+{{ code }}
+```
+
+### Results
+{{ results }}
+
+{% if best_sampled_node %}
+## Reference Node (Best Previous Version)
+
+**Name**: {{ best_sampled_node.name }}
+**Score**: {{ best_sampled_node.score }}
+**Motivation**: {{ best_sampled_node.motivation }}
+
+{% if best_sampled_node.analysis %}
+### Previous Analysis
+{{ best_sampled_node.analysis }}
+{% endif %}
+{% endif %}
+
+Provide a concise analysis including:
+1. What worked well
+2. What could be improved
+3. Key insights for future experiments
+4. Whether this change should be accepted, rejected, or iterated further
+
+Respond using XML tags:
+<analysis>detailed analysis here</analysis>
+<verdict>accept | reject | iterate</verdict>

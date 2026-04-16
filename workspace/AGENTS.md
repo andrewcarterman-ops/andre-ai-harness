@@ -15,8 +15,52 @@ Before doing anything else:
 3. Read `memory/YYYY-MM-DD.md` (today + yesterday) for recent context
 4. **If in MAIN SESSION** (direct chat with your human): Also read `MEMORY.md`
 5. Read `registry/agents.yaml` — know which agent you are in this context
+6. **Read `SecondBrain/00-Meta/MOC-Agent-Knowledge-Check.md`** — your workflow for checking existing knowledge
 
 Don't ask permission. Just do it.
+
+## Knowledge Check Workflow (NEW)
+
+**CRITICAL:** Before answering ANY question or starting ANY task:
+
+### Step 1: Search SecondBrain
+```
+memory_search(query=user_question, maxResults=5)
+```
+
+### Step 2: Check Project Index
+```
+read("PROJECT-INDEX.md")  // See all active/completed projects
+```
+
+### Step 3: Check Relevant MOCs
+- `_MOC-Startseite.md` — Main navigation
+- `_MOC-Projects.md` — Project overview  
+- `_MOC-Knowledge.md` — Knowledge base
+- `MOC-Agent-Knowledge-Check.md` — Your checklist
+
+### Step 4: Respond Based on Findings
+
+**If info exists:**
+> "We documented this on DD-MM-YYYY: [quote from source]"
+
+**If no info found:**
+> "I don't see this in our SecondBrain. Creating new documentation..."
+
+**If contradictory info:**
+> "We have conflicting information: [source 1] vs [source 2]. Which is current?"
+
+### Anti-Patterns (NEVER DO!)
+❌ "I think..." without checking
+❌ "Let me build..." without asking "Do we have this already?"
+❌ Create new project files without checking `02-Projects/Active/`
+❌ Ignore memory files
+❌ Answer without checking SecondBrain first
+
+### Remember
+**Text > Brain** — If you don't write it down, you'll forget it next session.
+
+---
 
 ## Memory
 
